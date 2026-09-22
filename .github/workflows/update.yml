@@ -1,0 +1,34 @@
+name: Update Stock Data
+
+on:
+  schedule:
+    # 逢星期一至五 美股收市後 (香港時間早上 06:00) 自動跑一次
+    - cron: '0 22 * * 1-5'
+  workflow_dispatch: # 支援手動撳掣即刻更新
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Script
+        run: |
+          python screener.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add screener_data.json
+          git diff --staged --quiet || (git commit -m "Update screener data" && git push)
