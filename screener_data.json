@@ -10,7 +10,10 @@
     "iv": 27.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AOS",
@@ -23,7 +26,10 @@
     "iv": 33.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ABT",
@@ -36,7 +42,10 @@
     "iv": 27.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ABBV",
@@ -49,7 +58,10 @@
     "iv": 28.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +16.2%)，回踩 20MA 支撐位 (D20 1.9%)，無財報風險"
   },
   {
     "ticker": "ACN",
@@ -62,7 +74,10 @@
     "iv": 57.8,
     "iv_level": "偏貴",
     "event": "Block",
-    "event_date": "2026-10-01"
+    "event_date": "2026-10-01",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ADBE",
@@ -75,7 +90,10 @@
     "iv": 45.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMD",
@@ -88,7 +106,10 @@
     "iv": 56.8,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +72.6%, D20 +23.6%)"
   },
   {
     "ticker": "AES",
@@ -101,7 +122,10 @@
     "iv": 3.9,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AFL",
@@ -114,7 +138,10 @@
     "iv": 22.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "A",
@@ -127,7 +154,10 @@
     "iv": 33.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +23.3%, D20 +6.6%)"
   },
   {
     "ticker": "APD",
@@ -140,7 +170,10 @@
     "iv": 26.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ABNB",
@@ -153,7 +186,10 @@
     "iv": 34.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AKAM",
@@ -166,7 +202,10 @@
     "iv": 57.2,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ALB",
@@ -179,7 +218,10 @@
     "iv": 50.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ARE",
@@ -192,7 +234,10 @@
     "iv": 46.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.2%)，回踩 20MA 支撐位 (D20 1.8%)，無財報風險"
   },
   {
     "ticker": "ALGN",
@@ -205,7 +250,10 @@
     "iv": 51.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ALLE",
@@ -218,7 +266,10 @@
     "iv": 31.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LNT",
@@ -231,7 +282,10 @@
     "iv": 28.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ALL",
@@ -244,7 +298,10 @@
     "iv": 28.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GOOGL",
@@ -257,7 +314,10 @@
     "iv": 32.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GOOG",
@@ -270,7 +330,10 @@
     "iv": 32.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MO",
@@ -283,7 +346,10 @@
     "iv": 26.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMZN",
@@ -296,7 +362,10 @@
     "iv": 31.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMCR",
@@ -309,7 +378,10 @@
     "iv": 32.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AEE",
@@ -322,7 +394,10 @@
     "iv": 33.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AEP",
@@ -335,7 +410,10 @@
     "iv": 23.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AXP",
@@ -348,7 +426,10 @@
     "iv": 25.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AIG",
@@ -361,7 +442,10 @@
     "iv": 26.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMT",
@@ -374,7 +458,10 @@
     "iv": 24.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AWK",
@@ -387,7 +474,10 @@
     "iv": 23.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMP",
@@ -400,7 +490,10 @@
     "iv": 29.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.3%)，回踩 20MA 支撐位 (D20 -3.2%)，無財報風險"
   },
   {
     "ticker": "AME",
@@ -413,7 +506,10 @@
     "iv": 28.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMGN",
@@ -426,7 +522,10 @@
     "iv": 28.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "APH",
@@ -439,7 +538,10 @@
     "iv": 44.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.1%)，回踩 20MA 支撐位 (D20 0.9%)，無財報風險"
   },
   {
     "ticker": "ADI",
@@ -452,7 +554,10 @@
     "iv": 42.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AON",
@@ -465,7 +570,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "APA",
@@ -478,7 +586,10 @@
     "iv": 48.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +27.8%)，回踩 20MA 支撐位 (D20 -0.3%)，無財報風險"
   },
   {
     "ticker": "APO",
@@ -491,7 +602,10 @@
     "iv": 37.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AAPL",
@@ -504,7 +618,10 @@
     "iv": 24.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AMAT",
@@ -517,7 +634,10 @@
     "iv": 55.6,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.5%)，回踩 20MA 支撐位 (D20 2.5%)，無財報風險"
   },
   {
     "ticker": "APP",
@@ -530,7 +650,10 @@
     "iv": 57.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "APTV",
@@ -543,7 +666,10 @@
     "iv": 43.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ACGL",
@@ -556,7 +682,10 @@
     "iv": 44.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ADM",
@@ -569,7 +698,10 @@
     "iv": 33.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +14.7%)，回踩 20MA 支撐位 (D20 -0.6%)，無財報風險"
   },
   {
     "ticker": "ARES",
@@ -582,7 +714,10 @@
     "iv": 44.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ANET",
@@ -595,7 +730,10 @@
     "iv": 50.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AJG",
@@ -608,7 +746,10 @@
     "iv": 35.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AIZ",
@@ -621,7 +762,10 @@
     "iv": 30.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.2%)，回踩 20MA 支撐位 (D20 -2.2%)，無財報風險"
   },
   {
     "ticker": "T",
@@ -634,7 +778,10 @@
     "iv": 24.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ATO",
@@ -647,7 +794,10 @@
     "iv": 21.0,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ADSK",
@@ -660,7 +810,10 @@
     "iv": 55.8,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ADP",
@@ -673,7 +826,10 @@
     "iv": 32.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.0%)，回踩 20MA 支撐位 (D20 -2.1%)，無財報風險"
   },
   {
     "ticker": "AZO",
@@ -686,7 +842,10 @@
     "iv": 52.3,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-09-22"
+    "event_date": "2026-09-22",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AVY",
@@ -699,7 +858,10 @@
     "iv": 33.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AXON",
@@ -712,7 +874,10 @@
     "iv": 60.6,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BKR",
@@ -725,7 +890,10 @@
     "iv": 37.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BALL",
@@ -738,7 +906,10 @@
     "iv": 26.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BAC",
@@ -751,7 +922,10 @@
     "iv": 30.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BAX",
@@ -764,7 +938,10 @@
     "iv": 49.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (49.5%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "BDX",
@@ -777,7 +954,10 @@
     "iv": 30.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +13.4%)，回踩 20MA 支撐位 (D20 -1.7%)，無財報風險"
   },
   {
     "ticker": "BRK-B",
@@ -790,7 +970,10 @@
     "iv": 17.2,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BBY",
@@ -803,7 +986,10 @@
     "iv": 39.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +32.2%, D20 +6.2%)"
   },
   {
     "ticker": "TECH",
@@ -816,7 +1002,10 @@
     "iv": 22.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +18.1%)，回踩 20MA 支撐位 (D20 0.2%)，無財報風險"
   },
   {
     "ticker": "BIIB",
@@ -829,7 +1018,10 @@
     "iv": 41.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +13.5%)，回踩 20MA 支撐位 (D20 0.5%)，無財報風險"
   },
   {
     "ticker": "BLK",
@@ -842,7 +1034,10 @@
     "iv": 34.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BX",
@@ -855,7 +1050,10 @@
     "iv": 39.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "XYZ",
@@ -868,7 +1066,10 @@
     "iv": 41.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.0%)，回踩 20MA 支撐位 (D20 -3.0%)，無財報風險"
   },
   {
     "ticker": "BE",
@@ -881,7 +1082,10 @@
     "iv": 79.4,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +36.7%, D20 +11.8%)"
   },
   {
     "ticker": "BNY",
@@ -894,7 +1098,10 @@
     "iv": 35.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BA",
@@ -907,7 +1114,10 @@
     "iv": 31.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BKNG",
@@ -920,7 +1130,10 @@
     "iv": 40.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BSX",
@@ -933,7 +1146,10 @@
     "iv": 40.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BMY",
@@ -946,7 +1162,10 @@
     "iv": 23.4,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "AVGO",
@@ -959,7 +1178,10 @@
     "iv": 39.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BR",
@@ -972,7 +1194,10 @@
     "iv": 38.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BRO",
@@ -985,7 +1210,10 @@
     "iv": 36.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BF-B",
@@ -998,7 +1226,10 @@
     "iv": 46.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BG",
@@ -1011,7 +1242,10 @@
     "iv": 38.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "BXP",
@@ -1024,7 +1258,10 @@
     "iv": 28.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CHRW",
@@ -1037,7 +1274,10 @@
     "iv": 38.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CDNS",
@@ -1050,7 +1290,10 @@
     "iv": 46.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CPT",
@@ -1063,7 +1306,10 @@
     "iv": 38.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COF",
@@ -1076,7 +1322,10 @@
     "iv": 34.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CAH",
@@ -1089,7 +1338,10 @@
     "iv": 33.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CCL",
@@ -1102,7 +1354,10 @@
     "iv": 50.8,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-09-29"
+    "event_date": "2026-09-29",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CARR",
@@ -1115,7 +1370,10 @@
     "iv": 35.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CVNA",
@@ -1128,7 +1386,10 @@
     "iv": 60.5,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CASY",
@@ -1141,7 +1402,10 @@
     "iv": 41.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CAT",
@@ -1154,7 +1418,10 @@
     "iv": 37.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CBOE",
@@ -1167,7 +1434,10 @@
     "iv": 43.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CBRE",
@@ -1180,7 +1450,10 @@
     "iv": 40.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CDW",
@@ -1193,7 +1466,10 @@
     "iv": 49.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.9%)，回踩 20MA 支撐位 (D20 -0.7%)，無財報風險"
   },
   {
     "ticker": "COR",
@@ -1206,7 +1482,10 @@
     "iv": 28.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CNC",
@@ -1219,7 +1498,10 @@
     "iv": 45.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +25.6%)，回踩 20MA 支撐位 (D20 -1.4%)，無財報風險"
   },
   {
     "ticker": "CNP",
@@ -1232,7 +1514,10 @@
     "iv": 29.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CF",
@@ -1245,7 +1530,10 @@
     "iv": 48.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (48.9%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "CRL",
@@ -1258,7 +1546,10 @@
     "iv": 53.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +35.8%)，回踩 20MA 支撐位 (D20 -2.0%)，無財報風險"
   },
   {
     "ticker": "SCHW",
@@ -1271,7 +1562,10 @@
     "iv": 32.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.4%)，回踩 20MA 支撐位 (D20 -1.2%)，無財報風險"
   },
   {
     "ticker": "CHTR",
@@ -1284,7 +1578,10 @@
     "iv": 57.9,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CVX",
@@ -1297,7 +1594,10 @@
     "iv": 31.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.2%)，回踩 20MA 支撐位 (D20 -2.3%)，無財報風險"
   },
   {
     "ticker": "CMG",
@@ -1310,7 +1610,10 @@
     "iv": 41.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "超賣反彈",
+    "signal_score": 4,
+    "signal_reason": "短線急跌嚴重超賣 (D20 -8.9%)，具備均值回歸修復空間"
   },
   {
     "ticker": "CB",
@@ -1323,7 +1626,10 @@
     "iv": 23.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CHD",
@@ -1336,7 +1642,10 @@
     "iv": 28.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CIEN",
@@ -1349,7 +1658,10 @@
     "iv": 64.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CI",
@@ -1362,7 +1674,10 @@
     "iv": 33.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CINF",
@@ -1375,7 +1690,10 @@
     "iv": 29.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CTAS",
@@ -1388,7 +1706,10 @@
     "iv": 37.3,
     "iv_level": "偏平",
     "event": "Block",
-    "event_date": "2026-09-23"
+    "event_date": "2026-09-23",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CSCO",
@@ -1401,7 +1722,10 @@
     "iv": 29.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +16.2%)，回踩 20MA 支撐位 (D20 1.3%)，無財報風險"
   },
   {
     "ticker": "C",
@@ -1414,7 +1738,10 @@
     "iv": 34.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.9%)，回踩 20MA 支撐位 (D20 0.2%)，無財報風險"
   },
   {
     "ticker": "CFG",
@@ -1427,7 +1754,10 @@
     "iv": 33.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CLX",
@@ -1440,7 +1770,10 @@
     "iv": 37.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CME",
@@ -1453,7 +1786,10 @@
     "iv": 28.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CMS",
@@ -1466,7 +1802,10 @@
     "iv": 22.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KO",
@@ -1479,7 +1818,10 @@
     "iv": 19.5,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.3%)，回踩 20MA 支撐位 (D20 -1.4%)，無財報風險"
   },
   {
     "ticker": "CTSH",
@@ -1492,7 +1834,10 @@
     "iv": 47.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COHR",
@@ -1505,7 +1850,10 @@
     "iv": 75.2,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COIN",
@@ -1518,7 +1866,10 @@
     "iv": 68.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CL",
@@ -1531,7 +1882,10 @@
     "iv": 23.3,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CMCSA",
@@ -1544,7 +1898,10 @@
     "iv": 45.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FIX",
@@ -1557,7 +1914,10 @@
     "iv": 55.7,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COP",
@@ -1570,7 +1930,10 @@
     "iv": 33.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ED",
@@ -1583,7 +1946,10 @@
     "iv": 18.5,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "STZ",
@@ -1596,7 +1962,10 @@
     "iv": 41.5,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-10-06"
+    "event_date": "2026-10-06",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CEG",
@@ -1609,7 +1978,10 @@
     "iv": 48.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COO",
@@ -1622,7 +1994,10 @@
     "iv": 35.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CPRT",
@@ -1635,7 +2010,10 @@
     "iv": 34.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GLW",
@@ -1648,7 +2026,10 @@
     "iv": 59.4,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CPAY",
@@ -1661,7 +2042,10 @@
     "iv": 33.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.9%)，回踩 20MA 支撐位 (D20 -2.6%)，無財報風險"
   },
   {
     "ticker": "CTVA",
@@ -1674,7 +2058,10 @@
     "iv": 35.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CSGP",
@@ -1687,7 +2074,10 @@
     "iv": 50.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "COST",
@@ -1700,7 +2090,10 @@
     "iv": 25.9,
     "iv_level": "偏平",
     "event": "Block",
-    "event_date": "2026-09-24"
+    "event_date": "2026-09-24",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CRH",
@@ -1713,7 +2106,10 @@
     "iv": 37.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CRWD",
@@ -1726,7 +2122,10 @@
     "iv": 55.8,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +69.0%, D20 +14.0%)"
   },
   {
     "ticker": "CCI",
@@ -1739,7 +2138,10 @@
     "iv": 37.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CSX",
@@ -1752,7 +2154,10 @@
     "iv": 31.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CMI",
@@ -1765,7 +2170,10 @@
     "iv": 36.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CVS",
@@ -1778,7 +2186,10 @@
     "iv": 33.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DHR",
@@ -1791,7 +2202,10 @@
     "iv": 31.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DRI",
@@ -1804,7 +2218,10 @@
     "iv": 39.2,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-09-24"
+    "event_date": "2026-09-24",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DDOG",
@@ -1817,7 +2234,10 @@
     "iv": 57.5,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +36.4%, D20 +8.1%)"
   },
   {
     "ticker": "DVA",
@@ -1830,7 +2250,10 @@
     "iv": 41.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.9%)，回踩 20MA 支撐位 (D20 0.2%)，無財報風險"
   },
   {
     "ticker": "DECK",
@@ -1843,7 +2266,10 @@
     "iv": 42.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DE",
@@ -1856,7 +2282,10 @@
     "iv": 34.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +18.8%)，回踩 20MA 支撐位 (D20 2.3%)，無財報風險"
   },
   {
     "ticker": "DELL",
@@ -1869,7 +2298,10 @@
     "iv": 61.4,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +109.9%, D20 +12.7%)"
   },
   {
     "ticker": "DAL",
@@ -1882,7 +2314,10 @@
     "iv": 49.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DVN",
@@ -1895,7 +2330,10 @@
     "iv": 38.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.1%)，回踩 20MA 支撐位 (D20 -1.6%)，無財報風險"
   },
   {
     "ticker": "DXCM",
@@ -1908,7 +2346,10 @@
     "iv": 39.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +23.6%)，回踩 20MA 支撐位 (D20 1.4%)，無財報風險"
   },
   {
     "ticker": "FANG",
@@ -1921,7 +2362,10 @@
     "iv": 39.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DLR",
@@ -1934,7 +2378,10 @@
     "iv": 36.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DG",
@@ -1947,7 +2394,10 @@
     "iv": 35.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DLTR",
@@ -1960,7 +2410,10 @@
     "iv": 41.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "超賣反彈",
+    "signal_score": 4,
+    "signal_reason": "短線急跌嚴重超賣 (D20 -9.2%)，具備均值回歸修復空間"
   },
   {
     "ticker": "D",
@@ -1973,7 +2426,10 @@
     "iv": 25.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DPZ",
@@ -1986,7 +2442,10 @@
     "iv": 56.5,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DASH",
@@ -1999,7 +2458,10 @@
     "iv": 47.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (47.2%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "DOV",
@@ -2012,7 +2474,10 @@
     "iv": 31.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DOW",
@@ -2025,7 +2490,10 @@
     "iv": 43.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DHI",
@@ -2038,7 +2506,10 @@
     "iv": 36.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DTE",
@@ -2051,7 +2522,10 @@
     "iv": 23.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DUK",
@@ -2064,7 +2538,10 @@
     "iv": 21.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DD",
@@ -2077,7 +2554,10 @@
     "iv": 35.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ETN",
@@ -2090,7 +2570,10 @@
     "iv": 40.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EBAY",
@@ -2103,7 +2586,10 @@
     "iv": 37.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.9%)，回踩 20MA 支撐位 (D20 1.8%)，無財報風險"
   },
   {
     "ticker": "ECHO",
@@ -2116,7 +2602,10 @@
     "iv": 47.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ECL",
@@ -2129,7 +2618,10 @@
     "iv": 26.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EIX",
@@ -2142,7 +2634,10 @@
     "iv": 31.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EW",
@@ -2155,7 +2650,10 @@
     "iv": 30.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ELV",
@@ -2168,7 +2666,10 @@
     "iv": 40.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +13.6%)，回踩 20MA 支撐位 (D20 0.8%)，無財報風險"
   },
   {
     "ticker": "EME",
@@ -2181,7 +2682,10 @@
     "iv": 37.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EMR",
@@ -2194,7 +2698,10 @@
     "iv": 33.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ETR",
@@ -2207,7 +2714,10 @@
     "iv": 27.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EOG",
@@ -2220,7 +2730,10 @@
     "iv": 38.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.3%)，回踩 20MA 支撐位 (D20 -3.4%)，無財報風險"
   },
   {
     "ticker": "EQT",
@@ -2233,7 +2746,10 @@
     "iv": 33.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EFX",
@@ -2246,7 +2762,10 @@
     "iv": 49.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EQIX",
@@ -2259,7 +2778,10 @@
     "iv": 32.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.3%)，回踩 20MA 支撐位 (D20 1.8%)，無財報風險"
   },
   {
     "ticker": "ERIE",
@@ -2272,7 +2794,10 @@
     "iv": 38.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ESS",
@@ -2285,7 +2810,10 @@
     "iv": 19.0,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EL",
@@ -2298,7 +2826,10 @@
     "iv": 40.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EG",
@@ -2311,7 +2842,10 @@
     "iv": 24.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.0%)，回踩 20MA 支撐位 (D20 -1.6%)，無財報風險"
   },
   {
     "ticker": "EVRG",
@@ -2324,7 +2858,10 @@
     "iv": 29.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "P",
@@ -2337,7 +2874,10 @@
     "iv": 69.7,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +49.2%, D20 +14.7%)"
   },
   {
     "ticker": "ES",
@@ -2350,7 +2890,10 @@
     "iv": 30.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EXC",
@@ -2363,7 +2906,10 @@
     "iv": 25.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EXE",
@@ -2376,7 +2922,10 @@
     "iv": 37.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "EXPE",
@@ -2389,7 +2938,10 @@
     "iv": 51.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (51.2%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "EXPD",
@@ -2402,7 +2954,10 @@
     "iv": 25.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +19.7%)，回踩 20MA 支撐位 (D20 1.3%)，無財報風險"
   },
   {
     "ticker": "EXR",
@@ -2415,7 +2970,10 @@
     "iv": 30.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "XOM",
@@ -2428,7 +2986,10 @@
     "iv": 31.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.7%)，回踩 20MA 支撐位 (D20 -2.5%)，無財報風險"
   },
   {
     "ticker": "FFIV",
@@ -2441,7 +3002,10 @@
     "iv": 39.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +33.8%, D20 +10.7%)"
   },
   {
     "ticker": "FDS",
@@ -2454,7 +3018,10 @@
     "iv": 56.0,
     "iv_level": "偏貴",
     "event": "Block",
-    "event_date": "2026-09-30"
+    "event_date": "2026-09-30",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FICO",
@@ -2467,7 +3034,10 @@
     "iv": 54.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FAST",
@@ -2480,7 +3050,10 @@
     "iv": 39.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.2%)，回踩 20MA 支撐位 (D20 0.2%)，無財報風險"
   },
   {
     "ticker": "FRT",
@@ -2493,7 +3066,10 @@
     "iv": 16.2,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FDX",
@@ -2506,7 +3082,10 @@
     "iv": 30.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FDXF",
@@ -2519,7 +3098,10 @@
     "iv": 51.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FERG",
@@ -2532,7 +3114,10 @@
     "iv": 36.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FIS",
@@ -2545,7 +3130,10 @@
     "iv": 43.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FITB",
@@ -2558,7 +3146,10 @@
     "iv": 24.5,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FSLR",
@@ -2571,7 +3162,10 @@
     "iv": 54.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FE",
@@ -2584,7 +3178,10 @@
     "iv": 25.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FISV",
@@ -2597,7 +3194,10 @@
     "iv": 48.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FLEX",
@@ -2610,7 +3210,10 @@
     "iv": 57.2,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +14.5%)，回踩 20MA 支撐位 (D20 1.6%)，無財報風險"
   },
   {
     "ticker": "F",
@@ -2623,7 +3226,10 @@
     "iv": 36.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FTNT",
@@ -2636,7 +3242,10 @@
     "iv": 47.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +53.2%, D20 +7.4%)"
   },
   {
     "ticker": "FTV",
@@ -2649,7 +3258,10 @@
     "iv": 46.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FOXA",
@@ -2662,7 +3274,10 @@
     "iv": 37.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "FOX",
@@ -2675,7 +3290,10 @@
     "iv": 56.1,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 5,
+    "signal_reason": "IV 偏高 (56.1%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "BEN",
@@ -2688,7 +3306,10 @@
     "iv": 27.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +17.0%)，回踩 20MA 支撐位 (D20 -0.8%)，無財報風險"
   },
   {
     "ticker": "FCX",
@@ -2701,7 +3322,10 @@
     "iv": 46.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.9%)，回踩 20MA 支撐位 (D20 -2.3%)，無財報風險"
   },
   {
     "ticker": "GRMN",
@@ -2714,7 +3338,10 @@
     "iv": 30.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +16.5%)，回踩 20MA 支撐位 (D20 0.3%)，無財報風險"
   },
   {
     "ticker": "IT",
@@ -2727,7 +3354,10 @@
     "iv": 50.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (50.3%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "GE",
@@ -2740,7 +3370,10 @@
     "iv": 34.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GEHC",
@@ -2753,7 +3386,10 @@
     "iv": 36.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GEV",
@@ -2766,7 +3402,10 @@
     "iv": 49.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GEN",
@@ -2779,7 +3418,10 @@
     "iv": 38.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GNRC",
@@ -2792,7 +3434,10 @@
     "iv": 51.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GD",
@@ -2805,7 +3450,10 @@
     "iv": 23.4,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GIS",
@@ -2818,7 +3466,10 @@
     "iv": 36.3,
     "iv_level": "偏平",
     "event": "Block",
-    "event_date": "2026-09-23"
+    "event_date": "2026-09-23",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GM",
@@ -2831,7 +3482,10 @@
     "iv": 37.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GPC",
@@ -2844,7 +3498,10 @@
     "iv": 35.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GILD",
@@ -2857,7 +3514,10 @@
     "iv": 32.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.5%)，回踩 20MA 支撐位 (D20 2.2%)，無財報風險"
   },
   {
     "ticker": "GPN",
@@ -2870,7 +3530,10 @@
     "iv": 43.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GL",
@@ -2883,7 +3546,10 @@
     "iv": 25.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.7%)，回踩 20MA 支撐位 (D20 -0.4%)，無財報風險"
   },
   {
     "ticker": "GDDY",
@@ -2896,7 +3562,10 @@
     "iv": 53.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GS",
@@ -2909,7 +3578,10 @@
     "iv": 37.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HAL",
@@ -2922,7 +3594,10 @@
     "iv": 46.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HIG",
@@ -2935,7 +3610,10 @@
     "iv": 20.0,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HAS",
@@ -2948,7 +3626,10 @@
     "iv": 34.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HCA",
@@ -2961,7 +3642,10 @@
     "iv": 36.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DOC",
@@ -2974,7 +3658,10 @@
     "iv": 26.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +13.4%)，回踩 20MA 支撐位 (D20 0.1%)，無財報風險"
   },
   {
     "ticker": "HSIC",
@@ -2987,7 +3674,10 @@
     "iv": 43.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HSY",
@@ -3000,7 +3690,10 @@
     "iv": 27.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HPE",
@@ -3013,7 +3706,10 @@
     "iv": 64.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +76.8%, D20 +11.2%)"
   },
   {
     "ticker": "HLT",
@@ -3026,7 +3722,10 @@
     "iv": 28.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HD",
@@ -3039,7 +3738,10 @@
     "iv": 32.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HONA",
@@ -3052,7 +3754,10 @@
     "iv": 45.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HON",
@@ -3065,7 +3770,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HRL",
@@ -3078,7 +3786,10 @@
     "iv": 30.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HST",
@@ -3091,7 +3802,10 @@
     "iv": 83.3,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.7%)，回踩 20MA 支撐位 (D20 0.5%)，無財報風險"
   },
   {
     "ticker": "HWM",
@@ -3104,7 +3818,10 @@
     "iv": 37.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HPQ",
@@ -3117,7 +3834,10 @@
     "iv": 52.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HUBB",
@@ -3130,7 +3850,10 @@
     "iv": 34.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HUM",
@@ -3143,7 +3866,10 @@
     "iv": 67.5,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 5,
+    "signal_reason": "IV 偏高 (67.5%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "HBAN",
@@ -3156,7 +3882,10 @@
     "iv": 28.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "HII",
@@ -3169,7 +3898,10 @@
     "iv": 30.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IBM",
@@ -3182,7 +3914,10 @@
     "iv": 38.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IEX",
@@ -3195,7 +3930,10 @@
     "iv": 26.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IDXX",
@@ -3208,7 +3946,10 @@
     "iv": 36.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ITW",
@@ -3221,7 +3962,10 @@
     "iv": 19.4,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ILMN",
@@ -3234,7 +3978,10 @@
     "iv": 51.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +52.5%, D20 +8.6%)"
   },
   {
     "ticker": "INCY",
@@ -3247,7 +3994,10 @@
     "iv": 46.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +17.9%)，回踩 20MA 支撐位 (D20 -0.7%)，無財報風險"
   },
   {
     "ticker": "IR",
@@ -3260,7 +4010,10 @@
     "iv": 44.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PODD",
@@ -3273,7 +4026,10 @@
     "iv": 45.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "INTC",
@@ -3286,7 +4042,10 @@
     "iv": 70.3,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +57.0%, D20 +25.0%)"
   },
   {
     "ticker": "IBKR",
@@ -3299,7 +4058,10 @@
     "iv": 46.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +16.4%)，回踩 20MA 支撐位 (D20 1.1%)，無財報風險"
   },
   {
     "ticker": "ICE",
@@ -3312,7 +4074,10 @@
     "iv": 28.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IFF",
@@ -3325,7 +4090,10 @@
     "iv": 32.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.9%)，回踩 20MA 支撐位 (D20 -1.7%)，無財報風險"
   },
   {
     "ticker": "IP",
@@ -3338,7 +4106,10 @@
     "iv": 38.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "INTU",
@@ -3351,7 +4122,10 @@
     "iv": 49.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ISRG",
@@ -3364,7 +4138,10 @@
     "iv": 38.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IVZ",
@@ -3377,7 +4154,10 @@
     "iv": 39.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.0%)，回踩 20MA 支撐位 (D20 -1.9%)，無財報風險"
   },
   {
     "ticker": "INVH",
@@ -3390,7 +4170,10 @@
     "iv": 22.4,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "IQV",
@@ -3403,7 +4186,10 @@
     "iv": 38.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +32.4%)，回踩 20MA 支撐位 (D20 2.4%)，無財報風險"
   },
   {
     "ticker": "IRM",
@@ -3416,7 +4202,10 @@
     "iv": 36.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "JBHT",
@@ -3429,7 +4218,10 @@
     "iv": 43.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "超賣反彈",
+    "signal_score": 4,
+    "signal_reason": "短線急跌嚴重超賣 (D20 -9.3%)，具備均值回歸修復空間"
   },
   {
     "ticker": "JBL",
@@ -3442,7 +4234,10 @@
     "iv": 59.1,
     "iv_level": "偏貴",
     "event": "Block",
-    "event_date": "2026-09-30"
+    "event_date": "2026-09-30",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "JKHY",
@@ -3455,7 +4250,10 @@
     "iv": 42.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "J",
@@ -3468,7 +4266,10 @@
     "iv": 33.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.5%)，回踩 20MA 支撐位 (D20 -1.7%)，無財報風險"
   },
   {
     "ticker": "JNJ",
@@ -3481,7 +4282,10 @@
     "iv": 29.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +13.8%)，回踩 20MA 支撐位 (D20 -0.1%)，無財報風險"
   },
   {
     "ticker": "JCI",
@@ -3494,7 +4298,10 @@
     "iv": 32.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "JPM",
@@ -3507,7 +4314,10 @@
     "iv": 26.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.4%)，回踩 20MA 支撐位 (D20 -0.7%)，無財報風險"
   },
   {
     "ticker": "KVUE",
@@ -3520,7 +4330,10 @@
     "iv": 35.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KDP",
@@ -3533,7 +4346,10 @@
     "iv": 30.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KEY",
@@ -3546,7 +4362,10 @@
     "iv": 28.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KEYS",
@@ -3559,7 +4378,10 @@
     "iv": 40.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KMB",
@@ -3572,7 +4394,10 @@
     "iv": 26.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KIM",
@@ -3585,7 +4410,10 @@
     "iv": 24.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KMI",
@@ -3598,7 +4426,10 @@
     "iv": 27.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KKR",
@@ -3611,7 +4442,10 @@
     "iv": 41.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KLAC",
@@ -3624,7 +4458,10 @@
     "iv": 58.2,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KHC",
@@ -3637,7 +4474,10 @@
     "iv": 28.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "KR",
@@ -3650,7 +4490,10 @@
     "iv": 27.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LHX",
@@ -3663,7 +4506,10 @@
     "iv": 28.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LH",
@@ -3676,7 +4522,10 @@
     "iv": 29.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.8%)，回踩 20MA 支撐位 (D20 -1.6%)，無財報風險"
   },
   {
     "ticker": "LRCX",
@@ -3689,7 +4538,10 @@
     "iv": 59.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.9%)，回踩 20MA 支撐位 (D20 1.7%)，無財報風險"
   },
   {
     "ticker": "LVS",
@@ -3702,7 +4554,10 @@
     "iv": 40.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LDOS",
@@ -3715,7 +4570,10 @@
     "iv": 35.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LEN",
@@ -3728,7 +4586,10 @@
     "iv": 36.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LII",
@@ -3741,7 +4602,10 @@
     "iv": 38.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LLY",
@@ -3754,7 +4618,10 @@
     "iv": 36.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.5%)，回踩 20MA 支撐位 (D20 0.5%)，無財報風險"
   },
   {
     "ticker": "LIN",
@@ -3767,7 +4634,10 @@
     "iv": 26.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LYV",
@@ -3780,7 +4650,10 @@
     "iv": 33.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LMT",
@@ -3793,7 +4666,10 @@
     "iv": 27.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "L",
@@ -3806,7 +4682,10 @@
     "iv": 29.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LOW",
@@ -3819,7 +4698,10 @@
     "iv": 30.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LULU",
@@ -3832,7 +4714,10 @@
     "iv": 46.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LITE",
@@ -3845,7 +4730,10 @@
     "iv": 74.6,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LYB",
@@ -3858,7 +4746,10 @@
     "iv": 43.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MTB",
@@ -3871,7 +4762,10 @@
     "iv": 27.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MPC",
@@ -3884,7 +4778,10 @@
     "iv": 53.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MAR",
@@ -3897,7 +4794,10 @@
     "iv": 32.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MRSH",
@@ -3910,7 +4810,10 @@
     "iv": 31.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MLM",
@@ -3923,7 +4826,10 @@
     "iv": 31.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MRVL",
@@ -3936,7 +4842,10 @@
     "iv": 71.4,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +61.7%, D20 +12.6%)"
   },
   {
     "ticker": "MAS",
@@ -3949,7 +4858,10 @@
     "iv": 51.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MA",
@@ -3962,7 +4874,10 @@
     "iv": 23.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MKC",
@@ -3975,7 +4890,10 @@
     "iv": 40.9,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-10-01"
+    "event_date": "2026-10-01",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MCD",
@@ -3988,7 +4906,10 @@
     "iv": 23.9,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MCK",
@@ -4001,7 +4922,10 @@
     "iv": 31.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MDT",
@@ -4014,7 +4938,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MRK",
@@ -4027,7 +4954,10 @@
     "iv": 30.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +25.5%)，回踩 20MA 支撐位 (D20 1.1%)，無財報風險"
   },
   {
     "ticker": "META",
@@ -4040,7 +4970,10 @@
     "iv": 47.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MET",
@@ -4053,7 +4986,10 @@
     "iv": 26.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +17.6%)，回踩 20MA 支撐位 (D20 -0.0%)，無財報風險"
   },
   {
     "ticker": "MTD",
@@ -4066,7 +5002,10 @@
     "iv": 32.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MGM",
@@ -4079,7 +5018,10 @@
     "iv": 52.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MCHP",
@@ -4092,7 +5034,10 @@
     "iv": 48.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MU",
@@ -4105,7 +5050,10 @@
     "iv": 64.1,
     "iv_level": "偏貴",
     "event": "Block",
-    "event_date": "2026-09-30"
+    "event_date": "2026-09-30",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MSFT",
@@ -4118,7 +5066,10 @@
     "iv": 27.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +16.6%)，回踩 20MA 支撐位 (D20 0.6%)，無財報風險"
   },
   {
     "ticker": "MAA",
@@ -4131,7 +5082,10 @@
     "iv": 22.3,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MRNA",
@@ -4144,7 +5098,10 @@
     "iv": 75.4,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +183.5%, D20 +17.4%)"
   },
   {
     "ticker": "MDLZ",
@@ -4157,7 +5114,10 @@
     "iv": 22.5,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MPWR",
@@ -4170,7 +5130,10 @@
     "iv": 52.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MNST",
@@ -4183,7 +5146,10 @@
     "iv": 30.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MCO",
@@ -4196,7 +5162,10 @@
     "iv": 29.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MS",
@@ -4209,7 +5178,10 @@
     "iv": 35.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MOS",
@@ -4222,7 +5194,10 @@
     "iv": 56.4,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "MSI",
@@ -4235,7 +5210,10 @@
     "iv": 26.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.6%)，回踩 20MA 支撐位 (D20 -2.2%)，無財報風險"
   },
   {
     "ticker": "MSCI",
@@ -4248,7 +5226,10 @@
     "iv": 32.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NDAQ",
@@ -4261,7 +5242,10 @@
     "iv": 37.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NTAP",
@@ -4274,7 +5258,10 @@
     "iv": 49.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NFLX",
@@ -4287,7 +5274,10 @@
     "iv": 34.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NEM",
@@ -4300,7 +5290,10 @@
     "iv": 50.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.9%)，回踩 20MA 支撐位 (D20 -3.0%)，無財報風險"
   },
   {
     "ticker": "NWSA",
@@ -4313,7 +5306,10 @@
     "iv": 31.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.9%)，回踩 20MA 支撐位 (D20 -2.0%)，無財報風險"
   },
   {
     "ticker": "NWS",
@@ -4326,7 +5322,10 @@
     "iv": 70.0,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.7%)，回踩 20MA 支撐位 (D20 -3.1%)，無財報風險"
   },
   {
     "ticker": "NEE",
@@ -4339,7 +5338,10 @@
     "iv": 23.1,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NKE",
@@ -4352,7 +5354,10 @@
     "iv": 51.9,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-10-01"
+    "event_date": "2026-10-01",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NI",
@@ -4365,7 +5370,10 @@
     "iv": 24.2,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NDSN",
@@ -4378,7 +5386,10 @@
     "iv": 26.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.7%)，回踩 20MA 支撐位 (D20 -1.0%)，無財報風險"
   },
   {
     "ticker": "NSC",
@@ -4391,7 +5402,10 @@
     "iv": 23.0,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NTRS",
@@ -4404,7 +5418,10 @@
     "iv": 30.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +12.0%)，回踩 20MA 支撐位 (D20 -2.5%)，無財報風險"
   },
   {
     "ticker": "NOC",
@@ -4417,7 +5434,10 @@
     "iv": 33.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NCLH",
@@ -4430,7 +5450,10 @@
     "iv": 51.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NRG",
@@ -4443,7 +5466,10 @@
     "iv": 55.4,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NUE",
@@ -4456,7 +5482,10 @@
     "iv": 37.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NVDA",
@@ -4469,7 +5498,10 @@
     "iv": 33.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NVR",
@@ -4482,7 +5514,10 @@
     "iv": 0.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NXPI",
@@ -4495,7 +5530,10 @@
     "iv": 48.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ORLY",
@@ -4508,7 +5546,10 @@
     "iv": 30.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "OXY",
@@ -4521,7 +5562,10 @@
     "iv": 34.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ODFL",
@@ -4534,7 +5578,10 @@
     "iv": 45.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "OMC",
@@ -4547,7 +5594,10 @@
     "iv": 39.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ON",
@@ -4560,7 +5610,10 @@
     "iv": 57.3,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "OKE",
@@ -4573,7 +5626,10 @@
     "iv": 32.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.5%)，回踩 20MA 支撐位 (D20 -3.2%)，無財報風險"
   },
   {
     "ticker": "ORCL",
@@ -4586,7 +5642,10 @@
     "iv": 50.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "OTIS",
@@ -4599,7 +5658,10 @@
     "iv": 38.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PCAR",
@@ -4612,7 +5674,10 @@
     "iv": 27.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PKG",
@@ -4625,7 +5690,10 @@
     "iv": 32.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PLTR",
@@ -4638,7 +5706,10 @@
     "iv": 48.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PANW",
@@ -4651,7 +5722,10 @@
     "iv": 51.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PSKY",
@@ -4664,7 +5738,10 @@
     "iv": 57.2,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PH",
@@ -4677,7 +5754,10 @@
     "iv": 31.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PAYX",
@@ -4690,7 +5770,10 @@
     "iv": 50.8,
     "iv_level": "中性",
     "event": "Block",
-    "event_date": "2026-09-23"
+    "event_date": "2026-09-23",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PYPL",
@@ -4703,7 +5786,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PNR",
@@ -4716,7 +5802,10 @@
     "iv": 34.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PEP",
@@ -4729,7 +5818,10 @@
     "iv": 27.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PFE",
@@ -4742,7 +5834,10 @@
     "iv": 23.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +8.2%)，回踩 20MA 支撐位 (D20 -1.1%)，無財報風險"
   },
   {
     "ticker": "PCG",
@@ -4755,7 +5850,10 @@
     "iv": 42.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PM",
@@ -4768,7 +5866,10 @@
     "iv": 27.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PSX",
@@ -4781,7 +5882,10 @@
     "iv": 45.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PNW",
@@ -4794,7 +5898,10 @@
     "iv": 23.4,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PNC",
@@ -4807,7 +5914,10 @@
     "iv": 30.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PPG",
@@ -4820,7 +5930,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PPL",
@@ -4833,7 +5946,10 @@
     "iv": 28.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PFG",
@@ -4846,7 +5962,10 @@
     "iv": 45.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +17.6%)，回踩 20MA 支撐位 (D20 2.1%)，無財報風險"
   },
   {
     "ticker": "PG",
@@ -4859,7 +5978,10 @@
     "iv": 22.6,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PGR",
@@ -4872,7 +5994,10 @@
     "iv": 31.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PLD",
@@ -4885,7 +6010,10 @@
     "iv": 30.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PRU",
@@ -4898,7 +6026,10 @@
     "iv": 25.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +11.5%)，回踩 20MA 支撐位 (D20 -0.7%)，無財報風險"
   },
   {
     "ticker": "PEG",
@@ -4911,7 +6042,10 @@
     "iv": 32.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PTC",
@@ -4924,7 +6058,10 @@
     "iv": 55.7,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PSA",
@@ -4937,7 +6074,10 @@
     "iv": 27.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PHM",
@@ -4950,7 +6090,10 @@
     "iv": 35.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "PWR",
@@ -4963,7 +6106,10 @@
     "iv": 43.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "QCOM",
@@ -4976,7 +6122,10 @@
     "iv": 55.1,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DGX",
@@ -4989,7 +6138,10 @@
     "iv": 33.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +20.8%)，回踩 20MA 支撐位 (D20 1.6%)，無財報風險"
   },
   {
     "ticker": "Q",
@@ -5002,7 +6154,10 @@
     "iv": 52.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RL",
@@ -5015,7 +6170,10 @@
     "iv": 33.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RJF",
@@ -5028,7 +6186,10 @@
     "iv": 26.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RDDT",
@@ -5041,7 +6202,10 @@
     "iv": 58.8,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RTX",
@@ -5054,7 +6218,10 @@
     "iv": 25.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "O",
@@ -5067,7 +6234,10 @@
     "iv": 16.2,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "REG",
@@ -5080,7 +6250,10 @@
     "iv": 21.9,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "REGN",
@@ -5093,7 +6266,10 @@
     "iv": 35.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +9.0%)，回踩 20MA 支撐位 (D20 -1.0%)，無財報風險"
   },
   {
     "ticker": "RF",
@@ -5106,7 +6282,10 @@
     "iv": 30.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RSG",
@@ -5119,7 +6298,10 @@
     "iv": 27.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RMD",
@@ -5132,7 +6314,10 @@
     "iv": 36.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RVTY",
@@ -5145,7 +6330,10 @@
     "iv": 47.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +38.1%, D20 +9.4%)"
   },
   {
     "ticker": "HOOD",
@@ -5158,7 +6346,10 @@
     "iv": 64.3,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +29.9%, D20 +10.0%)"
   },
   {
     "ticker": "ROK",
@@ -5171,7 +6362,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ROL",
@@ -5184,7 +6378,10 @@
     "iv": 40.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ROP",
@@ -5197,7 +6394,10 @@
     "iv": 35.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "超賣反彈",
+    "signal_score": 4,
+    "signal_reason": "短線急跌嚴重超賣 (D20 -8.8%)，具備均值回歸修復空間"
   },
   {
     "ticker": "ROST",
@@ -5210,7 +6410,10 @@
     "iv": 27.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "RCL",
@@ -5223,7 +6426,10 @@
     "iv": 43.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SPGI",
@@ -5236,7 +6442,10 @@
     "iv": 32.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "CRM",
@@ -5249,7 +6458,10 @@
     "iv": 41.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +17.8%)，回踩 20MA 支撐位 (D20 -3.2%)，無財報風險"
   },
   {
     "ticker": "SNDK",
@@ -5262,7 +6474,10 @@
     "iv": 73.4,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +64.2%, D20 +10.4%)"
   },
   {
     "ticker": "SBAC",
@@ -5275,7 +6490,10 @@
     "iv": 39.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SLB",
@@ -5288,7 +6506,10 @@
     "iv": 42.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "STX",
@@ -5301,7 +6522,10 @@
     "iv": 68.0,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SRE",
@@ -5314,7 +6538,10 @@
     "iv": 21.9,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "NOW",
@@ -5327,7 +6554,10 @@
     "iv": 54.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +17.4%)，回踩 20MA 支撐位 (D20 0.4%)，無財報風險"
   },
   {
     "ticker": "SHW",
@@ -5340,7 +6570,10 @@
     "iv": 31.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SPG",
@@ -5353,7 +6586,10 @@
     "iv": 27.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SWKS",
@@ -5366,7 +6602,10 @@
     "iv": 64.3,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +37.8%, D20 +15.9%)"
   },
   {
     "ticker": "SJM",
@@ -5379,7 +6618,10 @@
     "iv": 30.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SW",
@@ -5392,7 +6634,10 @@
     "iv": 43.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SNA",
@@ -5405,7 +6650,10 @@
     "iv": 33.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SOLV",
@@ -5418,7 +6666,10 @@
     "iv": 38.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +14.3%)，回踩 20MA 支撐位 (D20 -1.5%)，無財報風險"
   },
   {
     "ticker": "SO",
@@ -5431,7 +6682,10 @@
     "iv": 22.6,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "LUV",
@@ -5444,7 +6698,10 @@
     "iv": 40.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SWK",
@@ -5457,7 +6714,10 @@
     "iv": 37.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SBUX",
@@ -5470,7 +6730,10 @@
     "iv": 30.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "STT",
@@ -5483,7 +6746,10 @@
     "iv": 37.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +21.6%)，回踩 20MA 支撐位 (D20 -2.9%)，無財報風險"
   },
   {
     "ticker": "STLD",
@@ -5496,7 +6762,10 @@
     "iv": 41.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "STE",
@@ -5509,7 +6778,10 @@
     "iv": 26.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SYK",
@@ -5522,7 +6794,10 @@
     "iv": 31.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SMCI",
@@ -5535,7 +6810,10 @@
     "iv": 74.1,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "動量突破",
+    "signal_score": 4,
+    "signal_reason": "多頭強烈加速推進 (D200 +30.2%, D20 +8.2%)"
   },
   {
     "ticker": "SYF",
@@ -5548,7 +6826,10 @@
     "iv": 35.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SNPS",
@@ -5561,7 +6842,10 @@
     "iv": 49.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "SYY",
@@ -5574,7 +6858,10 @@
     "iv": 22.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TMUS",
@@ -5587,7 +6874,10 @@
     "iv": 35.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TROW",
@@ -5600,7 +6890,10 @@
     "iv": 29.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TTWO",
@@ -5613,7 +6906,10 @@
     "iv": 41.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TPR",
@@ -5626,7 +6922,10 @@
     "iv": 37.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TRGP",
@@ -5639,7 +6938,10 @@
     "iv": 35.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +19.5%)，回踩 20MA 支撐位 (D20 -0.4%)，無財報風險"
   },
   {
     "ticker": "TGT",
@@ -5652,7 +6954,10 @@
     "iv": 32.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +26.8%)，回踩 20MA 支撐位 (D20 -2.0%)，無財報風險"
   },
   {
     "ticker": "TEL",
@@ -5665,7 +6970,10 @@
     "iv": 36.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TDY",
@@ -5678,7 +6986,10 @@
     "iv": 32.2,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TER",
@@ -5691,7 +7002,10 @@
     "iv": 68.4,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TSLA",
@@ -5704,7 +7018,10 @@
     "iv": 42.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TXN",
@@ -5717,7 +7034,10 @@
     "iv": 41.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TPL",
@@ -5730,7 +7050,10 @@
     "iv": 51.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TXT",
@@ -5743,7 +7066,10 @@
     "iv": 29.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TMO",
@@ -5756,7 +7082,10 @@
     "iv": 33.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TJX",
@@ -5769,7 +7098,10 @@
     "iv": 26.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TKO",
@@ -5782,7 +7114,10 @@
     "iv": 42.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TSCO",
@@ -5795,7 +7130,10 @@
     "iv": 58.9,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TT",
@@ -5808,7 +7146,10 @@
     "iv": 31.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TDG",
@@ -5821,7 +7162,10 @@
     "iv": 34.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TRV",
@@ -5834,7 +7178,10 @@
     "iv": 30.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +18.0%)，回踩 20MA 支撐位 (D20 0.2%)，無財報風險"
   },
   {
     "ticker": "TRMB",
@@ -5847,7 +7194,10 @@
     "iv": 58.9,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TFC",
@@ -5860,7 +7210,10 @@
     "iv": 29.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TYL",
@@ -5873,7 +7226,10 @@
     "iv": 49.0,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "TSN",
@@ -5886,7 +7242,10 @@
     "iv": 28.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "USB",
@@ -5899,7 +7258,10 @@
     "iv": 25.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UBER",
@@ -5912,7 +7274,10 @@
     "iv": 35.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UDR",
@@ -5925,7 +7290,10 @@
     "iv": 70.1,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ULTA",
@@ -5938,7 +7306,10 @@
     "iv": 33.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UNP",
@@ -5951,7 +7322,10 @@
     "iv": 29.8,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UAL",
@@ -5964,7 +7338,10 @@
     "iv": 54.7,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UPS",
@@ -5977,7 +7354,10 @@
     "iv": 27.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "URI",
@@ -5990,7 +7370,10 @@
     "iv": 39.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.2%)，回踩 20MA 支撐位 (D20 1.3%)，無財報風險"
   },
   {
     "ticker": "UNH",
@@ -6003,7 +7386,10 @@
     "iv": 43.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "UHS",
@@ -6016,7 +7402,10 @@
     "iv": 37.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VLO",
@@ -6029,7 +7418,10 @@
     "iv": 55.9,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VEEV",
@@ -6042,7 +7434,10 @@
     "iv": 42.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +31.1%)，回踩 20MA 支撐位 (D20 -2.0%)，無財報風險"
   },
   {
     "ticker": "VTR",
@@ -6055,7 +7450,10 @@
     "iv": 35.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VLTO",
@@ -6068,7 +7466,10 @@
     "iv": 37.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VRSN",
@@ -6081,7 +7482,10 @@
     "iv": 30.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VRSK",
@@ -6094,7 +7498,10 @@
     "iv": 46.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VZ",
@@ -6107,7 +7514,10 @@
     "iv": 20.3,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VRTX",
@@ -6120,7 +7530,10 @@
     "iv": 37.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VRT",
@@ -6133,7 +7546,10 @@
     "iv": 57.5,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VTRS",
@@ -6146,7 +7562,10 @@
     "iv": 44.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +15.3%)，回踩 20MA 支撐位 (D20 2.1%)，無財報風險"
   },
   {
     "ticker": "VICI",
@@ -6159,7 +7578,10 @@
     "iv": 18.8,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "V",
@@ -6172,7 +7594,10 @@
     "iv": 22.2,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.4%)，回踩 20MA 支撐位 (D20 -1.3%)，無財報風險"
   },
   {
     "ticker": "VST",
@@ -6185,7 +7610,10 @@
     "iv": 50.9,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VMRK",
@@ -6198,7 +7626,10 @@
     "iv": 28.1,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "VMC",
@@ -6211,7 +7642,10 @@
     "iv": 35.0,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WRB",
@@ -6224,7 +7658,10 @@
     "iv": 39.4,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "GWW",
@@ -6237,7 +7674,10 @@
     "iv": 28.5,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WAB",
@@ -6250,7 +7690,10 @@
     "iv": 30.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.0%)，回踩 20MA 支撐位 (D20 -0.5%)，無財報風險"
   },
   {
     "ticker": "WMT",
@@ -6263,7 +7706,10 @@
     "iv": 25.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "DIS",
@@ -6276,7 +7722,10 @@
     "iv": 26.9,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WBD",
@@ -6289,7 +7738,10 @@
     "iv": 2.6,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WM",
@@ -6302,7 +7754,10 @@
     "iv": 22.7,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WAT",
@@ -6315,7 +7770,10 @@
     "iv": 38.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +17.2%)，回踩 20MA 支撐位 (D20 2.5%)，無財報風險"
   },
   {
     "ticker": "WEC",
@@ -6328,7 +7786,10 @@
     "iv": 19.0,
     "iv_level": "極平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WFC",
@@ -6341,7 +7802,10 @@
     "iv": 32.3,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WELL",
@@ -6354,7 +7818,10 @@
     "iv": 26.6,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.2%)，回踩 20MA 支撐位 (D20 -1.6%)，無財報風險"
   },
   {
     "ticker": "WST",
@@ -6367,7 +7834,10 @@
     "iv": 29.4,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WDC",
@@ -6380,7 +7850,10 @@
     "iv": 68.3,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +15.8%)，回踩 20MA 支撐位 (D20 -0.1%)，無財報風險"
   },
   {
     "ticker": "WY",
@@ -6393,7 +7866,10 @@
     "iv": 43.1,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "WSM",
@@ -6406,7 +7882,10 @@
     "iv": 38.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 4,
+    "signal_reason": "長線強勢 (D200 +10.4%)，回踩 20MA 支撐位 (D20 -0.2%)，無財報風險"
   },
   {
     "ticker": "WMB",
@@ -6419,7 +7898,10 @@
     "iv": 55.8,
     "iv_level": "偏貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 4,
+    "signal_reason": "IV 偏高 (55.8%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "WTW",
@@ -6432,7 +7914,10 @@
     "iv": 92.0,
     "iv_level": "極貴",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "沽 Put",
+    "signal_score": 5,
+    "signal_reason": "IV 偏高 (92.0%) 且當前無財報，股價回調中，適合賺取豐厚期權權利金"
   },
   {
     "ticker": "WDAY",
@@ -6445,7 +7930,10 @@
     "iv": 50.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +21.0%)，回踩 20MA 支撐位 (D20 -1.1%)，無財報風險"
   },
   {
     "ticker": "WYNN",
@@ -6458,7 +7946,10 @@
     "iv": 44.2,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "XEL",
@@ -6471,7 +7962,10 @@
     "iv": 40.3,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "XYL",
@@ -6484,7 +7978,10 @@
     "iv": 41.5,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "YUM",
@@ -6497,7 +7994,10 @@
     "iv": 29.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ZBRA",
@@ -6510,7 +8010,10 @@
     "iv": 42.6,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "回踩買入",
+    "signal_score": 5,
+    "signal_reason": "長線強勢 (D200 +33.7%)，回踩 20MA 支撐位 (D20 -0.4%)，無財報風險"
   },
   {
     "ticker": "ZBH",
@@ -6523,7 +8026,10 @@
     "iv": 38.8,
     "iv_level": "中性",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   },
   {
     "ticker": "ZTS",
@@ -6536,6 +8042,9 @@
     "iv": 37.7,
     "iv_level": "偏平",
     "event": "Clear",
-    "event_date": ""
+    "event_date": "",
+    "signal": "觀望",
+    "signal_score": 0,
+    "signal_reason": "未達特定策略標準，保持觀察"
   }
 ]
