@@ -6,57 +6,71 @@
   <title>美股期權量化選股儀表板</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#F8F9FA] text-gray-800 p-4 md:p-8 font-sans">
-  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+<body class="bg-[#F8F9FA] text-gray-800 p-3 md:p-6 font-sans">
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-5 md:p-7">
     
     <!-- 篩選器區塊 -->
-    <div class="space-y-4 pb-6 border-b border-gray-100 text-sm">
-      <!-- 分類 -->
+    <div class="space-y-3 pb-5 border-b border-gray-100 text-sm">
+      
+      <!-- 1. 分類 -->
       <div class="flex items-center gap-3">
-        <span class="w-12 text-gray-400 font-medium text-xs">分類</span>
-        <div class="flex flex-wrap gap-2" id="filter-category">
-          <button data-group="cat" data-val="全部" class="filter-btn active px-3 py-1 rounded-md border text-emerald-700 border-emerald-500 bg-emerald-50">全部</button>
-          <button data-group="cat" data-val="穩陣" class="filter-btn px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">穩陣</button>
-          <button data-group="cat" data-val="睇位" class="filter-btn px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">睇位</button>
-          <button data-group="cat" data-val="留神" class="filter-btn px-3 py-1 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">留神</button>
+        <span class="w-14 text-gray-400 font-medium text-xs">分類</span>
+        <div class="flex flex-wrap gap-1.5" id="filter-category">
+          <button data-group="cat" data-val="全部" class="filter-btn px-3 py-1 rounded border text-emerald-700 border-emerald-500 bg-emerald-50 font-medium">全部</button>
+          <button data-group="cat" data-val="穩陣" class="filter-btn px-3 py-1 rounded border border-gray-200 text-gray-600 hover:bg-gray-50">穩陣</button>
+          <button data-group="cat" data-val="睇位" class="filter-btn px-3 py-1 rounded border border-gray-200 text-gray-600 hover:bg-gray-50">睇位</button>
+          <button data-group="cat" data-val="留神" class="filter-btn px-3 py-1 rounded border border-gray-200 text-gray-600 hover:bg-gray-50">留神</button>
         </div>
       </div>
 
-      <!-- 位置 -->
+      <!-- 2. 位置 -->
       <div class="flex items-center gap-3">
-        <span class="w-12 text-gray-400 font-medium text-xs">位置</span>
-        <div class="flex flex-wrap gap-2" id="filter-position">
-          <button data-group="pos" data-val="過熱 Extended" class="filter-btn px-3 py-1 rounded-md border border-orange-200 text-orange-700 bg-orange-50/50">過熱 Extended</button>
-          <button data-group="pos" data-val="偏強" class="filter-btn px-3 py-1 rounded-md border border-emerald-200 text-emerald-700 bg-emerald-50/50">偏強</button>
-          <button data-group="pos" data-val="中性" class="filter-btn px-3 py-1 rounded-md border border-gray-200 text-gray-600">中性</button>
-          <button data-group="pos" data-val="偏弱" class="filter-btn px-3 py-1 rounded-md border border-blue-200 text-blue-700 bg-blue-50/50">偏弱</button>
-          <button data-group="pos" data-val="超賣 Oversold" class="filter-btn px-3 py-1 rounded-md border border-cyan-200 text-cyan-700 bg-cyan-50/50">超賣 Oversold</button>
+        <span class="w-14 text-gray-400 font-medium text-xs">位置</span>
+        <div class="flex flex-wrap gap-1.5" id="filter-position">
+          <button data-group="pos" data-val="過熱 Extended" class="filter-btn px-2.5 py-1 rounded border border-orange-200 text-orange-700 bg-orange-50/50">過熱 Extended</button>
+          <button data-group="pos" data-val="偏強" class="filter-btn px-2.5 py-1 rounded border border-emerald-200 text-emerald-700 bg-emerald-50/50">偏強</button>
+          <button data-group="pos" data-val="中性" class="filter-btn px-2.5 py-1 rounded border border-gray-200 text-gray-600">中性</button>
+          <button data-group="pos" data-val="偏弱" class="filter-btn px-2.5 py-1 rounded border border-blue-200 text-blue-700 bg-blue-50/50">偏弱</button>
+          <button data-group="pos" data-val="超賣 Oversold" class="filter-btn px-2.5 py-1 rounded border border-cyan-200 text-cyan-700 bg-cyan-50/50">超賣 Oversold</button>
         </div>
       </div>
 
-      <!-- 事件 -->
+      <!-- 3. 事件 -->
       <div class="flex items-center gap-3">
-        <span class="w-12 text-gray-400 font-medium text-xs">事件</span>
-        <div class="flex flex-wrap gap-2" id="filter-event">
-          <button data-group="event" data-val="Clear" class="filter-btn px-3 py-1 rounded-md border border-emerald-200 text-emerald-700 bg-emerald-50/50">Clear</button>
-          <button data-group="event" data-val="Block" class="filter-btn px-3 py-1 rounded-md border border-rose-200 text-rose-700 bg-rose-50/50">Block</button>
+        <span class="w-14 text-gray-400 font-medium text-xs">事件</span>
+        <div class="flex flex-wrap gap-1.5" id="filter-event">
+          <button data-group="event" data-val="Clear" class="filter-btn px-3 py-1 rounded border border-emerald-200 text-emerald-700 bg-emerald-50/50">Clear</button>
+          <button data-group="event" data-val="Block" class="filter-btn px-3 py-1 rounded border border-rose-200 text-rose-700 bg-rose-50/50">Block</button>
+        </div>
+      </div>
+
+      <!-- 4. IV %ile -->
+      <div class="flex items-center gap-3">
+        <span class="w-14 text-gray-400 font-medium text-xs">IV %ile</span>
+        <div class="flex flex-wrap gap-1.5" id="filter-iv">
+          <button data-group="iv" data-val="極平" class="filter-btn px-2.5 py-1 rounded border border-blue-200 text-blue-700 bg-blue-50/50">極平</button>
+          <button data-group="iv" data-val="偏平" class="filter-btn px-2.5 py-1 rounded border border-cyan-200 text-cyan-700 bg-cyan-50/50">偏平</button>
+          <button data-group="iv" data-val="中性" class="filter-btn px-2.5 py-1 rounded border border-gray-200 text-gray-600">中性</button>
+          <button data-group="iv" data-val="偏貴" class="filter-btn px-2.5 py-1 rounded border border-amber-200 text-amber-700 bg-amber-50/50">偏貴</button>
+          <button data-group="iv" data-val="極貴" class="filter-btn px-2.5 py-1 rounded border border-orange-200 text-orange-700 bg-orange-50/50">極貴</button>
         </div>
       </div>
 
       <!-- 說明與清除 -->
       <div class="flex items-center justify-between pt-2 text-xs text-gray-400">
         <span>組合：同一列為「或」，不同列之間為「且」</span>
-        <button id="clear-btn" class="px-3 py-1 text-gray-500 hover:text-gray-800 border rounded">清除</button>
+        <button id="clear-btn" class="px-3 py-1 text-gray-500 hover:text-gray-800 border rounded hover:bg-gray-50">清除</button>
       </div>
     </div>
 
-    <!-- 筆數計數器 -->
-    <div class="flex items-center justify-between py-4 text-sm text-gray-600">
-      <div class="flex gap-4">
-        <span class="font-medium text-gray-500">📋 欄位</span>
-        <span class="font-medium text-gray-500">❓ 欄位說明</span>
+    <!-- 控制區與搜尋 -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between py-4 gap-3 text-sm text-gray-600">
+      <div class="flex items-center gap-3">
+        <input id="search-input" type="text" placeholder="搜尋代號 (如 AAPL)..." class="border border-gray-200 rounded px-2.5 py-1 text-sm focus:outline-none focus:border-blue-500 w-44">
+        <span class="text-xs text-gray-400">|</span>
+        <span class="text-xs text-gray-500">標普 500 選股池</span>
       </div>
-      <div id="count-display" class="font-semibold text-gray-700">0 / 0</div>
+      <div id="count-display" class="font-semibold text-gray-700 text-right">0 / 0</div>
     </div>
 
     <!-- 表格 -->
@@ -64,7 +78,7 @@
       <table class="w-full text-left text-sm">
         <thead class="bg-gray-50 text-gray-500 font-medium border-y border-gray-100">
           <tr>
-            <th class="p-3">#</th>
+            <th class="p-3 w-12">#</th>
             <th class="p-3 cursor-pointer select-none" onclick="sortBy('ticker')">TICKER ↕</th>
             <th class="p-3">ONE</th>
             <th class="p-3 cursor-pointer text-right select-none" onclick="sortBy('d20')">D20 ↕</th>
@@ -73,9 +87,7 @@
             <th class="p-3 text-center">EVENT</th>
           </tr>
         </thead>
-        <tbody id="table-body" class="divide-y divide-gray-50">
-          <!-- 資料由 JS 渲染 -->
-        </tbody>
+        <tbody id="table-body" class="divide-y divide-gray-50"></tbody>
       </table>
     </div>
 
@@ -83,9 +95,10 @@
 
   <script>
     let rawData = [];
-    let activeFilters = { cat: [], pos: [], event: [] };
+    let activeFilters = { cat: [], pos: [], event: [], iv: [] };
     let sortKey = 'iv';
     let sortAsc = false;
+    let searchQuery = '';
 
     fetch('./screener_data.json')
       .then(r => r.json())
@@ -94,7 +107,13 @@
         applyFiltersAndRender();
       });
 
-    // 篩選按鈕點擊事件
+    // 搜尋即時監聽
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toUpperCase();
+      applyFiltersAndRender();
+    });
+
+    // 篩選按鈕事件監聽
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const group = btn.dataset.group;
@@ -121,18 +140,22 @@
     });
 
     document.getElementById('clear-btn').addEventListener('click', () => {
-      activeFilters = { cat: [], pos: [], event: [] };
+      activeFilters = { cat: [], pos: [], event: [], iv: [] };
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
       const allBtn = document.querySelector(`[data-group="cat"][data-val="全部"]`);
       if (allBtn) allBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+      document.getElementById('search-input').value = '';
+      searchQuery = '';
       applyFiltersAndRender();
     });
 
     function applyFiltersAndRender() {
       let filtered = rawData.filter(d => {
+        if (searchQuery && !d.ticker.includes(searchQuery) && !d.name.toUpperCase().includes(searchQuery)) return false;
         if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
         if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
         if (activeFilters.event.length > 0 && !activeFilters.event.includes(d.event)) return false;
+        if (activeFilters.iv.length > 0 && !activeFilters.iv.includes(d.iv_level)) return false;
         return true;
       });
 
@@ -158,7 +181,7 @@
           <td class="p-3 text-gray-400 text-xs">${idx + 1}</td>
           <td class="p-3">
             <div class="font-bold text-gray-900">${d.ticker}</div>
-            <div class="text-xs text-gray-400 truncate max-w-[120px]">${d.name}</div>
+            <div class="text-xs text-gray-400 truncate max-w-[130px]">${d.name}</div>
           </td>
           <td class="p-3">
             <span class="px-2 py-0.5 rounded text-xs border ${
@@ -175,7 +198,7 @@
           <td class="p-3 text-right font-medium ${d.d200 >= 0 ? 'text-emerald-600' : 'text-rose-600'}">
             ${d.d200 > 0 ? '+' : ''}${d.d200}%
           </td>
-          <td class="p-3 text-center font-bold text-gray-700">${d.iv}</td>
+          <td class="p-3 text-center font-bold text-gray-700">${d.iv > 0 ? d.iv : '-'}</td>
           <td class="p-3 text-center">
             <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium border ${
               d.event === 'Clear' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-rose-50 text-rose-600 border-rose-200'
