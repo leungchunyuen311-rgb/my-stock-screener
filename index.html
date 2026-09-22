@@ -6,12 +6,9 @@
   <title>美股期權量化選股終端</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-    }
+    tailwind.config = { darkMode: 'class' }
   </script>
   <style>
-    /* 滾動條美化 */
     ::-webkit-scrollbar { height: 6px; width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
@@ -21,7 +18,7 @@
 <body class="bg-slate-50 dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 min-h-screen p-3 md:p-6 font-sans antialiased transition-colors duration-200">
   <div class="max-w-6xl mx-auto space-y-4">
     
-    <!-- 頂部標題列與主題切換 -->
+    <!-- 頂部標題列 -->
     <div class="flex items-center justify-between py-1">
       <div class="flex items-center gap-2.5">
         <span class="text-xl">📈</span>
@@ -47,7 +44,7 @@
         <span class="text-[11px] text-slate-400">點擊代號直達 TradingView 實時圖</span>
       </div>
       <div id="top-picks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <!-- 由 JS 渲染 -->
+        <div class="col-span-4 text-xs text-slate-400 py-2">⏳ 正在計算精選標的...</div>
       </div>
     </div>
 
@@ -100,7 +97,7 @@
         </div>
       </div>
 
-      <!-- 工具欄：搜尋與清除 -->
+      <!-- 搜尋與清除 -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80">
         <div class="flex items-center gap-2">
           <input id="search-input" type="text" placeholder="搜尋代號 (如 ZBRA / AAPL)..." class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-500 w-full sm:w-56 font-mono">
@@ -110,7 +107,7 @@
         </div>
         <div class="text-slate-400 text-xs text-right font-mono flex items-center justify-end gap-2">
           <span>符合標的：</span>
-          <span id="count-display" class="font-bold text-emerald-500 text-sm">0 / 0</span>
+          <span id="count-display" class="font-bold text-emerald-500 text-sm">載入中...</span>
         </div>
       </div>
     </div>
@@ -132,7 +129,7 @@
             </tr>
           </thead>
           <tbody id="table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono">
-            <!-- JS 渲染資料 -->
+            <tr><td colspan="8" class="p-8 text-center text-slate-400">正在渲染 500 隻股票數據...</td></tr>
           </tbody>
         </table>
       </div>
@@ -144,11 +141,11 @@
     let rawData = [];
     let watchlist = JSON.parse(localStorage.getItem('my_watchlist') || '[]');
     let activeFilters = { signal: [], cat: [], pos: [], event: [], watchlistOnly: false };
-    let sortKey = 'signal_score';
+    let sortKey = 'd200';
     let sortAsc = false;
     let searchQuery = '';
 
-    // 深色模式記憶與切換
+    // 主題切換
     const themeToggleBtn = document.getElementById('theme-toggle');
     const isDark = localStorage.getItem('theme') !== 'light';
     if (!isDark) document.documentElement.classList.remove('dark');
@@ -161,38 +158,65 @@
       themeToggleBtn.textContent = currentDark ? '🌙' : '☀️';
     });
 
-    // 讀取數據
-   document.getElementById('count-display').textContent = '⏳ 正在讀取數據...';
+    // 抓取數據並安全渲染
+    fetch('screener_data.json')
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        // 標準化欄位資料，避免缺失欄位造成當機
+        rawData = data.map(d => {
+          const d20 = (typeof d.d20 === 'number') ? d.d20 : 0;
+          const d200 = (typeof d.d200 === 'number') ? d.d200 : 0;
+          const iv = (typeof d.iv === 'number') ? d.iv : 0;
+          const pos = d.position || (d20 >= 10 ? '過熱 Extended' : d20 >= 2 ? '偏強' : d20 <= -10 ? '超賣 Oversold' : d20 <= -2 ? '偏弱' : '中性');
+          const cat = d.category || (d200 > 10 ? '穩陣' : d200 < -10 ? '留神' : '睇位');
+          const evt = d.event || 'Clear';
+          
+          // 若無 signal 則即時計算
+          let sig = d.signal || '觀望';
+          let sigReason = d.signal_reason || '';
+          if (sig === '觀望') {
+            if (d200 >= 8 && d20 >= -3.5 && d20 <= 2.5 && evt === 'Clear') {
+              sig = '回踩買入';
+              sigReason = `長線牛市 (D200 +${d200}%)，回踩 20MA 支撐位`;
+            } else if (d200 >= 0 && iv >= 45 && d20 <= 0 && evt === 'Clear') {
+              sig = '沽 Put';
+              sigReason = `IV 較高 (${iv}%)，無業績地雷，適合賺取權利金`;
+            } else if (d20 <= -8 && d200 >= -8 && evt === 'Clear') {
+              sig = '超賣反彈';
+              sigReason = `短線嚴重超賣 (D20 ${d20}%)，具備反彈修復空間`;
+            } else if (d200 >= 20 && d20 >= 6 && evt === 'Clear') {
+              sig = '動量突破';
+              sigReason = `多頭加速推進 (D200 +${d200}%, D20 +${d20}%)`;
+            }
+          }
 
-fetch('screener_data.json?t=' + new Date().getTime())
-  .then(r => {
-    if (!r.ok) throw new Error('HTTP ' + r.status + ' 找不到 screener_data.json');
-    return r.json();
-  })
-  .then(data => {
-    if (!data || data.length === 0) {
-      document.getElementById('count-display').textContent = '⚠️ 數據庫為空';
-      return;
-    }
-    rawData = data;
-    updateWatchlistCount();
-    renderTopPicks();
-    applyFiltersAndRender();
-  })
-  .catch(err => {
-    console.error('Fetch error:', err);
-    document.getElementById('count-display').textContent = '❌ ' + err.message;
-    document.getElementById('table-body').innerHTML = `
-      <tr>
-        <td colspan="8" class="p-8 text-center text-slate-400">
-          無法讀取數據：${err.message}<br>
-          <span class="text-xs text-slate-500 mt-1 block">請確保 GitHub Actions 的「Update Stock Data」已經成功跑完並生成 screener_data.json。</span>
-        </td>
-      </tr>
-    `;
-  });
+          return {
+            ticker: d.ticker || '',
+            name: d.name || d.ticker || '',
+            price: d.price || 0,
+            category: cat,
+            position: pos,
+            d20: d20,
+            d200: d200,
+            iv: iv,
+            event: evt,
+            event_date: d.event_date || '',
+            signal: sig,
+            signal_reason: sigReason
+          };
+        });
 
-    // 自選股功能
+        updateWatchlistCount();
+        renderTopPicks();
+        applyFiltersAndRender();
+      })
+      .catch(err => {
+        document.getElementById('count-display').textContent = '讀取失敗: ' + err.message;
+      });
+
     function toggleWatchlist(ticker, e) {
       e.stopPropagation();
       if (watchlist.includes(ticker)) {
@@ -220,18 +244,181 @@ fetch('screener_data.json?t=' + new Date().getTime())
       applyFiltersAndRender();
     });
 
-    // 渲染頂部精選卡片
     function renderTopPicks() {
       const topPicksContainer = document.getElementById('top-picks');
+      // 自動挑選出最強的 4 隻標的
       const candidates = rawData
-        .filter(d => d.signal !== '觀望' && d.signal_score >= 4)
-        .sort((a, b) => b.signal_score - a.signal_score || b.d200 - a.d200)
+        .filter(d => d.signal !== '觀望' && d.event === 'Clear')
+        .sort((a, b) => b.d200 - a.d200)
         .slice(0, 4);
 
       if (candidates.length === 0) {
-        topPicksContainer.innerHTML = '<div class="col-span-4 text-xs text-slate-400 py-2">今日暫未有符合 4 星之高勝率推介，建議耐心觀望。</div>';
+        topPicksContainer.innerHTML = '<div class="col-span-4 text-xs text-slate-400 py-2">今日暫無符合條件之標的，建議觀望。</div>';
         return;
       }
 
       topPicksContainer.innerHTML = candidates.map(d => `
-        <div class="bg-slate-50 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-200 dark:border-slate-700/60 hover:border-emerald-500/5
+        <div class="bg-slate-50 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-200 dark:border-slate-700/60 hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <a href="https://www.tradingview.com/chart/?symbol=${d.ticker}" target="_blank" class="font-bold text-slate-900 dark:text-white text-sm hover:text-emerald-400 transition-colors flex items-center gap-1 font-mono">
+                ${d.ticker} <span class="text-[10px] text-slate-400">↗</span>
+              </a>
+              <span class="text-[11px] px-2 py-0.5 rounded font-semibold ${
+                d.signal === '回踩買入' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                d.signal === '沽 Put' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+              }">${d.signal}</span>
+            </div>
+            <div class="text-[11px] text-slate-400 truncate mt-0.5 font-sans">${d.name}</div>
+            <div class="text-[11px] text-slate-600 dark:text-slate-300 mt-2 bg-white dark:bg-slate-900/80 p-2 rounded border border-slate-100 dark:border-slate-800 leading-snug font-sans">
+              ${d.signal_reason || '長線強勢回踩中'}
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700/50 font-mono">
+            <span>D20: <b class="${d.d20 >= 0 ? 'text-emerald-500':'text-rose-500'}">${d.d20 > 0 ? '+':''}${d.d20}%</b></span>
+            <span>D200: <b class="text-emerald-500">+${d.d200}%</b></span>
+            <span>IV: <b class="text-slate-700 dark:text-slate-200">${d.iv}%</b></span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toUpperCase();
+      applyFiltersAndRender();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.group;
+        const val = btn.dataset.val;
+
+        if (val === '全部') {
+          activeFilters[group] = [];
+          document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
+          btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500');
+        } else {
+          const allBtn = document.querySelector(`[data-group="${group}"][data-val="全部"]`);
+          if (allBtn) allBtn.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500');
+
+          if (activeFilters[group].includes(val)) {
+            activeFilters[group] = activeFilters[group].filter(item => item !== val);
+            btn.classList.remove('ring-2', 'ring-emerald-500', 'font-bold');
+          } else {
+            activeFilters[group].push(val);
+            btn.classList.add('ring-2', 'ring-emerald-500', 'font-bold');
+          }
+        }
+        applyFiltersAndRender();
+      });
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      activeFilters = { signal: [], cat: [], pos: [], event: [], watchlistOnly: false };
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
+      document.getElementById('watchlist-filter-btn').classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+      const allBtn = document.querySelector(`[data-group="signal"][data-val="全部"]`);
+      if (allBtn) allBtn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500');
+      document.getElementById('search-input').value = '';
+      searchQuery = '';
+      applyFiltersAndRender();
+    });
+
+    function applyFiltersAndRender() {
+      let filtered = rawData.filter(d => {
+        if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
+        if (searchQuery && !d.ticker.includes(searchQuery) && !d.name.toUpperCase().includes(searchQuery)) return false;
+        if (activeFilters.signal.length > 0 && !activeFilters.signal.includes(d.signal)) return false;
+        if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
+        if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
+        if (activeFilters.event.length > 0 && !activeFilters.event.includes(d.event)) return false;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        let valA = a[sortKey] !== undefined ? a[sortKey] : 0;
+        let valB = b[sortKey] !== undefined ? b[sortKey] : 0;
+        if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        return sortAsc ? (valA - valB) : (valB - valA);
+      });
+
+      render(filtered);
+    }
+
+    function sortBy(key) {
+      if (sortKey === key) sortAsc = !sortAsc;
+      else { sortKey = key; sortAsc = false; }
+      applyFiltersAndRender();
+    }
+
+    function render(data) {
+      document.getElementById('count-display').textContent = `${data.length} / ${rawData.length}`;
+      const tbody = document.getElementById('table-body');
+      
+      tbody.innerHTML = data.map((d, idx) => {
+        const isWatched = watchlist.includes(d.ticker);
+        const d20Width = Math.min(Math.abs(d.d20) * 4, 100);
+        const d200Width = Math.min(Math.abs(d.d200) * 1.5, 100);
+
+        return `
+        <tr class="hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/60">
+          <td class="p-3 text-center cursor-pointer select-none text-base" onclick="toggleWatchlist('${d.ticker}', event)">
+            ${isWatched ? '⭐' : '<span class="text-slate-300 dark:text-slate-600 hover:text-amber-400">☆</span>'}
+          </td>
+          <td class="p-3 sticky-col bg-white dark:bg-[#0B0F19]">
+            <a href="https://www.tradingview.com/chart/?symbol=${d.ticker}" target="_blank" class="font-bold text-slate-900 dark:text-slate-100 hover:text-emerald-400 transition-colors flex items-center gap-1 font-mono">
+              ${d.ticker} <span class="text-[10px] text-slate-400">↗</span>
+            </a>
+            <div class="text-[10px] text-slate-400 truncate max-w-[120px] font-sans">${d.name}</div>
+          </td>
+          <td class="p-3">
+            <span class="inline-block px-2 py-0.5 rounded text-[11px] font-semibold ${
+              d.signal === '回踩買入' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' :
+              d.signal === '沽 Put' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30' :
+              d.signal === '超賣反彈' ? 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30' :
+              d.signal === '動量突破' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30' :
+              'text-slate-400 dark:text-slate-600'
+            }" title="${d.signal_reason}">
+              ${d.signal !== '觀望' ? d.signal : '—'}
+            </span>
+          </td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-sans border ${
+              d.position.includes('強') ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+              d.position.includes('熱') ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' :
+              d.position.includes('弱') ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
+              d.position.includes('超賣') ? 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20' :
+              'text-slate-400 border-slate-200 dark:border-slate-800'
+            }">${d.position}</span>
+          </td>
+          <td class="p-3 text-right">
+            <div class="relative flex items-center justify-end">
+              <div class="absolute right-0 h-4 rounded-sm opacity-20 ${d.d20 >= 0 ? 'bg-emerald-500':'bg-rose-500'}" style="width: ${d20Width}%;"></div>
+              <span class="relative z-1 font-semibold ${d.d20 >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                ${d.d20 > 0 ? '+' : ''}${d.d20}%
+              </span>
+            </div>
+          </td>
+          <td class="p-3 text-right">
+            <div class="relative flex items-center justify-end">
+              <div class="absolute right-0 h-4 rounded-sm opacity-20 ${d.d200 >= 0 ? 'bg-emerald-500':'bg-rose-500'}" style="width: ${d200Width}%;"></div>
+              <span class="relative z-1 font-semibold ${d.d200 >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                ${d.d200 > 0 ? '+' : ''}${d.d200}%
+              </span>
+            </div>
+          </td>
+          <td class="p-3 text-center font-bold text-slate-700 dark:text-slate-300">${d.iv > 0 ? d.iv : '-'}</td>
+          <td class="p-3 text-center">
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+              d.event === 'Clear' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-rose-500/10 text-rose-500 border-rose-500/20'
+            }">
+              ${d.event} ${d.event_date ? '<div class="text-[9px] opacity-75">' + d.event_date + '</div>' : ''}
+            </span>
+          </td>
+        </tr>
+      `}).join('');
+    }
+  </script>
+</body>
+</html>
