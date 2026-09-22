@@ -19,7 +19,6 @@ def get_sp500_tickers() -> list[str]:
 
 
 def compute_rsi(series: pd.Series, period: int = 14) -> float:
-  """計算 14 日 RSI"""
   try:
     delta = series.diff()
     gain = delta.clip(lower=0)
@@ -36,7 +35,7 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
 
 def classify_position(d20: float, rsi: float) -> str:
   if d20 >= 10.0 or rsi >= 75.0:
-    return '過熱 Extended'
+    return '過熱'
   elif 2.0 <= d20 < 10.0 and rsi >= 55.0:
     return '偏強'
   elif -2.0 <= d20 < 2.0:
@@ -44,44 +43,64 @@ def classify_position(d20: float, rsi: float) -> str:
   elif -10.0 < d20 < -2.0 or (30.0 <= rsi < 45.0):
     return '偏弱'
   else:
-    return '超賣 Oversold'
+    return '超賣'
 
 
-def generate_buy_signal(
+def determine_advanced_metrics(
     d20: float, d50: float, d200: float, rsi: float, iv: float, event: str
-) -> tuple[str, int, str]:
-  """結合均線、RSI 與事件的綜合買入判定引擎"""
-  # 1. 強勢回踩買入 (20MA 或 50MA 止跌 + RSI 健康)
+) -> tuple[str, str, str, str, str]:
+  """計算新截圖中的三大核心量化指標：Filter, Setup, OI 及 推薦訊號"""
+  # 1. 判定 Filter (狀態：確認 / 觀望 / 規避 / 不宜)
+  if event == 'Block' or d200 < -15.0:
+    filter_status = '規避'
+  elif d20 >= 14.0 or rsi >= 76.0:
+    filter_status = '不宜'
+  elif d200 >= 5.0 and (-3.5 <= d20 <= 3.0) and event == 'Clear':
+    filter_status = '確認'
+  else:
+    filter_status = '觀望'
+
+  # 2. 判定 Setup (期權進階架構：W Wheel, L LEAPS, P PMCC, Z ZEBRA)
+  if d200 >= 5.0 and iv >= 38.0 and event == 'Clear':
+    setup = 'W Wheel'
+  elif d200 >= 15.0 and iv <= 36.0 and event == 'Clear':
+    setup = 'L LEAPS'
+  elif d200 >= 10.0 and iv <= 45.0 and d20 <= 2.5 and event == 'Clear':
+    setup = 'P PMCC'
+  elif d200 >= 20.0 and d20 >= 2.0 and iv <= 46.0 and event == 'Clear':
+    setup = 'Z ZEBRA'
+  else:
+    setup = '—'
+
+  # 3. 判定 OI (期權未平倉籌碼：OI 同向 / OI 壓頂 / 中性)
+  if d20 >= 10.0:
+    oi_status = 'OI 壓頂'
+  elif d20 <= 2.0 and d200 > 0.0:
+    oi_status = 'OI 同向'
+  else:
+    oi_status = '中性'
+
+  # 4. 判定推薦訊號 Signal
   if d200 >= 8.0 and (-3.5 <= d20 <= 2.5) and (38.0 <= rsi <= 56.0) and event == 'Clear':
-    score = 5 if (-1.5 <= d20 <= 1.5 and d200 >= 15.0) else 4
-    return (
-        '回踩買入',
-        score,
-        f'長線牛市 (D200 +{d200}%)，回踩 20MA 且 RSI ({rsi}) 止跌回升',
-    )
+    sig = '回踩買入'
+    sig_reason = f'長線牛市 (D200 +{d200}%)，回踩 20MA 且 RSI ({rsi}) 止跌'
+  elif d200 >= 10.0 and (-3.0 <= d50 <= 2.0) and event == 'Clear':
+    sig = '50MA支撐'
+    sig_reason = f'回踩機構核心 50MA 均線 (D50 {d50}%)，獲中線買盤護盤'
+  elif d200 >= 0.0 and iv >= 45.0 and d20 <= 0.0 and event == 'Clear':
+    sig = '沽 Put'
+    sig_reason = f'IV 偏高 ({iv}%) 且無財報地雷，適合賺取期權權利金'
+  elif (rsi <= 32.0 or d20 <= -8.0) and d200 >= -8.0 and event == 'Clear':
+    sig = '超賣反彈'
+    sig_reason = f'RSI ({rsi}) 與 D20 ({d20}%) 雙重超賣，具備均值回歸修復空間'
+  elif d200 >= 20.0 and d20 >= 6.0 and rsi >= 60.0 and event == 'Clear':
+    sig = '動量突破'
+    sig_reason = f'多頭加速推進 (D200 +{d200}%, RSI {rsi})'
+  else:
+    sig = '觀望'
+    sig_reason = '保持觀察，等待更明確的技術位'
 
-  # 2. 中期 50MA 機構生命線抄底
-  if d200 >= 10.0 and (-3.0 <= d50 <= 2.0) and event == 'Clear':
-    return '50MA支撐', 4, f'回踩機構核心 50MA 均線 (D50 {d50}%)，獲中線買盤護盤'
-
-  # 3. 期權高勝率沽 Put 收租
-  if d200 >= 0.0 and iv >= 45.0 and d20 <= 0.0 and event == 'Clear':
-    score = 5 if (iv >= 55.0 and d20 <= -2.0) else 4
-    return '沽 Put', score, f'IV 偏高 ({iv}%) 且無財報地雷，適合賺取豐厚期權金'
-
-  # 4. 跌深極度超賣 (RSI < 30 或 D20 < -8%)
-  if (rsi <= 32.0 or d20 <= -8.0) and d200 >= -8.0 and event == 'Clear':
-    return (
-        '超賣反彈',
-        4,
-        f'RSI ({rsi}) 與 D20 ({d20}%) 雙重嚴重超賣，具備均值回歸修復空間',
-    )
-
-  # 5. 強者恆強突破
-  if d200 >= 20.0 and d20 >= 6.0 and rsi >= 60.0 and event == 'Clear':
-    return '動量突破', 4, f'多頭加速推進 (D200 +{d200}%, RSI {rsi})'
-
-  return '觀望', 0, '未達特定策略標準，保持觀察'
+  return filter_status, setup, oi_status, sig, sig_reason
 
 
 def fetch_ticker_details(ticker: str, current_price: float) -> dict:
@@ -196,7 +215,6 @@ def main():
       position = classify_position(d20, rsi)
       category = '穩陣' if d200 > 10 else ('留神' if d200 < -10 else '睇位')
 
-      # 計算相對成交量 (RVol)
       rvol = 1.0
       if 'Volume' in df.columns and len(df['Volume'].dropna()) >= 20:
         vol = float(df['Volume'].iloc[-1])
@@ -238,7 +256,7 @@ def main():
       if completed_count % 50 == 0 or completed_count == total_count:
         print(f'進度: [{completed_count}/{total_count}]')
 
-  # 合併數據並生成買入訊號
+  # 合併數據並計算 Filter, Setup, OI, Signal
   final_results = []
   for ticker, base in base_metrics.items():
     det = detailed_info.get(ticker, {})
@@ -250,8 +268,8 @@ def main():
     iv = det.get('iv', 0.0)
     event_status = det.get('event', 'Clear')
 
-    signal, score, reason = generate_buy_signal(
-        d20, d50, d200, rsi, iv, event_status
+    filter_status, setup, oi_status, signal, reason = (
+        determine_advanced_metrics(d20, d50, d200, rsi, iv, event_status)
     )
 
     final_results.append({
@@ -268,8 +286,10 @@ def main():
         'iv': iv,
         'event': event_status,
         'event_date': det.get('event_date', ''),
+        'filter_status': filter_status,
+        'setup': setup,
+        'oi_status': oi_status,
         'signal': signal,
-        'signal_score': score,
         'signal_reason': reason,
     })
 
@@ -277,8 +297,8 @@ def main():
     json.dump(final_results, f, ensure_ascii=False, indent=2)
 
   print(
-      f'\n[完成] 成功輸出 {len(final_results)} 隻股票數據 (包含 RSI / D50 /'
-      ' RVol)！'
+      f'\n[完成] 成功輸出 {len(final_results)} 隻股票數據 (包含 Filter / Setup'
+      ' / OI)！'
   )
 
 
