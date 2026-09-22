@@ -6,36 +6,17 @@ import yfinance as yf
 
 
 def get_sp500_tickers() -> list[str]:
-  """自動從 Wikipedia 取得最新的 S&P 500 成分股名單"""
+  """直接由權威 GitHub 開源庫下載最新 S&P 500 清單 (100% 穩定唔會被 Wikipedia 403 阻擋)"""
   try:
-    print('正在從 Wikipedia 讀取 S&P 500 成分股清單...')
-    url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
-    tables = pd.read_html(url)
-    df = tables[0]
-    # Yahoo Finance 格式轉換 (例如 BRK.B 轉為 BRK-B)
-    tickers = [t.replace('.', '-') for t in df['Symbol'].tolist()]
-    print(f'成功取得 {len(tickers)} 隻 S&P 500 成分股！')
+    print('正在下載 S&P 500 最新成分股名單...')
+    url = 'https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv'
+    df = pd.read_csv(url)
+    tickers = [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
+    print(f'成功取得 {len(tickers)} 隻標普 500 股票！')
     return tickers
   except Exception as e:
-    print(f'讀取 Wikipedia 失敗，使用備用熱門名單: {e}')
-    # 備用保底名單
-    return [
-        'AAPL',
-        'MSFT',
-        'NVDA',
-        'AMZN',
-        'GOOGL',
-        'META',
-        'TSLA',
-        'AMD',
-        'AVGO',
-        'QCOM',
-        'MU',
-        'MRVL',
-        'NOW',
-        'PANW',
-        'UNH',
-    ]
+    print(f'讀取失敗: {e}')
+    return ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA']
 
 
 def classify_position(d20: float) -> str:
@@ -67,7 +48,6 @@ def classify_iv_level(iv: float) -> str:
 
 
 def fetch_ticker_details(ticker: str, current_price: float) -> dict:
-  """多線程查詢個別股票的期權 IV 及財報日"""
   company_name = ticker
   event_status = 'Clear'
   event_date = ''
@@ -138,7 +118,7 @@ def fetch_ticker_details(ticker: str, current_price: float) -> dict:
 def main():
   tickers = get_sp500_tickers()
 
-  print(f'正在一次過下載 {len(tickers)} 隻股票的一年價格數據...')
+  print(f'正在一次過下載 {len(tickers)} 隻股票的一年歷史數據...')
   data = yf.download(
       tickers=tickers,
       period='1y',
@@ -181,8 +161,7 @@ def main():
       continue
 
   print(
-      f'技術均線計算完成，共 {len(base_metrics)} 隻有效股票。啟動 10'
-      ' 線程抓取期權與財報...'
+      f'均線計算完成，共 {len(base_metrics)} 隻有效股票。啟動 10 線程抓取期權與財報...'
   )
 
   # 使用 10 條線程並行查詢期權及財報
@@ -224,9 +203,7 @@ def main():
   with open('screener_data.json', 'w', encoding='utf-8') as f:
     json.dump(final_results, f, ensure_ascii=False, indent=2)
 
-  print(
-      f'\n[大功告成] 成功輸出 screener_data.json，共 {len(final_results)} 隻股票！'
-  )
+  print(f'\n[完成] 成功輸出 {len(final_results)} 隻股票到 screener_data.json！')
 
 
 if __name__ == '__main__':
