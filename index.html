@@ -162,14 +162,35 @@
     });
 
     // 讀取數據
-    fetch('./screener_data.json?t=' + new Date().getTime())
-      .then(r => r.json())
-      .then(data => {
-        rawData = data;
-        updateWatchlistCount();
-        renderTopPicks();
-        applyFiltersAndRender();
-      });
+   document.getElementById('count-display').textContent = '⏳ 正在讀取數據...';
+
+fetch('screener_data.json?t=' + new Date().getTime())
+  .then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' 找不到 screener_data.json');
+    return r.json();
+  })
+  .then(data => {
+    if (!data || data.length === 0) {
+      document.getElementById('count-display').textContent = '⚠️ 數據庫為空';
+      return;
+    }
+    rawData = data;
+    updateWatchlistCount();
+    renderTopPicks();
+    applyFiltersAndRender();
+  })
+  .catch(err => {
+    console.error('Fetch error:', err);
+    document.getElementById('count-display').textContent = '❌ ' + err.message;
+    document.getElementById('table-body').innerHTML = `
+      <tr>
+        <td colspan="8" class="p-8 text-center text-slate-400">
+          無法讀取數據：${err.message}<br>
+          <span class="text-xs text-slate-500 mt-1 block">請確保 GitHub Actions 的「Update Stock Data」已經成功跑完並生成 screener_data.json。</span>
+        </td>
+      </tr>
+    `;
+  });
 
     // 自選股功能
     function toggleWatchlist(ticker, e) {
