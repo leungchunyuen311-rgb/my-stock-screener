@@ -34,7 +34,7 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
 
 
 def classify_position(d20: float, rsi: float) -> str:
-  if d20 >= 10.0 or rsi >= 75.0:
+  if d20 >= 10.0 or rsi >= 74.0:
     return '過熱'
   elif 2.0 <= d20 < 10.0 and rsi >= 55.0:
     return '偏強'
@@ -49,31 +49,37 @@ def classify_position(d20: float, rsi: float) -> str:
 def determine_advanced_metrics(
     d20: float, d50: float, d200: float, rsi: float, iv: float, event: str
 ) -> tuple[str, str, str, str, str]:
-  """計算新截圖中的三大核心量化指標：Filter, Setup, OI 及 推薦訊號"""
-  # 1. 判定 Filter (狀態：確認 / 觀望 / 規避 / 不宜)
+  """計算 Filter, Setup, OI 及 推薦訊號 (嚴格修復防追高邏輯)"""
+  # 1. 判定 Filter 狀態 (確認 / 觀望 / 規避 / 不宜)
   if event == 'Block' or d200 < -15.0:
     filter_status = '規避'
-  elif d20 >= 14.0 or rsi >= 76.0:
+  elif d20 >= 10.0 or rsi >= 72.0:
+    # 只要 D20 >= 10% 或 RSI >= 72，嚴格標記為不宜追高！
     filter_status = '不宜'
   elif d200 >= 5.0 and (-3.5 <= d20 <= 3.0) and event == 'Clear':
     filter_status = '確認'
   else:
     filter_status = '觀望'
 
-  # 2. 判定 Setup (期權進階架構：W Wheel, L LEAPS, P PMCC, Z ZEBRA)
-  if d200 >= 5.0 and iv >= 38.0 and event == 'Clear':
+  # 2. 判定 Setup (期權進階架構 - 嚴禁在暴衝過熱時推薦 Wheel 或買入！)
+  if d200 >= 5.0 and iv >= 38.0 and (-4.0 <= d20 <= 4.0) and event == 'Clear':
     setup = 'W Wheel'
-  elif d200 >= 15.0 and iv <= 36.0 and event == 'Clear':
+  elif d200 >= 15.0 and iv <= 36.0 and (-3.0 <= d20 <= 4.0) and event == 'Clear':
     setup = 'L LEAPS'
-  elif d200 >= 10.0 and iv <= 45.0 and d20 <= 2.5 and event == 'Clear':
+  elif d200 >= 10.0 and iv <= 45.0 and (-3.5 <= d20 <= 2.5) and event == 'Clear':
     setup = 'P PMCC'
-  elif d200 >= 20.0 and d20 >= 2.0 and iv <= 46.0 and event == 'Clear':
+  elif (
+      d200 >= 20.0
+      and (1.0 <= d20 <= 6.0)
+      and iv <= 46.0
+      and event == 'Clear'
+  ):
     setup = 'Z ZEBRA'
   else:
     setup = '—'
 
-  # 3. 判定 OI (期權未平倉籌碼：OI 同向 / OI 壓頂 / 中性)
-  if d20 >= 10.0:
+  # 3. 判定 OI 未平倉籌碼 (OI 同向 / OI 壓頂 / 中性)
+  if d20 >= 8.0:
     oi_status = 'OI 壓頂'
   elif d20 <= 2.0 and d200 > 0.0:
     oi_status = 'OI 同向'
@@ -87,18 +93,18 @@ def determine_advanced_metrics(
   elif d200 >= 10.0 and (-3.0 <= d50 <= 2.0) and event == 'Clear':
     sig = '50MA支撐'
     sig_reason = f'回踩機構核心 50MA 均線 (D50 {d50}%)，獲中線買盤護盤'
-  elif d200 >= 0.0 and iv >= 45.0 and d20 <= 0.0 and event == 'Clear':
+  elif d200 >= 0.0 and iv >= 45.0 and (-4.0 <= d20 <= 0.5) and event == 'Clear':
     sig = '沽 Put'
-    sig_reason = f'IV 偏高 ({iv}%) 且無財報地雷，適合賺取期權權利金'
+    sig_reason = f'IV 偏高 ({iv}%) 且無財報地雷，回踩穩健適合做賣方'
   elif (rsi <= 32.0 or d20 <= -8.0) and d200 >= -8.0 and event == 'Clear':
     sig = '超賣反彈'
     sig_reason = f'RSI ({rsi}) 與 D20 ({d20}%) 雙重超賣，具備均值回歸修復空間'
-  elif d200 >= 20.0 and d20 >= 6.0 and rsi >= 60.0 and event == 'Clear':
+  elif d200 >= 20.0 and (2.0 <= d20 <= 7.0) and (55.0 <= rsi <= 68.0) and event == 'Clear':
     sig = '動量突破'
     sig_reason = f'多頭加速推進 (D200 +{d200}%, RSI {rsi})'
   else:
     sig = '觀望'
-    sig_reason = '保持觀察，等待更明確的技術位'
+    sig_reason = '未達精確進場點，保持觀察'
 
   return filter_status, setup, oi_status, sig, sig_reason
 
@@ -256,7 +262,8 @@ def main():
       if completed_count % 50 == 0 or completed_count == total_count:
         print(f'進度: [{completed_count}/{total_count}]')
 
-  # 合併數據並計算 Filter, Setup, OI, Signal
+  # 合併數據並記錄當前更新時間
+  today_date_str = datetime.date.today().strftime('%Y-%m-%d')
   final_results = []
   for ticker, base in base_metrics.items():
     det = detailed_info.get(ticker, {})
@@ -291,14 +298,14 @@ def main():
         'oi_status': oi_status,
         'signal': signal,
         'signal_reason': reason,
+        'updated_at': today_date_str,
     })
 
   with open('screener_data.json', 'w', encoding='utf-8') as f:
     json.dump(final_results, f, ensure_ascii=False, indent=2)
 
   print(
-      f'\n[完成] 成功輸出 {len(final_results)} 隻股票數據 (包含 Filter / Setup'
-      ' / OI)！'
+      f'\n[完成] 成功輸出 {len(final_results)} 隻股票數據 (包含防追高優化邏輯)！'
   )
 
 
