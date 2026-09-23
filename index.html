@@ -35,7 +35,7 @@
           <h1 class="font-extrabold text-sm tracking-tight bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
             PRO QUANT SCREENER
           </h1>
-          <div class="text-[9px] font-mono text-slate-400 leading-none">結構日期 2026-09-22 · 最新 ↕</div>
+          <div class="text-[9px] font-mono text-slate-400 leading-none">結構日期 <span id="header-date">更新中...</span> · 最新 ↕</div>
         </div>
       </div>
 
@@ -408,6 +408,9 @@
           };
         });
 
+        // 自動將頂部日期更新為當前瀏覽或最新日期
+const todayStr = new Date().toISOString().split('T')[0];
+if (document.getElementById('header-date')) document.getElementById('header-date').textContent = todayStr;
         updateWatchlistCount();
         renderTopPicks();
         applyFiltersAndRender();
