@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>美股正股量化波段終端 (EQUITY PRO)</title>
+  <title>美股正股全市場量化終端 (S&P 1500)</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
 </head>
 <body class="bg-[#F8F9FA] dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased pb-20 select-none">
 
-  <!-- 頂部固定導覽列 -->
+  <!-- 頂部導覽列 -->
   <header class="sticky top-0 z-30 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-2.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -35,7 +35,7 @@
           <h1 class="font-extrabold text-sm tracking-tight bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
             EQUITY QUANT PRO
           </h1>
-          <div class="text-[9px] font-mono text-slate-400 leading-none">美股正股終端 · <span id="header-date">更新中...</span> · 最新 ↕</div>
+          <div class="text-[9px] font-mono text-slate-400 leading-none">全市場 S&P 1500 · <span id="header-date">更新中...</span> · 最新 ↕</div>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
 
   <main class="max-w-7xl mx-auto p-3 md:p-6 space-y-3.5">
     
-    <!-- 今日正股精選推介卡片 (TOP BUY SETUPS - 嚴禁過熱，只推低吸買點) -->
+    <!-- 今日正股精選推介卡片 (TOP BUY PICKS) -->
     <div id="top-setups-section" class="space-y-2">
       <div class="flex items-center justify-between text-xs px-1">
         <span class="font-bold tracking-wider text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
@@ -65,14 +65,14 @@
         <span class="text-[10px] text-slate-400">點擊開圖對位</span>
       </div>
       <div id="top-picks" class="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-        <div class="col-span-2 md:col-span-4 text-xs text-slate-400 py-2">⏳ 正在挑選優質正股買點...</div>
+        <div class="col-span-2 md:col-span-4 text-xs text-slate-400 py-2">⏳ 正在從 S&P 1500 挑選優質正股買點...</div>
       </div>
     </div>
 
-    <!-- 正股篩選器面板 -->
+    <!-- 篩選器面板 -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 md:p-5 shadow-sm space-y-3 text-xs">
       
-      <!-- 1. 操作建議 (Advice Filter) -->
+      <!-- 1. 操作建議 -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">建議</span>
         <div class="flex items-center gap-1.5" id="filter-advice">
@@ -85,15 +85,15 @@
         </div>
       </div>
 
-      <!-- 2. 正股進場形態 (Setup) -->
+      <!-- 2. 進場形態 -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">形態</span>
         <div class="flex items-center gap-1.5" id="filter-setup">
-          <button data-group="setup" data-val="回踩買入" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-semibold shrink-0">回踩 20MA</button>
-          <button data-group="setup" data-val="50MA支撐" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-600 dark:text-teal-400 bg-teal-500/5 font-semibold shrink-0">回踩 50MA</button>
-          <button data-group="setup" data-val="動量突破" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 font-semibold shrink-0">🔥 動態突破</button>
+          <button data-group="setup" data-val="回踩 20MA" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-semibold shrink-0">回踩 20MA</button>
+          <button data-group="setup" data-val="回踩 50MA" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-600 dark:text-teal-400 bg-teal-500/5 font-semibold shrink-0">回踩 50MA</button>
+          <button data-group="setup" data-val="動態突破" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 font-semibold shrink-0">🔥 動態突破</button>
           <button data-group="setup" data-val="超賣反彈" class="filter-btn px-2.5 py-0.5 rounded border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 bg-cyan-500/5 font-semibold shrink-0">超賣反彈</button>
-          <button data-group="setup" data-val="穩步主升" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 shrink-0">穩步主升</button>
+          <button data-group="setup" data-val="穩步主升" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 font-semibold shrink-0">穩步主升</button>
         </div>
       </div>
 
@@ -109,14 +109,14 @@
         </div>
       </div>
 
-      <!-- 4. 長線趨勢 (分類) 與自選 -->
+      <!-- 4. 趨勢與自選 -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">趨勢</span>
         <div class="flex items-center gap-1.5" id="filter-category">
           <button id="watchlist-filter-btn" class="px-2.5 py-1 rounded border border-amber-500/40 text-amber-500 bg-amber-500/5 font-semibold shrink-0">
             ⭐ 我的自選 (<span id="watchlist-count">0</span>)
           </button>
-          <button data-group="cat" data-val="穩陣" class="filter-btn px-2.5 py-1 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">穩陣 (大牛市 D200>10%)</button>
+          <button data-group="cat" data-val="穩陣" class="filter-btn px-2.5 py-1 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">穩陣 (牛市 D200>10%)</button>
           <button data-group="cat" data-val="睇位" class="filter-btn px-2.5 py-1 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">睇位 (震盪平盤)</button>
           <button data-group="cat" data-val="留神" class="filter-btn px-2.5 py-1 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">留神 (熊市走勢)</button>
         </div>
@@ -131,7 +131,7 @@
           </button>
         </div>
         <div class="flex items-center justify-between sm:justify-end gap-3">
-          <input id="search-input" type="text" placeholder="搜尋正股代號 (如 NVDA, AAPL)..." class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-1 text-xs focus:outline-none focus:border-emerald-500 w-48 font-mono">
+          <input id="search-input" type="text" placeholder="搜尋代號 (如 NVDA, AAPL)..." class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-1 text-xs focus:outline-none focus:border-emerald-500 w-48 font-mono">
           <div id="count-display" class="font-mono text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20 shrink-0">
             0 / 0
           </div>
@@ -142,7 +142,7 @@
     <!-- 手機卡片流視圖 -->
     <div id="mobile-cards-view" class="space-y-2.5 md:hidden"></div>
 
-    <!-- 桌面正股大數據表格 -->
+    <!-- 桌面大數據表格 -->
     <div id="desktop-table-view" class="hidden md:block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
       <div class="overflow-x-auto max-h-[72vh]">
         <table class="w-full text-left text-xs border-collapse">
@@ -170,11 +170,11 @@
 
   </main>
 
-  <!-- 手機底部原生導覽列 -->
+  <!-- 手機底部導覽列 -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 flex items-center justify-around py-2 z-40 text-[10px] text-slate-500 font-medium">
     <button onclick="switchTab('all')" id="nav-all" class="flex flex-col items-center gap-0.5 text-emerald-500 font-bold">
       <span class="text-base">📊</span>
-      <span>全部正股</span>
+      <span>全市場 1500</span>
     </button>
     <button onclick="switchTab('watchlist')" id="nav-watchlist" class="flex flex-col items-center gap-0.5">
       <span class="text-base">⭐</span>
@@ -213,11 +213,11 @@
     </div>
   </div>
 
-  <!-- 正股操作指南彈窗 -->
+  <!-- 正股指南彈窗 -->
   <div id="guide-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl space-y-3.5 text-xs">
       <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 美股正股量化波段操作指南</h3>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 S&P 1500 全市場正股操作指南</h3>
         <button id="close-modal-btn" class="text-slate-400 text-base font-bold">✕</button>
       </div>
       <div class="space-y-3 text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -227,21 +227,15 @@
           • <b>🔵 持有</b>：處於多頭推進中，未過熱，安心持股。<br>
           • <b>🟠 減持</b>：D20 > 10% 或 RSI > 74 嚴重過熱，切忌追高，宜分批止賺。<br>
           • <b>⚪ 觀望</b>：無明確形態，耐心等待。<br>
-          • <b>🔴 避開</b>：即將出業績或破位熊市。
+          • <b>🔴 避開</b>：破位熊市股。
         </div>
 
         <div class="p-2.5 rounded bg-slate-100 dark:bg-slate-800/60">
           <b class="text-teal-400">四大正股波段形態 (Setup)：</b><br>
-          • <b>回踩買入</b>：D200 牛市股回踩 20MA，止跌低吸勝率極高。<br>
-          • <b>50MA 支撐</b>：華爾街大機構最重視的中期生命線托底買點。<br>
-          • <b>動態突破</b>：放量大於平日 1.3 倍以上，均線多頭排列突破。<br>
-          • <b>超賣反彈</b>：RSI < 32 短線恐慌拋售後的均值回歸修復。
-        </div>
-
-        <div class="p-2.5 rounded bg-slate-100 dark:bg-slate-800/60">
-          <b class="text-amber-400">均線與指標體系：</b><br>
-          • <b>D20</b>：月線偏離度；<b>D50</b>：季線機構生命線；<b>D200</b>：年線牛熊線。<br>
-          • <b>距新高 (% off High)</b>：距離 52 週最高價的差距，越接近 0% 代表越強勢的領頭羊。
+          • <b>回踩 20MA</b>：牛市股回調至 20MA，止跌低吸勝率極高。<br>
+          • <b>回踩 50MA</b>：華爾街機構生命線托底買點。<br>
+          • <b>動態突破</b>：放量突破平台，多頭加速。<br>
+          • <b>超賣反彈</b>：RSI < 32 嚴重超賣後的均值回歸修復。
         </div>
       </div>
     </div>
@@ -256,7 +250,7 @@
     let searchQuery = '';
     let isCardView = true;
 
-    // 主題切換
+    // 主題
     const themeToggleBtn = document.getElementById('theme-toggle');
     let isDark = localStorage.getItem('theme') !== 'light';
     if (!isDark) document.documentElement.classList.remove('dark');
@@ -266,4 +260,380 @@
       document.documentElement.classList.toggle('dark');
       isDark = document.documentElement.classList.contains('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      theme
+      themeToggleBtn.textContent = isDark ? '🌙' : '☀️';
+    });
+
+    // 視圖切換
+    const viewModeBtn = document.getElementById('view-mode-btn');
+    viewModeBtn.addEventListener('click', () => {
+      isCardView = !isCardView;
+      viewModeBtn.textContent = isCardView ? '🎴' : '📋';
+      const mCards = document.getElementById('mobile-cards-view');
+      const dTable = document.getElementById('desktop-table-view');
+      if (isCardView) {
+        mCards.classList.remove('hidden');
+        dTable.classList.add('hidden');
+      } else {
+        mCards.classList.add('hidden');
+        dTable.classList.remove('hidden');
+      }
+    });
+
+    // Modal 控制
+    document.getElementById('guide-btn').addEventListener('click', () => document.getElementById('guide-modal').classList.remove('hidden'));
+    document.getElementById('close-modal-btn').addEventListener('click', () => document.getElementById('guide-modal').classList.add('hidden'));
+    document.getElementById('close-chart-btn').addEventListener('click', () => document.getElementById('chart-modal').classList.add('hidden'));
+
+    function switchTab(type) {
+      document.querySelectorAll('nav button').forEach(b => b.className = 'flex flex-col items-center gap-0.5 text-slate-400');
+      if (type === 'all') {
+        document.getElementById('nav-all').className = 'flex flex-col items-center gap-0.5 text-emerald-500 font-bold';
+        activeFilters.watchlistOnly = false;
+        activeFilters.advice = [];
+      } else if (type === 'watchlist') {
+        document.getElementById('nav-watchlist').className = 'flex flex-col items-center gap-0.5 text-amber-500 font-bold';
+        activeFilters.watchlistOnly = true;
+        activeFilters.advice = [];
+      } else if (type === 'buy') {
+        document.getElementById('nav-signals').className = 'flex flex-col items-center gap-0.5 text-emerald-500 font-bold';
+        activeFilters.watchlistOnly = false;
+        activeFilters.advice = ['買入'];
+      }
+      applyFiltersAndRender();
+    }
+
+    function openChart(ticker) {
+      const stock = rawData.find(s => s.ticker === ticker);
+      if (!stock) return;
+
+      document.getElementById('modal-ticker').textContent = stock.ticker;
+      document.getElementById('modal-price').textContent = '$' + stock.price;
+      document.getElementById('modal-badge').textContent = stock.position;
+      document.getElementById('modal-setup').textContent = stock.setup;
+
+      document.getElementById('modal-tv-link').href = `https://www.tradingview.com/chart/?symbol=${stock.ticker}`;
+      document.getElementById('chart-modal').classList.remove('hidden');
+
+      document.getElementById('tv-chart-container').innerHTML = '';
+      new TradingView.widget({
+        "autosize": true,
+        "symbol": stock.ticker,
+        "interval": "D",
+        "timezone": "Asia/Hong_Kong",
+        "theme": isDark ? "dark" : "light",
+        "style": "1",
+        "locale": "zh_TW",
+        "container_id": "tv-chart-container",
+        "studies": [
+          "MASimple@tv-basicstudies",
+          "MASimple@tv-basicstudies",
+          "RSI@tv-basicstudies"
+        ]
+      });
+    }
+
+    // 抓取數據 (含強固防錯)
+    fetch('screener_data.json?t=' + new Date().getTime())
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        if (!data || data.length === 0) {
+          document.getElementById('header-date').textContent = '無數據';
+          document.getElementById('count-display').textContent = '數據為空';
+          return;
+        }
+
+        document.getElementById('header-date').textContent = data[0].updated_at || new Date().toISOString().split('T')[0];
+
+        rawData = data.map((d, i) => ({
+          rank: i + 1,
+          ticker: d.ticker || '',
+          name: d.name || d.ticker || '',
+          price: d.price ? Number(d.price).toFixed(2) : '0.00',
+          category: d.category || '睇位',
+          position: d.position || '中性',
+          d20: typeof d.d20 === 'number' ? d.d20 : 0,
+          d50: typeof d.d50 === 'number' ? d.d50 : 0,
+          d200: typeof d.d200 === 'number' ? d.d200 : 0,
+          off_high: typeof d.off_high === 'number' ? d.off_high : 0,
+          rsi: typeof d.rsi === 'number' ? d.rsi : 50,
+          rvol: typeof d.rvol === 'number' ? d.rvol : 1.0,
+          advice: d.advice || (d.d20 >= 10 ? '減持' : (d.d200 >= 6 && Math.abs(d.d20) <= 3) ? '買入' : '觀望'),
+          setup: d.setup || (Math.abs(d.d20) <= 3 ? '回踩 20MA' : '—'),
+          reason: d.reason || '正股量化追蹤'
+        }));
+
+        updateWatchlistCount();
+        renderTopPicks();
+        applyFiltersAndRender();
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('header-date').textContent = '讀取失敗';
+        document.getElementById('count-display').textContent = '❌ ' + err.message;
+        document.getElementById('top-picks').innerHTML = `
+          <div class="col-span-2 md:col-span-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-500 text-xs">
+            <b>無法載入數據：</b>${err.message}<br>
+            <span class="text-slate-400 mt-1 block">請前往 GitHub「Actions」分頁，點擊「Run workflow」重新跑一次 Python 腳本生成數據！</span>
+          </div>
+        `;
+      });
+
+    function toggleWatchlist(ticker, e) {
+      if (e) e.stopPropagation();
+      if (watchlist.includes(ticker)) {
+        watchlist = watchlist.filter(t => t !== ticker);
+      } else {
+        watchlist.push(ticker);
+      }
+      localStorage.setItem('my_watchlist', JSON.stringify(watchlist));
+      updateWatchlistCount();
+      applyFiltersAndRender();
+    }
+
+    function updateWatchlistCount() {
+      const c = watchlist.length;
+      document.getElementById('watchlist-count').textContent = c;
+      document.getElementById('nav-watch-count').textContent = c;
+    }
+
+    document.getElementById('watchlist-filter-btn').addEventListener('click', () => {
+      activeFilters.watchlistOnly = !activeFilters.watchlistOnly;
+      const btn = document.getElementById('watchlist-filter-btn');
+      if (activeFilters.watchlistOnly) {
+        btn.classList.add('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+      } else {
+        btn.classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+      }
+      applyFiltersAndRender();
+    });
+
+    // 嚴格頂部買入推介
+    function renderTopPicks() {
+      const topPicksContainer = document.getElementById('top-picks');
+      const candidates = rawData
+        .filter(d => d.advice === '買入' && d.position !== '過熱' && d.d20 <= 5.0)
+        .sort((a, b) => Math.abs(a.d20) - Math.abs(b.d20) || b.d200 - a.d200)
+        .slice(0, 4);
+
+      if (candidates.length === 0) {
+        topPicksContainer.innerHTML = '<div class="col-span-2 md:col-span-4 text-xs text-slate-400 py-2">全市場暫無符合嚴格支撐之安全買點，建議耐心觀望。</div>';
+        return;
+      }
+
+      topPicksContainer.innerHTML = candidates.map(d => `
+        <div onclick="openChart('${d.ticker}')" class="bg-white dark:bg-slate-800/70 rounded-xl p-3 border border-slate-200 dark:border-slate-700/60 shadow-sm flex flex-col justify-between cursor-pointer active:scale-95 transition-transform">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900 dark:text-white text-sm font-mono">${d.ticker}</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                🟢 ${d.setup}
+              </span>
+            </div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-300 mt-1 line-clamp-2 leading-relaxed">
+              ${d.reason}
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-700/50 font-mono">
+            <span>現價: <b class="text-slate-800 dark:text-white">$${d.price}</b></span>
+            <span>D20: <b class="${d.d20 >= 0 ? 'text-emerald-500':'text-rose-500'}">${d.d20 > 0 ? '+':''}${d.d20}%</b></span>
+            <span>RSI: <b>${d.rsi}</b></span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toUpperCase();
+      applyFiltersAndRender();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.group;
+        const val = btn.dataset.val;
+
+        if (val === '全部') {
+          activeFilters[group] = [];
+          document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold'));
+          btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold');
+        } else {
+          const allBtn = document.querySelector(`[data-group="${group}"][data-val="全部"]`);
+          if (allBtn) allBtn.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold');
+
+          if (activeFilters[group].includes(val)) {
+            activeFilters[group] = activeFilters[group].filter(item => item !== val);
+            btn.classList.remove('ring-2', 'ring-emerald-500', 'font-bold');
+          } else {
+            activeFilters[group].push(val);
+            btn.classList.add('ring-2', 'ring-emerald-500', 'font-bold');
+          }
+        }
+        applyFiltersAndRender();
+      });
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      activeFilters = { cat: [], pos: [], advice: [], setup: [], watchlistOnly: false };
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
+      document.getElementById('watchlist-filter-btn').classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+      const allBtn = document.querySelector(`[data-group="advice"][data-val="全部"]`);
+      if (allBtn) allBtn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold');
+      document.getElementById('search-input').value = '';
+      searchQuery = '';
+      applyFiltersAndRender();
+    });
+
+    function applyFiltersAndRender() {
+      let filtered = rawData.filter(d => {
+        if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
+        if (searchQuery && !d.ticker.includes(searchQuery)) return false;
+        if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
+        if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
+        if (activeFilters.advice.length > 0 && !activeFilters.advice.includes(d.advice)) return false;
+        if (activeFilters.setup.length > 0 && !activeFilters.setup.includes(d.setup)) return false;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        let valA = a[sortKey] !== undefined ? a[sortKey] : 0;
+        let valB = b[sortKey] !== undefined ? b[sortKey] : 0;
+        if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        return sortAsc ? (valA - valB) : (valB - valA);
+      });
+
+      render(filtered);
+    }
+
+    function sortBy(key) {
+      if (sortKey === key) sortAsc = !sortAsc;
+      else { sortKey = key; sortAsc = false; }
+      applyFiltersAndRender();
+    }
+
+    function render(data) {
+      document.getElementById('count-display').textContent = `${data.length} / ${rawData.length}`;
+      
+      // 手機卡片清單
+      const mCards = document.getElementById('mobile-cards-view');
+      mCards.innerHTML = data.map((d, idx) => {
+        const isWatched = watchlist.includes(d.ticker);
+        return `
+          <div onclick="openChart('${d.ticker}')" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 shadow-sm active:scale-[0.98] transition-all">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <button onclick="toggleWatchlist('${d.ticker}', event)" class="text-base select-none">
+                  ${isWatched ? '⭐' : '<span class="text-slate-300 dark:text-slate-600">☆</span>'}
+                </button>
+                <div>
+                  <div class="flex items-center gap-1.5 font-mono">
+                    <span class="font-black text-slate-900 dark:text-white text-base">${d.ticker}</span>
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                      d.position === '過熱' ? 'bg-orange-500/10 text-orange-500' :
+                      d.position === '偏強' ? 'bg-emerald-500/10 text-emerald-500' :
+                      d.position === '超賣' ? 'bg-cyan-500/10 text-cyan-500' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+                    }">${d.position}</span>
+                    ${d.rvol >= 1.3 ? `<span class="bg-amber-500/20 text-amber-500 text-[9px] px-1 rounded font-bold">🔥${d.rvol}x</span>` : ''}
+                  </div>
+                  <div class="text-[10px] text-slate-400 font-sans mt-0.5 line-clamp-1">${d.reason}</div>
+                </div>
+              </div>
+              <div class="text-right font-mono">
+                <div class="font-extrabold text-base text-slate-900 dark:text-white">$${d.price}</div>
+                <div class="text-[10px] font-bold ${
+                  d.advice === '買入' ? 'text-emerald-500' :
+                  d.advice === '減持' ? 'text-orange-500' :
+                  d.advice === '持有' ? 'text-teal-400' : 'text-slate-400'
+                }">${d.advice} · ${d.setup}</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-1 mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-center font-mono text-[11px]">
+              <div>
+                <span class="text-[9px] text-slate-400 block font-sans">D20 (月線)</span>
+                <span class="font-bold ${d.d20 >= 0 ? 'text-emerald-500':'text-rose-500'}">${d.d20 > 0 ? '+':''}${d.d20}%</span>
+              </div>
+              <div>
+                <span class="text-[9px] text-slate-400 block font-sans">D50 (季線)</span>
+                <span class="font-bold ${d.d50 >= 0 ? 'text-teal-400':'text-rose-400'}">${d.d50 > 0 ? '+':''}${d.d50}%</span>
+              </div>
+              <div>
+                <span class="text-[9px] text-slate-400 block font-sans">D200 (牛熊)</span>
+                <span class="font-bold ${d.d200 >= 0 ? 'text-emerald-500':'text-rose-500'}">${d.d200 > 0 ? '+':''}${d.d200}%</span>
+              </div>
+              <div>
+                <span class="text-[9px] text-slate-400 block font-sans">RSI / 距新高</span>
+                <span class="font-bold text-slate-700 dark:text-slate-200">${d.rsi} / ${d.off_high}%</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // 桌面表格
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = data.map((d, idx) => {
+        const isWatched = watchlist.includes(d.ticker);
+        const rsiColor = d.rsi <= 35 ? 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30 font-bold' : d.rsi >= 70 ? 'text-rose-400 bg-rose-500/10 border-rose-500/30 font-bold' : 'text-slate-400 border-slate-700/50';
+
+        return `
+        <tr class="hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/60 cursor-pointer group" onclick="openChart('${d.ticker}')">
+          <td class="p-3 text-center cursor-pointer select-none text-base" onclick="toggleWatchlist('${d.ticker}', event)">
+            ${isWatched ? '⭐' : '<span class="text-slate-300 dark:text-slate-600 hover:text-amber-400">☆</span>'}
+          </td>
+          <td class="p-3 text-slate-400 font-bold text-center">${idx + 1}</td>
+          <td class="p-3 sticky-col bg-white dark:bg-[#0B0F19]">
+            <div class="flex items-center gap-1.5 font-mono">
+              <span class="font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-400 transition-colors">
+                ${d.ticker}
+              </span>
+              ${d.rvol >= 1.3 ? `<span class="px-1 rounded bg-amber-500/20 text-amber-400 text-[9px] font-bold">🔥${d.rvol}x</span>` : ''}
+            </div>
+          </td>
+          <td class="p-3 text-right font-bold text-slate-800 dark:text-slate-200 font-mono">$${d.price}</td>
+          <td class="p-3 text-center">
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+              d.position === '過熱' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' :
+              d.position === '偏強' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+              d.position === '超賣' ? 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20' :
+              'text-slate-400 border-slate-200 dark:border-slate-800'
+            }">${d.position}</span>
+          </td>
+          <td class="p-3 text-center">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
+              d.advice === '買入' ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30' :
+              d.advice === '減持' ? 'bg-orange-500/15 text-orange-500 border border-orange-500/30' :
+              d.advice === '持有' ? 'bg-teal-500/15 text-teal-400 border border-teal-500/30' :
+              d.advice === '避開' ? 'bg-rose-500/15 text-rose-500 border border-rose-500/30' :
+              'text-slate-400'
+            }">${d.advice}</span>
+          </td>
+          <td class="p-3 text-center font-semibold text-slate-600 dark:text-slate-300">
+            ${d.setup !== '—' ? `<span class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px]">${d.setup}</span>` : '—'}
+          </td>
+          <td class="p-3 text-right font-medium ${d.d20 >= 0 ? 'text-emerald-500' : 'text-rose-500'}">
+            ${d.d20 > 0 ? '+' : ''}${d.d20}%
+          </td>
+          <td class="p-3 text-right font-medium ${d.d50 >= 0 ? 'text-teal-400' : 'text-rose-400'}">
+            ${d.d50 > 0 ? '+' : ''}${d.d50}%
+          </td>
+          <td class="p-3 text-right font-semibold ${d.d200 >= 0 ? 'text-emerald-500' : 'text-rose-500'}">
+            ${d.d200 > 0 ? '+' : ''}${d.d200}%
+          </td>
+          <td class="p-3 text-center">
+            <span class="px-1.5 py-0.5 rounded text-[11px] border ${rsiColor}">${d.rsi}</span>
+          </td>
+          <td class="p-3 text-right font-medium text-slate-500">
+            ${d.off_high}%
+          </td>
+          <td class="p-3 text-center">
+            <button class="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] text-slate-400">📊</button>
+          </td>
+        </tr>
+      `}).join('');
+    }
+  </script>
+</body>
+</html>
