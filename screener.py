@@ -3,51 +3,153 @@ import json
 import pandas as pd
 import yfinance as yf
 
+# 核心巨型權重
+MEGA_BLUE_CHIPS = {
+    'AAPL',
+    'MSFT',
+    'GOOGL',
+    'AMZN',
+    'NVDA',
+    'TSM',
+    'LLY',
+    'AVGO',
+    'UNH',
+    'CAT',
+    'BRK-B',
+    'JNJ',
+    'JPM',
+}
 
-def get_sp500_tickers() -> list[str]:
-  """自動抓取 S&P 500 全市場完整名單 (約 503 隻)"""
-  try:
-    print('正在下載標普 500 最新全市場成分股名單...')
-    url = 'https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv'
-    df = pd.read_csv(url)
-    tickers = [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
-    print(f'成功取得 {len(tickers)} 隻股票！')
-    return tickers
-  except Exception as e:
-    print(f'下載名單失敗，使用備用名單: {e}')
-    return [
+# 板塊主題分類映射表
+SECTOR_MAP = {
+    'AI & 半導體': {
         'NVDA',
         'AMD',
+        'TSM',
         'QCOM',
         'ARM',
-        'TSM',
         'MU',
         'MRVL',
-        'INTC',
         'AMAT',
         'LRCX',
         'KLAC',
-        'META',
-        'GOOGL',
-        'AAPL',
-        'MSFT',
-        'AMZN',
+        'INTC',
         'AVGO',
-        'CRWD',
-        'PANW',
+        'TXN',
+        'ADI',
+        'MPWR',
+        'ON',
+        'MCHP',
+    },
+    '雲端 & 軟件': {
+        'MSFT',
+        'GOOGL',
+        'CRM',
+        'NOW',
         'PLTR',
         'SHOP',
+        'ADBE',
+        'INTU',
+        'WDAY',
+        'SNOW',
+        'DDOG',
+        'NET',
+        'ZS',
+    },
+    '網絡安全': {'CRWD', 'PANW', 'FTNT', 'OKTA', 'CYBR'},
+    '巨型權重': {
+        'AAPL',
+        'MSFT',
+        'NVDA',
+        'GOOGL',
+        'AMZN',
+        'META',
+        'TSLA',
+        'BRK-B',
+    },
+    '生物醫藥': {
+        'LLY',
+        'UNH',
+        'JNJ',
+        'ABBV',
+        'MRK',
+        'PFE',
+        'TMO',
+        'ABT',
+        'DHR',
+        'AMGN',
+        'BMY',
+        'GILD',
+        'MRNA',
+        'VRTX',
+    },
+    '金融與周期': {
+        'JPM',
+        'V',
+        'MA',
+        'BAC',
+        'WFC',
+        'MS',
+        'GS',
+        'HOOD',
+        'AXP',
+        'CAT',
+        'DE',
+        'GE',
+        'BA',
+        'UNP',
+    },
+}
+
+
+def get_sector(ticker: str) -> str:
+  for sector, tickers in SECTOR_MAP.items():
+    if ticker in tickers:
+      return sector
+  return '綜合 / 其他'
+
+
+def get_sp500_tickers() -> list[str]:
+  try:
+    print('正在下載 S&P 500 最新成分股名單...')
+    url = 'https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv'
+    df = pd.read_csv(url)
+    return [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
+  except Exception as e:
+    print(f'下載名單失敗，使用核心備用名單: {e}')
+    return [
+        'QCOM',
+        'ARM',
+        'AMAT',
+        'LRCX',
+        'MRVL',
+        'AMD',
+        'MSFT',
+        'AAPL',
+        'MU',
+        'INTC',
+        'META',
+        'SHOP',
+        'LLY',
+        'TSM',
+        'PLTR',
+        'GOOGL',
+        'CRWD',
+        'PANW',
         'NOW',
         'HOOD',
+        'KLAC',
         'TSLA',
+        'AMZN',
+        'AVGO',
         'CRM',
-        'LLY',
         'CAT',
-        'WDC',
-        'UNH',
         'DELL',
         'MRNA',
         'WBD',
+        'UNH',
+        'NVDA',
+        'WDC',
     ]
 
 
@@ -66,6 +168,34 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
     return 50.0
 
 
+def compute_acc_dist(df: pd.DataFrame) -> str:
+  """計算歐奈爾 IBD 機構籌碼吸籌/派發評級 (A~E)
+
+  基於 20 日上漲日成交量 vs 下跌日成交量比例 (Up/Down Volume Ratio)
+  """
+  try:
+    recent = df.tail(20)
+    if len(recent) < 10 or 'Volume' not in recent.columns:
+      return 'C'
+    price_diff = recent['Close'].diff()
+    up_vol = recent.loc[price_diff > 0, 'Volume'].sum()
+    down_vol = recent.loc[price_diff < 0, 'Volume'].sum()
+    ratio = (up_vol / down_vol) if down_vol > 0 else 2.0
+
+    if ratio >= 1.35:
+      return 'A'  # 強烈吸籌
+    elif ratio >= 1.12:
+      return 'B'  # 適度吸籌
+    elif ratio >= 0.88:
+      return 'C'  # 中性持平
+    elif ratio >= 0.70:
+      return 'D'  # 適度派發
+    else:
+      return 'E'  # 主力大出貨
+  except Exception:
+    return 'C'
+
+
 def classify_position(d20: float, rsi: float) -> str:
   if d20 >= 10.0 or rsi >= 74.0:
     return '過熱'
@@ -79,6 +209,20 @@ def classify_position(d20: float, rsi: float) -> str:
     return '超賣'
 
 
+def classify_category(
+    ticker: str, d50: float, d200: float, event: str = 'Clear'
+) -> str:
+  if event == 'Block' or d200 < -5.0:
+    return '留神'
+  if ticker in MEGA_BLUE_CHIPS and d200 >= -4.0:
+    return '穩陣'
+  if d200 >= 10.0 and d50 >= 0.0:
+    return '穩陣'
+  if d200 >= 0.0:
+    return '睇位'
+  return '留神'
+
+
 def determine_advanced_metrics(
     d20: float,
     d50: float,
@@ -87,7 +231,6 @@ def determine_advanced_metrics(
     daily_change: float,
     event: str,
 ) -> tuple[str, str, str, float]:
-  """計算 Filter, Setup, OI 及 全局排名評分 Score"""
   oi_status = 'OI 壓頂' if d20 >= 10.0 else ('OI 同向' if d20 <= 2.0 else '中性')
 
   if event == 'Block' or d200 < -15.0:
@@ -110,7 +253,7 @@ def determine_advanced_metrics(
   else:
     setup = '—'
 
-  # 全局動能排名得分：當日動能爆發 (45%) + 短中長均線排列 (55%)
+  # 全局動能排名得分公式
   rank_score = (
       (0.45 * daily_change)
       + (0.25 * d20)
@@ -124,7 +267,7 @@ def determine_advanced_metrics(
 
 def main():
   tickers = get_sp500_tickers()
-  print(f'正在批次下載 {len(tickers)} 隻股票的一年日 K 線數據...')
+  print(f'正在批次下載 {len(tickers)} 隻股票數據...')
 
   data = yf.download(
       tickers=tickers,
@@ -142,7 +285,7 @@ def main():
     try:
       df = data[ticker] if len(tickers) > 1 else data
       df = df.dropna(subset=['Close'])
-      if len(df) < 20:
+      if len(df) < 25:
         continue
 
       close_series = df['Close']
@@ -173,10 +316,40 @@ def main():
 
       rsi = compute_rsi(close_series, 14)
       position = classify_position(d20, rsi)
-      category = '穩陣' if d200 > 10 else ('留神' if d200 < -10 else '睇位')
+
+      # 1. 歐奈爾機構籌碼吸籌評級 (A/B/C/D/E)
+      acc_dist = compute_acc_dist(df)
+
+      # 2. 板塊歸屬
+      sector = get_sector(ticker)
+
+      # 3. 支撐位、阻力位、止蝕價與盈虧比試算
+      low_20d = (
+          float(df['Low'].tail(20).min())
+          if 'Low' in df.columns
+          else current_price * 0.95
+      )
+      high_20d = (
+          float(df['High'].tail(20).max())
+          if 'High' in df.columns
+          else current_price * 1.05
+      )
+      supports = [
+          s for s in [sma20, sma50, low_20d] if s < current_price * 0.999
+      ]
+      support_val = round(
+          max(supports) if supports else current_price * 0.96, 2
+      )
+      stop_loss_val = round(support_val * 0.98, 2)
+      resistance_val = round(max(high_20d, current_price * 1.05), 2)
+      risk = max(current_price - stop_loss_val, 0.01)
+      reward = max(resistance_val - current_price, 0.01)
+      rr_ratio = round(reward / risk, 1)
 
       event_status = 'Clear'
       event_date = ''
+      category = classify_category(ticker, d50, d200, event_status)
+
       iv_val = round(35.0 + abs(d20) * 1.4, 1)
       iv_level = (
           '極平'
@@ -203,6 +376,12 @@ def main():
           'daily_change': daily_change,
           'category': category,
           'position': position,
+          'sector': sector,
+          'acc_dist': acc_dist,
+          'support': support_val,
+          'stop_loss': stop_loss_val,
+          'resistance': resistance_val,
+          'rr_ratio': rr_ratio,
           'd20': d20,
           'd50': d50,
           'd200': d200,
@@ -220,7 +399,6 @@ def main():
     except Exception:
       continue
 
-  # 全市場 500 隻股票統一按評分排名，由 #1 排到 #500！
   raw_list.sort(key=lambda x: x['score'], reverse=True)
   for idx, item in enumerate(raw_list):
     item['rank'] = idx + 1
@@ -228,10 +406,7 @@ def main():
   with open('screener_data.json', 'w', encoding='utf-8') as f:
     json.dump(raw_list, f, ensure_ascii=False, indent=2)
 
-  print(
-      f'\n[完成] 成功為全市場 {len(raw_list)} 隻股票排定全局名次 (#1 ~'
-      f' #{len(raw_list)})！'
-  )
+  print(f'\n[完成] 成功生成含板塊、機構籌碼 A~E、止蝕試算之全市場數據！')
 
 
 if __name__ == '__main__':
