@@ -1,82 +1,54 @@
 import datetime
-import io
 import json
 import pandas as pd
-import requests
 import yfinance as yf
 
-HEADERS = {
-    'User-Agent': (
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,'
-        ' like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    )
-}
 
-
-def get_sp1500_tickers() -> list[str]:
-  """抓取 S&P 1500 (S&P 500 + S&P 400 + S&P 600) 全市場股票名單"""
-  all_tickers = []
-
-  # 1. 抓取 S&P 500 (大盤股 ~503 隻)
+def get_sp500_tickers() -> list[str]:
+  """自動抓取 S&P 500 全市場完整名單 (約 503 隻)"""
   try:
-    print('正在下載 S&P 500 名單...')
-    url_500 = 'https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv'
-    df_500 = pd.read_csv(url_500)
-    all_tickers.extend(
-        [str(t).replace('.', '-') for t in df_500['Symbol'].tolist()]
-    )
-    print(f'✓ S&P 500 取得 {len(all_tickers)} 隻')
+    print('正在下載標普 500 最新全市場成分股名單...')
+    url = 'https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv'
+    df = pd.read_csv(url)
+    tickers = [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
+    print(f'成功取得 {len(tickers)} 隻股票！')
+    return tickers
   except Exception as e:
-    print(f'S&P 500 下載異常: {e}')
-
-  # 2. 抓取 S&P 400 MidCap (中型成長股 ~400 隻)
-  try:
-    print('正在下載 S&P 400 (中型股) 名單...')
-    r400 = requests.get(
-        'https://en.wikipedia.org/wiki/List_of_S%26P_400_companies',
-        headers=HEADERS,
-        timeout=10,
-    )
-    tables = pd.read_html(io.StringIO(r400.text))
-    for t in tables:
-      for col in ['Symbol', 'Ticker symbol', 'Ticker']:
-        if col in t.columns:
-          tickers_400 = [str(x).replace('.', '-') for x in t[col].tolist()]
-          all_tickers.extend(tickers_400)
-          print(f'✓ S&P 400 取得 {len(tickers_400)} 隻')
-          break
-  except Exception as e:
-    print(f'S&P 400 讀取異常: {e}')
-
-  # 3. 抓取 S&P 600 SmallCap (小型潛力股 ~600 隻)
-  try:
-    print('正在下載 S&P 600 (小型股) 名單...')
-    r600 = requests.get(
-        'https://en.wikipedia.org/wiki/List_of_S%26P_600_companies',
-        headers=HEADERS,
-        timeout=10,
-    )
-    tables = pd.read_html(io.StringIO(r600.text))
-    for t in tables:
-      for col in ['Symbol', 'Ticker symbol', 'Ticker']:
-        if col in t.columns:
-          tickers_600 = [str(x).replace('.', '-') for x in t[col].tolist()]
-          all_tickers.extend(tickers_600)
-          print(f'✓ S&P 600 取得 {len(tickers_600)} 隻')
-          break
-  except Exception as e:
-    print(f'S&P 600 讀取異常: {e}')
-
-  # 去除重複與無效符號
-  unique_tickers = list(
-      dict.fromkeys([t.strip().upper() for t in all_tickers if t and len(t) < 6])
-  )
-  print(f'\n🎯 全市場 S&P 1500 總計準備追蹤：{len(unique_tickers)} 隻股票！')
-  return (
-      unique_tickers
-      if len(unique_tickers) > 100
-      else ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA']
-  )
+    print(f'下載名單失敗，使用備用名單: {e}')
+    return [
+        'NVDA',
+        'AMD',
+        'QCOM',
+        'ARM',
+        'TSM',
+        'MU',
+        'MRVL',
+        'INTC',
+        'AMAT',
+        'LRCX',
+        'KLAC',
+        'META',
+        'GOOGL',
+        'AAPL',
+        'MSFT',
+        'AMZN',
+        'AVGO',
+        'CRWD',
+        'PANW',
+        'PLTR',
+        'SHOP',
+        'NOW',
+        'HOOD',
+        'TSLA',
+        'CRM',
+        'LLY',
+        'CAT',
+        'WDC',
+        'UNH',
+        'DELL',
+        'MRNA',
+        'WBD',
+    ]
 
 
 def compute_rsi(series: pd.Series, period: int = 14) -> float:
@@ -97,7 +69,7 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
 def classify_position(d20: float, rsi: float) -> str:
   if d20 >= 10.0 or rsi >= 74.0:
     return '過熱'
-  elif 2.0 <= d20 < 10.0 and rsi >= 54.0:
+  elif 2.0 <= d20 < 10.0 and rsi >= 52.0:
     return '偏強'
   elif -2.0 <= d20 < 2.0:
     return '中性'
@@ -107,174 +79,158 @@ def classify_position(d20: float, rsi: float) -> str:
     return '超賣'
 
 
-def determine_equity_strategy(
-    d20: float, d50: float, d200: float, rsi: float, rvol: float
-) -> tuple[str, str, str]:
-  """正股專屬策略引擎：判定 (建議 Advice, 形態 Setup, 理由)"""
-  # 1. 深度破位熊市
-  if d200 < -15.0:
-    return '避開', '—', '處於長期下跌熊市，反彈多為逃命波'
+def determine_advanced_metrics(
+    d20: float,
+    d50: float,
+    d200: float,
+    rsi: float,
+    daily_change: float,
+    event: str,
+) -> tuple[str, str, str, float]:
+  """計算 Filter, Setup, OI 及 全局排名評分 Score"""
+  oi_status = 'OI 壓頂' if d20 >= 10.0 else ('OI 同向' if d20 <= 2.0 else '中性')
 
-  # 2. 短線過熱提示減持 (嚴禁追高)
-  if d20 >= 10.0 or rsi >= 74.0:
-    return (
-        '減持',
-        '高位整固',
-        f'短線偏離均線過遠 (D20 +{d20}%, RSI {rsi})，切忌追高，宜分批止賺',
-    )
+  if event == 'Block' or d200 < -15.0:
+    filter_status = '規避'
+  elif d20 >= 10.0 or rsi >= 73.0:
+    filter_status = '不宜'
+  elif d200 >= 5.0 and (-3.5 <= d20 <= 3.0) and event == 'Clear':
+    filter_status = '確認'
+  else:
+    filter_status = '觀望'
 
-  # 3. 正股「回踩買入」：大牛股回調至 20MA
-  if d200 >= 6.0 and (-3.5 <= d20 <= 2.5) and (38.0 <= rsi <= 56.0):
-    return (
-        '買入',
-        '回踩 20MA',
-        f'長線強勢牛市 (D200 +{d200}%)，回踩 20MA 均線支撐，低吸性價比極高',
-    )
+  if d200 >= 5.0 and (-4.0 <= d20 <= 4.0) and event == 'Clear':
+    setup = 'W Wheel'
+  elif d200 >= 15.0 and (-3.0 <= d20 <= 4.0) and event == 'Clear':
+    setup = 'L LEAPS'
+  elif d200 >= 10.0 and (-3.5 <= d20 <= 2.5) and event == 'Clear':
+    setup = 'P PMCC'
+  elif d200 >= 20.0 and (1.0 <= d20 <= 6.0) and event == 'Clear':
+    setup = 'Z ZEBRA'
+  else:
+    setup = '—'
 
-  # 4. 正股「50MA 機構支撐」
-  if d200 >= 10.0 and (-3.0 <= d50 <= 2.0):
-    return (
-        '買入',
-        '回踩 50MA',
-        f'回踩 50 天機構生命線 (D50 {d50}%)，獲中線主力買盤護盤',
-    )
+  # 全局動能排名得分：當日動能爆發 (45%) + 短中長均線排列 (55%)
+  rank_score = (
+      (0.45 * daily_change)
+      + (0.25 * d20)
+      + (0.15 * d50)
+      + (0.15 * max(d200, -10.0))
+      - (3.0 if oi_status == 'OI 壓頂' else 0.0)
+  )
 
-  # 5. 正股「放量動能突破」
-  if (
-      d200 >= 15.0
-      and (2.0 <= d20 <= 8.0)
-      and (55.0 <= rsi <= 70.0)
-      and rvol >= 1.3
-  ):
-    return (
-        '買入',
-        '動態突破',
-        f'主力放量推進 (平日 {rvol} 倍量，D20 +{d20}%)，多頭加速',
-    )
-
-  # 6. 正股「超賣反彈」
-  if (rsi <= 32.0 or d20 <= -8.0) and d200 >= -8.0:
-    return (
-        '買入',
-        '超賣反彈',
-        f'短期急跌嚴重超賣 (RSI {rsi})，具備均值回歸強修復潛力',
-    )
-
-  # 7. 主升浪持股
-  if d200 >= 10.0 and d20 > 2.0 and rsi < 70.0:
-    return '持有', '穩步主升', '多頭排列穩定推進中，已持倉者可安心持有'
-
-  return '觀望', '—', '目前處於區間震盪，等待更清晰的進場形態'
+  return filter_status, setup, oi_status, rank_score
 
 
 def main():
-  tickers = get_sp1500_tickers()
+  tickers = get_sp500_tickers()
+  print(f'正在批次下載 {len(tickers)} 隻股票的一年日 K 線數據...')
 
-  # 分批下載價格數據 (每批 300 隻)，避免被 Yahoo 限流
-  chunk_size = 300
-  results = []
+  data = yf.download(
+      tickers=tickers,
+      period='1y',
+      interval='1d',
+      group_by='ticker',
+      threads=True,
+      auto_adjust=True,
+  )
+
+  raw_list = []
   today_date_str = datetime.date.today().strftime('%Y-%m-%d')
 
-  print(f'正在分批批次下載 {len(tickers)} 隻股票的一年日 K 線數據...')
-
-  for i in range(0, len(tickers), chunk_size):
-    chunk = tickers[i : i + chunk_size]
-    print(f'處理進度: [{i+1} ~ {min(i+chunk_size, len(tickers))}] 隻...')
-
+  for ticker in tickers:
     try:
-      data = yf.download(
-          tickers=chunk,
-          period='1y',
-          interval='1d',
-          group_by='ticker',
-          threads=True,
-          auto_adjust=True,
-          progress=False,
+      df = data[ticker] if len(tickers) > 1 else data
+      df = df.dropna(subset=['Close'])
+      if len(df) < 20:
+        continue
+
+      close_series = df['Close']
+      current_price = float(close_series.iloc[-1])
+      prev_price = (
+          float(close_series.iloc[-2])
+          if len(close_series) >= 2
+          else current_price
       )
 
-      for ticker in chunk:
-        try:
-          df = data[ticker] if len(chunk) > 1 else data
-          df = df.dropna(subset=['Close'])
-          if len(df) < 30:
-            continue
+      daily_change = round(((current_price - prev_price) / prev_price) * 100, 2)
 
-          close_series = df['Close']
-          current_price = float(close_series.iloc[-1])
+      sma20 = float(close_series.rolling(20).mean().iloc[-1])
+      sma50 = (
+          float(close_series.rolling(50).mean().iloc[-1])
+          if len(close_series) >= 50
+          else float(close_series.mean())
+      )
+      sma200 = (
+          float(close_series.rolling(200).mean().iloc[-1])
+          if len(close_series) >= 200
+          else float(close_series.mean())
+      )
 
-          # 【防雷過濾 1】：剔除低於 $5 的垃圾仙股！
-          if current_price < 5.0:
-            continue
+      d20 = round(((current_price - sma20) / sma20) * 100, 1)
+      d50 = round(((current_price - sma50) / sma50) * 100, 1)
+      d200 = round(((current_price - sma200) / sma200) * 100, 1)
 
-          sma20 = float(close_series.rolling(20).mean().iloc[-1])
-          sma50 = (
-              float(close_series.rolling(50).mean().iloc[-1])
-              if len(close_series) >= 50
-              else float(close_series.mean())
+      rsi = compute_rsi(close_series, 14)
+      position = classify_position(d20, rsi)
+      category = '穩陣' if d200 > 10 else ('留神' if d200 < -10 else '睇位')
+
+      event_status = 'Clear'
+      event_date = ''
+      iv_val = round(35.0 + abs(d20) * 1.4, 1)
+      iv_level = (
+          '極平'
+          if iv_val < 25
+          else (
+              '偏平'
+              if iv_val < 38
+              else (
+                  '中性'
+                  if iv_val < 55
+                  else ('偏貴' if iv_val < 70 else '極貴')
+              )
           )
-          sma200 = (
-              float(close_series.rolling(200).mean().iloc[-1])
-              if len(close_series) >= 200
-              else float(close_series.mean())
-          )
+      )
 
-          d20 = round(((current_price - sma20) / sma20) * 100, 1)
-          d50 = round(((current_price - sma50) / sma50) * 100, 1)
-          d200 = round(((current_price - sma200) / sma200) * 100, 1)
+      filter_status, setup, oi_status, score = determine_advanced_metrics(
+          d20, d50, d200, rsi, daily_change, event_status
+      )
 
-          high_52w = float(close_series.max())
-          off_high = (
-              round(((current_price - high_52w) / high_52w) * 100, 1)
-              if high_52w > 0
-              else 0.0
-          )
-
-          rsi = compute_rsi(close_series, 14)
-          position = classify_position(d20, rsi)
-          category = '穩陣' if d200 > 10 else ('留神' if d200 < -10 else '睇位')
-
-          rvol = 1.0
-          if 'Volume' in df.columns and len(df['Volume'].dropna()) >= 20:
-            vol = float(df['Volume'].iloc[-1])
-            vol20 = float(df['Volume'].rolling(20).mean().iloc[-1])
-            rvol = round(vol / vol20, 2) if vol20 > 0 else 1.0
-
-          advice, setup, reason = determine_equity_strategy(
-              d20, d50, d200, rsi, rvol
-          )
-
-          results.append({
-              'ticker': ticker,
-              'name': ticker,
-              'price': round(current_price, 2),
-              'category': category,
-              'position': position,
-              'd20': d20,
-              'd50': d50,
-              'd200': d200,
-              'off_high': off_high,
-              'rsi': rsi,
-              'rvol': rvol,
-              'advice': advice,
-              'setup': setup,
-              'reason': reason,
-              'event': 'Clear',
-              'updated_at': today_date_str,
-          })
-
-        except Exception:
-          continue
-
-    except Exception as e:
-      print(f'批次下載失敗: {e}')
+      raw_list.append({
+          'ticker': ticker,
+          'name': ticker,
+          'price': round(current_price, 2),
+          'daily_change': daily_change,
+          'category': category,
+          'position': position,
+          'd20': d20,
+          'd50': d50,
+          'd200': d200,
+          'rsi': rsi,
+          'iv': iv_val,
+          'iv_level': iv_level,
+          'event': event_status,
+          'event_date': event_date,
+          'filter_status': filter_status,
+          'setup': setup,
+          'oi_status': oi_status,
+          'score': score,
+          'updated_at': today_date_str,
+      })
+    except Exception:
       continue
 
+  # 全市場 500 隻股票統一按評分排名，由 #1 排到 #500！
+  raw_list.sort(key=lambda x: x['score'], reverse=True)
+  for idx, item in enumerate(raw_list):
+    item['rank'] = idx + 1
+
   with open('screener_data.json', 'w', encoding='utf-8') as f:
-    json.dump(results, f, ensure_ascii=False, indent=2)
+    json.dump(raw_list, f, ensure_ascii=False, indent=2)
 
   print(
-      f'\n[大功告成] 成功輸出 S&P 1500 全市場共 {len(results)}'
-      ' 隻高質量正股至 screener_data.json！'
+      f'\n[完成] 成功為全市場 {len(raw_list)} 隻股票排定全局名次 (#1 ~'
+      f' #{len(raw_list)})！'
   )
 
 
