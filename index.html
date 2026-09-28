@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>美股自動濾網排名表 (PRO)</title>
+  <title>美股自動濾網排名終端 (PRO)</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -25,7 +25,7 @@
   </style>
 </head>
 <body class="bg-[#F8F9FA] dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased p-3 md:p-6 select-none">
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="max-w-7xl mx-auto space-y-3.5">
     
     <!-- 頂部資訊與控制列 -->
     <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
@@ -38,23 +38,40 @@
         </div>
       </div>
       
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2">
+        <!-- 📋 一鍵複製代碼按鈕 -->
+        <button id="copy-btn" class="px-2.5 py-1 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/15 rounded font-semibold transition flex items-center gap-1" title="一鍵複製篩選出來的股票代號，可直接貼入富途/IB/TradingView">
+          📋 複製代碼
+        </button>
         <button id="guide-btn" class="px-2.5 py-1 border border-slate-200 dark:border-slate-800 rounded bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-50 flex items-center gap-1">
-          ❓ 欄位說明
+          ❓ 指南
         </button>
         <button id="theme-toggle" class="p-1 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm">
           🌙
         </button>
-        <!-- 顯示：符合數量 / 總母池數量 (例如 32 / 502) -->
-        <div id="count-display" class="font-mono text-sm font-bold text-slate-700 dark:text-slate-200 ml-2">
+        <div id="count-display" class="font-mono text-sm font-bold text-slate-700 dark:text-slate-200 ml-1">
           0 / 0
         </div>
       </div>
     </div>
 
-    <!-- 完整的 7 大行篩選器 -->
+    <!-- 完整的 8 大行篩選面板 (加入板塊主題輪動) -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 md:p-5 shadow-sm space-y-2.5 text-xs">
       
+      <!-- 0. 板塊主題輪動 (新加入!) -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
+        <span class="w-14 text-slate-400 font-medium shrink-0">板塊</span>
+        <div class="flex items-center gap-1.5" id="filter-sector">
+          <button data-group="sector" data-val="全部" class="filter-btn active px-2.5 py-0.5 rounded border border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold shrink-0">全部</button>
+          <button data-group="sector" data-val="AI & 半導體" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">AI & 半導體</button>
+          <button data-group="sector" data-val="雲端 & 軟件" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">雲端 & 軟件</button>
+          <button data-group="sector" data-val="網絡安全" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">網絡安全</button>
+          <button data-group="sector" data-val="巨型權重" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">巨型權重</button>
+          <button data-group="sector" data-val="生物醫藥" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">生物醫藥</button>
+          <button data-group="sector" data-val="金融與周期" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">金融與周期</button>
+        </div>
+      </div>
+
       <!-- 1. 分類 -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">分類</span>
@@ -81,12 +98,15 @@
         </div>
       </div>
 
-      <!-- 3. 事件 -->
+      <!-- 3. 機構籌碼 A~E (新加入!) -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">事件</span>
-        <div class="flex items-center gap-1.5" id="filter-event">
-          <button data-group="event" data-val="Clear" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0">Clear</button>
-          <button data-group="event" data-val="Block" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 shrink-0">Block</button>
+        <span class="w-14 text-slate-400 font-medium shrink-0">籌碼評級</span>
+        <div class="flex items-center gap-1.5" id="filter-accdist">
+          <button data-group="accdist" data-val="A" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/40 text-emerald-500 bg-emerald-500/10 font-bold shrink-0">A (大戶狂掃)</button>
+          <button data-group="accdist" data-val="B" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-400 bg-teal-500/5 font-semibold shrink-0">B (溫和吸籌)</button>
+          <button data-group="accdist" data-val="C" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-400 shrink-0">C (持平中性)</button>
+          <button data-group="accdist" data-val="D" class="filter-btn px-2.5 py-0.5 rounded border border-orange-500/30 text-orange-400 bg-orange-500/5 shrink-0">D (散戶接盤)</button>
+          <button data-group="accdist" data-val="E" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-500 bg-rose-500/10 font-bold shrink-0">E (主力大出貨)</button>
         </div>
       </div>
 
@@ -94,8 +114,8 @@
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">Filter</span>
         <div class="flex items-center gap-1.5" id="filter-status-group">
+          <button data-group="fstatus" data-val="確認" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0 font-bold">確認</button>
           <button data-group="fstatus" data-val="觀望" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 shrink-0">觀望</button>
-          <button data-group="fstatus" data-val="確認" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0">確認</button>
           <button data-group="fstatus" data-val="規避" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 shrink-0">規避</button>
           <button data-group="fstatus" data-val="不宜" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 shrink-0">不宜</button>
         </div>
@@ -112,42 +132,33 @@
         </div>
       </div>
 
-      <!-- 6. IV %ile -->
+      <!-- 6. 事件 & OI -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">IV %ile</span>
-        <div class="flex items-center gap-1.5" id="filter-iv-group">
-          <button data-group="ivrange" data-val="極平" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 shrink-0">極平</button>
-          <button data-group="ivrange" data-val="偏平" class="filter-btn px-2.5 py-0.5 rounded border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 bg-cyan-500/5 shrink-0">偏平</button>
-          <button data-group="ivrange" data-val="中性" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-500 shrink-0">中性</button>
-          <button data-group="ivrange" data-val="偏貴" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 shrink-0">偏貴</button>
-          <button data-group="ivrange" data-val="極貴" class="filter-btn px-2.5 py-0.5 rounded border border-orange-500/30 text-orange-600 dark:text-orange-400 bg-orange-500/5 shrink-0">極貴</button>
-        </div>
-      </div>
-
-      <!-- 7. OI -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">OI</span>
-        <div class="flex items-center gap-1.5" id="filter-oi-group">
+        <span class="w-14 text-slate-400 font-medium shrink-0">事件 & OI</span>
+        <div class="flex items-center gap-1.5" id="filter-event">
+          <button data-group="event" data-val="Clear" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0">Clear (無業績)</button>
+          <button data-group="event" data-val="Block" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 shrink-0">Block (即將業績)</button>
+          <span class="text-slate-300 dark:text-slate-700">|</span>
           <button data-group="oi" data-val="OI 同向" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-semibold shrink-0">OI 同向</button>
           <button data-group="oi" data-val="OI 壓頂" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 font-semibold shrink-0">OI 壓頂</button>
         </div>
       </div>
 
-      <!-- 說明與清除 -->
+      <!-- 工具列 -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80">
         <div class="flex items-center gap-2">
-          <span class="text-[11px] text-slate-400">組合 可多選 · 同一列為「或」，不同列之間為「且」</span>
+          <span class="text-[11px] text-slate-400">同列「或」，跨列「且」</span>
           <button id="clear-btn" class="px-2.5 py-1 text-slate-500 border border-slate-200 dark:border-slate-800 rounded hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 text-xs">
-            清除
+            清除重設
           </button>
         </div>
         <div class="flex items-center justify-between sm:justify-end gap-3">
-          <input id="search-input" type="text" placeholder="搜尋 TICKER (如 NVDA, MU)..." class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-1 text-xs focus:outline-none focus:border-emerald-500 w-48 font-mono">
+          <input id="search-input" type="text" placeholder="搜尋 TICKER (如 NVDA, AVGO)..." class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-1 text-xs focus:outline-none focus:border-emerald-500 w-48 font-mono">
         </div>
       </div>
     </div>
 
-    <!-- 數據表格 (保留原版全局名次 # ↓) -->
+    <!-- 數據表格 -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
       <div class="overflow-x-auto max-h-[75vh]">
         <table class="w-full text-left text-xs border-collapse">
@@ -158,17 +169,19 @@
               <th class="p-3 w-32 cursor-pointer select-none sticky-col bg-slate-100 dark:bg-slate-800" onclick="sortBy('ticker')">TICKER ↕</th>
               <th class="p-3 w-24 text-right cursor-pointer select-none" onclick="sortBy('price')">SPOT ↕</th>
               <th class="p-3 w-20 text-center cursor-pointer select-none" onclick="sortBy('position')">ZONE ↕</th>
+              <th class="p-3 w-16 text-center cursor-pointer select-none" onclick="sortBy('acc_dist')">籌碼 ↕</th>
               <th class="p-3 w-24 text-right cursor-pointer select-none" onclick="sortBy('d20')">D20 ↕</th>
               <th class="p-3 w-24 text-right cursor-pointer select-none" onclick="sortBy('d50')">D50 ↕</th>
               <th class="p-3 w-24 text-right cursor-pointer select-none" onclick="sortBy('d200')">D200 ↕</th>
               <th class="p-3 w-20 text-center">Filter</th>
               <th class="p-3 w-20 text-center">Setup</th>
               <th class="p-3 w-20 text-center">OI</th>
+              <th class="p-3 w-24 text-center">板塊</th>
               <th class="p-3 w-14 text-center">圖表</th>
             </tr>
           </thead>
           <tbody id="table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono">
-            <tr><td colspan="12" class="p-8 text-center text-slate-400">正在讀取全市場排名數據...</td></tr>
+            <tr><td colspan="14" class="p-8 text-center text-slate-400">正在讀取全市場排名數據...</td></tr>
           </tbody>
         </table>
       </div>
@@ -176,24 +189,51 @@
 
   </div>
 
-  <!-- 內嵌 TradingView 專業圖表彈窗 -->
+  <!-- 內嵌 TradingView 專業圖表 ＋ 🎯 操盤防守點位彈窗 -->
   <div id="chart-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col justify-end md:justify-center p-0 md:p-6 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 border-t md:border border-slate-200 dark:border-slate-800 rounded-t-2xl md:rounded-2xl max-w-5xl w-full h-[92vh] md:h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60">
-        <div class="flex items-center gap-2">
-          <span id="modal-ticker" class="text-lg font-black font-mono text-slate-900 dark:text-white">AAPL</span>
-          <span id="modal-badge" class="px-2 py-0.5 rounded text-[10px] font-bold font-mono">--</span>
-          <span id="modal-price" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">$0.00</span>
+      
+      <!-- 頂部資訊與 4 大操盤防守點位 -->
+      <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span id="modal-ticker" class="text-lg font-black font-mono text-slate-900 dark:text-white">AAPL</span>
+            <span id="modal-badge" class="px-2 py-0.5 rounded text-[10px] font-bold font-mono">--</span>
+            <span id="modal-accdist" class="px-1.5 py-0.5 rounded text-[10px] font-bold font-mono">--</span>
+            <span id="modal-price" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">$0.00</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <a id="modal-tv-link" href="#" target="_blank" class="px-2 py-1 text-[11px] rounded border border-slate-200 dark:border-slate-700 text-slate-500">
+              TV ↗
+            </a>
+            <button id="close-chart-btn" class="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 font-bold text-sm">
+              ✕
+            </button>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <a id="modal-tv-link" href="#" target="_blank" class="px-2 py-1 text-[11px] rounded border border-slate-200 dark:border-slate-700 text-slate-500">
-            TV ↗
-          </a>
-          <button id="close-chart-btn" class="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 font-bold text-sm">
-            ✕
-          </button>
+
+        <!-- 🎯 量化操盤點位卡片 (Support, Stop-Loss, Resistance, R:R) -->
+        <div class="grid grid-cols-4 gap-2 bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-[11px] font-mono">
+          <div>
+            <span class="text-slate-400 block text-[9px] font-sans">關鍵支撐 (Support)</span>
+            <b id="modal-support" class="text-emerald-500 font-bold">$0.00</b>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[9px] font-sans">止蝕防守 (Stop-Loss)</span>
+            <b id="modal-stoploss" class="text-rose-500 font-bold">$0.00</b>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[9px] font-sans">目標阻力 (Target)</span>
+            <b id="modal-resistance" class="text-teal-400 font-bold">$0.00</b>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[9px] font-sans">盈虧比 (R : R)</span>
+            <b id="modal-rr" class="text-amber-400 font-bold">0.0 : 1</b>
+          </div>
         </div>
       </div>
+
+      <!-- K 線圖嵌入容器 -->
       <div class="flex-1 w-full bg-slate-950" id="tv-chart-container"></div>
     </div>
   </div>
@@ -202,14 +242,18 @@
   <div id="guide-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl space-y-3.5 text-xs">
       <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 自動濾網排名表 · 使用指南</h3>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 自動濾網排名表 · 機構級指南</h3>
         <button id="close-modal-btn" class="text-slate-400 text-base font-bold">✕</button>
       </div>
       <div class="space-y-3 text-slate-600 dark:text-slate-300 leading-relaxed">
-        <p><b># (全局排名)</b>：所有股票依當日短線爆發力、D20、D50 均線排列排出的全局龍虎榜。篩選時保留真實名次（如 #9, #15, #21...）。</p>
-        <p><b>ZONE (位置)</b>：<span class="text-orange-500 font-bold">過熱</span> 代表短期嚴重偏離均線；<span class="text-emerald-500 font-bold">偏強</span> 為多頭推進；<span class="text-cyan-500 font-bold">超賣</span> 代表恐慌急跌。</p>
-        <p><b>D20 / D50 / D200</b>：股價相對 20MA（月線）、50MA（季線）、200MA（年線）的偏離幅度。</p>
-        <p><b>200 天線 (D200)</b>：機構 AI 炒股機器人的核心多空分水嶺，站上 200 天線才會引發自動化買盤全力推升！</p>
+        <p><b># (全域排名)</b>：依當日短線爆發力、D20、D50 排出的全局龍虎榜。篩選時保留真實名次（如 #1, #9, #15, #21...）。</p>
+        <p><b>歐奈爾籌碼評級 (Acc/Dist A~E)</b>：<br>
+          • <b>A / B</b>：主力真金白銀狂掃貨，強烈吸籌。<br>
+          • <b>C</b>：持平中性。<br>
+          • <b>D / E</b>：主力高位派發出貨，散戶接盤。
+        </p>
+        <p><b>操盤點位試算</b>：點擊任何股票，自動計算 20MA/50MA 支撐位、跌穿 2% 止蝕位及盈虧比。</p>
+        <p><b>一鍵複製代碼</b>：點擊右上角「📋 複製代碼」，直接將符合的 Ticker 貼入富途或 IB 自選組！</p>
       </div>
     </div>
   </div>
@@ -218,13 +262,13 @@
     let rawData = [];
     let watchlist = JSON.parse(localStorage.getItem('my_watchlist') || '[]');
     let activeFilters = { 
-      cat: [], pos: [], event: [], fstatus: [], setup: [], ivrange: [], oi: [], watchlistOnly: false 
+      cat: [], pos: [], event: [], fstatus: [], setup: [], oi: [], sector: [], accdist: [], watchlistOnly: false 
     };
     let sortKey = 'rank';
     let sortAsc = true;
     let searchQuery = '';
 
-    // 主題
+    // 主題切換
     const themeToggleBtn = document.getElementById('theme-toggle');
     let isDark = localStorage.getItem('theme') !== 'light';
     if (!isDark) document.documentElement.classList.remove('dark');
@@ -242,6 +286,23 @@
     document.getElementById('close-modal-btn').addEventListener('click', () => document.getElementById('guide-modal').classList.add('hidden'));
     document.getElementById('close-chart-btn').addEventListener('click', () => document.getElementById('chart-modal').classList.add('hidden'));
 
+    // 一鍵複製當前篩選代碼 (Copy to Clipboard)
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const filtered = getFilteredData();
+      if (filtered.length === 0) return alert('目前沒有符合篩選的股票代號！');
+      const tickersText = filtered.map(d => d.ticker).join(', ');
+      navigator.clipboard.writeText(tickersText).then(() => {
+        const btn = document.getElementById('copy-btn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = `✓ 已複製 ${filtered.length} 隻！`;
+        btn.classList.add('bg-emerald-500', 'text-white');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('bg-emerald-500', 'text-white');
+        }, 2000);
+      });
+    });
+
     function openChart(ticker) {
       const stock = rawData.find(s => s.ticker === ticker);
       if (!stock) return;
@@ -249,6 +310,19 @@
       document.getElementById('modal-ticker').textContent = stock.ticker;
       document.getElementById('modal-price').textContent = '$' + stock.price;
       document.getElementById('modal-badge').textContent = stock.position;
+      
+      const accSpan = document.getElementById('modal-accdist');
+      accSpan.textContent = `籌碼 ${stock.acc_dist}`;
+      accSpan.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold font-mono ' + (
+        stock.acc_dist === 'A' || stock.acc_dist === 'B' ? 'bg-emerald-500/10 text-emerald-500' :
+        stock.acc_dist === 'E' || stock.acc_dist === 'D' ? 'bg-rose-500/10 text-rose-500' : 'bg-slate-700 text-slate-300'
+      );
+
+      // 操盤防守點位
+      document.getElementById('modal-support').textContent = '$' + stock.support;
+      document.getElementById('modal-stoploss').textContent = '$' + stock.stop_loss;
+      document.getElementById('modal-resistance').textContent = '$' + stock.resistance;
+      document.getElementById('modal-rr').textContent = `${stock.rr_ratio} : 1`;
 
       document.getElementById('modal-tv-link').href = `https://www.tradingview.com/chart/?symbol=${stock.ticker}`;
       document.getElementById('chart-modal').classList.remove('hidden');
@@ -267,12 +341,9 @@
       });
     }
 
-    // 抓取數據 (含防錯機制)
+    // 抓取數據
     fetch('screener_data.json?t=' + new Date().getTime())
-      .then(r => {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
+      .then(r => r.json())
       .then(data => {
         if (data && data.length > 0 && data[0].updated_at) {
           document.getElementById('header-date').textContent = data[0].updated_at;
@@ -285,12 +356,17 @@
           price: d.price ? Number(d.price).toFixed(2) : '0.00',
           category: d.category || '睇位',
           position: d.position || '中性',
+          sector: d.sector || '綜合 / 其他',
+          acc_dist: d.acc_dist || 'C',
+          support: d.support || 0,
+          stop_loss: d.stop_loss || 0,
+          resistance: d.resistance || 0,
+          rr_ratio: d.rr_ratio || 1.0,
           d20: typeof d.d20 === 'number' ? d.d20 : 0,
           d50: typeof d.d50 === 'number' ? d.d50 : 0,
           d200: typeof d.d200 === 'number' ? d.d200 : 0,
           rsi: typeof d.rsi === 'number' ? d.rsi : 50,
           iv: typeof d.iv === 'number' ? d.iv : 0,
-          ivrange: d.iv_level || '中性',
           event: d.event || 'Clear',
           filter_status: d.filter_status || '觀望',
           setup: d.setup || '—',
@@ -299,9 +375,6 @@
 
         updateWatchlistCount();
         applyFiltersAndRender();
-      })
-      .catch(err => {
-        document.getElementById('count-display').textContent = '讀取失敗: ' + err.message;
       });
 
     function toggleWatchlist(ticker, e) {
@@ -317,8 +390,7 @@
     }
 
     function updateWatchlistCount() {
-      const c = watchlist.length;
-      document.getElementById('watchlist-count').textContent = c;
+      document.getElementById('watchlist-count').textContent = watchlist.length;
     }
 
     document.getElementById('watchlist-filter-btn').addEventListener('click', () => {
@@ -363,31 +435,34 @@
     });
 
     document.getElementById('clear-btn').addEventListener('click', () => {
-      activeFilters = { cat: [], pos: [], event: [], fstatus: [], setup: [], ivrange: [], oi: [], watchlistOnly: false };
+      activeFilters = { cat: [], pos: [], event: [], fstatus: [], setup: [], oi: [], sector: [], accdist: [], watchlistOnly: false };
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
       document.getElementById('watchlist-filter-btn').classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
-      const allBtn = document.querySelector(`[data-group="cat"][data-val="全部"]`);
-      if (allBtn) allBtn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold');
+      document.querySelectorAll(`[data-val="全部"]`).forEach(b => b.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold'));
       document.getElementById('search-input').value = '';
       searchQuery = '';
       applyFiltersAndRender();
     });
 
-    function applyFiltersAndRender() {
-      let filtered = rawData.filter(d => {
+    function getFilteredData() {
+      return rawData.filter(d => {
         if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
         if (searchQuery && !d.ticker.includes(searchQuery)) return false;
+        if (activeFilters.sector.length > 0 && !activeFilters.sector.includes(d.sector)) return false;
         if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
         if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
+        if (activeFilters.accdist.length > 0 && !activeFilters.accdist.includes(d.acc_dist)) return false;
         if (activeFilters.event.length > 0 && !activeFilters.event.includes(d.event)) return false;
         if (activeFilters.fstatus.length > 0 && !activeFilters.fstatus.includes(d.filter_status)) return false;
         if (activeFilters.setup.length > 0 && !activeFilters.setup.includes(d.setup)) return false;
-        if (activeFilters.ivrange.length > 0 && !activeFilters.ivrange.includes(d.ivrange)) return false;
         if (activeFilters.oi.length > 0 && !activeFilters.oi.includes(d.oi_status)) return false;
         return true;
       });
+    }
 
-      // 依全域排名排序 (#1 到 #500)
+    function applyFiltersAndRender() {
+      let filtered = getFilteredData();
+
       filtered.sort((a, b) => {
         let valA = a[sortKey] !== undefined ? a[sortKey] : 0;
         let valB = b[sortKey] !== undefined ? b[sortKey] : 0;
@@ -405,19 +480,22 @@
     }
 
     function render(data) {
-      // 顯示符合數量 / 總母池數量 (例如 32 / 502)
       document.getElementById('count-display').textContent = `${data.length} / ${rawData.length}`;
       
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = data.map(d => {
         const isWatched = watchlist.includes(d.ticker);
+        const accColor = d.acc_dist === 'A' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                         d.acc_dist === 'B' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/30' :
+                         d.acc_dist === 'E' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' :
+                         d.acc_dist === 'D' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
+                         'text-slate-400 bg-slate-800';
 
         return `
         <tr class="hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/60 cursor-pointer group" onclick="openChart('${d.ticker}')">
           <td class="p-3 text-center cursor-pointer select-none text-base" onclick="toggleWatchlist('${d.ticker}', event)">
             ${isWatched ? '⭐' : '<span class="text-slate-300 dark:text-slate-600 hover:text-amber-400">☆</span>'}
           </td>
-          <!-- 保留全市場真實排名名次 (如 1, 9, 12, 15, 21...) -->
           <td class="p-3 text-slate-500 dark:text-slate-400 font-extrabold text-center font-mono text-xs">${d.rank}</td>
           <td class="p-3 sticky-col bg-white dark:bg-[#0B0F19]">
             <span class="font-black text-slate-900 dark:text-slate-100 group-hover:text-emerald-400 transition-colors font-mono">
@@ -432,6 +510,9 @@
               d.position === '超賣' ? 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20' :
               'text-slate-400 border-slate-200 dark:border-slate-800'
             }">${d.position}</span>
+          </td>
+          <td class="p-3 text-center">
+            <span class="px-2 py-0.5 rounded text-[10px] font-black font-mono ${accColor}">${d.acc_dist}</span>
           </td>
           <td class="p-3 text-right font-medium ${d.d20 >= 0 ? 'text-emerald-500' : 'text-rose-500'}">
             ${d.d20 > 0 ? '+' : ''}${d.d20}%
@@ -455,6 +536,9 @@
           </td>
           <td class="p-3 text-center text-[10px] ${d.oi_status === 'OI 壓頂' ? 'text-rose-400 font-bold' : 'text-emerald-400 font-medium'}">
             ${d.oi_status}
+          </td>
+          <td class="p-3 text-center text-slate-400 text-[10px] font-sans">
+            ${d.sector}
           </td>
           <td class="p-3 text-center">
             <button class="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-[11px] text-slate-400 hover:bg-emerald-500 hover:text-white transition">📊</button>
