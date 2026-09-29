@@ -55,10 +55,10 @@
       </div>
     </div>
 
-    <!-- 完整的 8 大行篩選面板 (加入板塊主題輪動) -->
+  <!-- 精簡版 4 大核心篩選面板 -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 md:p-5 shadow-sm space-y-2.5 text-xs">
       
-      <!-- 0. 板塊主題輪動 (動態自動生成) -->
+      <!-- 1. 板塊主題輪動 (動態自動生成) -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none py-1">
         <span class="w-14 text-slate-400 font-medium shrink-0">板塊</span>
         <div class="flex items-center gap-1.5" id="filter-sector">
@@ -66,7 +66,31 @@
         </div>
       </div>
 
-      <!-- 1. 分類 -->
+      <!-- 2. 機構籌碼評級 A~E -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
+        <span class="w-14 text-slate-400 font-medium shrink-0">籌碼評級</span>
+        <div class="flex items-center gap-1.5" id="filter-accdist">
+          <button data-group="accdist" data-val="A" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/40 text-emerald-500 bg-emerald-500/10 font-bold shrink-0">A (大戶狂掃)</button>
+          <button data-group="accdist" data-val="B" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-400 bg-teal-500/5 font-semibold shrink-0">B (溫和吸籌)</button>
+          <button data-group="accdist" data-val="C" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-400 shrink-0">C (持平中性)</button>
+          <button data-group="accdist" data-val="D" class="filter-btn px-2.5 py-0.5 rounded border border-orange-500/30 text-orange-400 bg-orange-500/5 shrink-0">D (散戶接盤)</button>
+          <button data-group="accdist" data-val="E" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-500 bg-rose-500/10 font-bold shrink-0">E (主力大出貨)</button>
+        </div>
+      </div>
+
+      <!-- 3. 位置 (ZONE) -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
+        <span class="w-14 text-slate-400 font-medium shrink-0">位置</span>
+        <div class="flex items-center gap-1.5" id="filter-position">
+          <button data-group="pos" data-val="過熱" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 font-medium shrink-0">過熱 Extended</button>
+          <button data-group="pos" data-val="偏強" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-medium shrink-0">偏強</button>
+          <button data-group="pos" data-val="中性" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-500 shrink-0">中性</button>
+          <button data-group="pos" data-val="偏弱" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 font-medium shrink-0">偏弱</button>
+          <button data-group="pos" data-val="超賣" class="filter-btn px-2.5 py-0.5 rounded border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 bg-cyan-500/5 font-medium shrink-0">超賣 Oversold</button>
+        </div>
+      </div>
+
+      <!-- 4. 分類與自選 -->
       <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
         <span class="w-14 text-slate-400 font-medium shrink-0">分類</span>
         <div class="flex items-center gap-1.5" id="filter-category">
@@ -80,65 +104,7 @@
         </div>
       </div>
 
-      <!-- 2. 位置 (ZONE) -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">位置</span>
-        <div class="flex items-center gap-1.5" id="filter-position">
-          <button data-group="pos" data-val="過熱" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 font-medium shrink-0">過熱 Extended</button>
-          <button data-group="pos" data-val="偏強" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-medium shrink-0">偏強</button>
-          <button data-group="pos" data-val="中性" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-500 shrink-0">中性</button>
-          <button data-group="pos" data-val="偏弱" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 font-medium shrink-0">偏弱</button>
-          <button data-group="pos" data-val="超賣" class="filter-btn px-2.5 py-0.5 rounded border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 bg-cyan-500/5 font-medium shrink-0">超賣 Oversold</button>
-        </div>
-      </div>
-
-      <!-- 3. 機構籌碼 A~E (新加入!) -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">籌碼評級</span>
-        <div class="flex items-center gap-1.5" id="filter-accdist">
-          <button data-group="accdist" data-val="A" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/40 text-emerald-500 bg-emerald-500/10 font-bold shrink-0">A (大戶狂掃)</button>
-          <button data-group="accdist" data-val="B" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-400 bg-teal-500/5 font-semibold shrink-0">B (溫和吸籌)</button>
-          <button data-group="accdist" data-val="C" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-400 shrink-0">C (持平中性)</button>
-          <button data-group="accdist" data-val="D" class="filter-btn px-2.5 py-0.5 rounded border border-orange-500/30 text-orange-400 bg-orange-500/5 shrink-0">D (散戶接盤)</button>
-          <button data-group="accdist" data-val="E" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-500 bg-rose-500/10 font-bold shrink-0">E (主力大出貨)</button>
-        </div>
-      </div>
-
-      <!-- 4. Filter -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">Filter</span>
-        <div class="flex items-center gap-1.5" id="filter-status-group">
-          <button data-group="fstatus" data-val="確認" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0 font-bold">確認</button>
-          <button data-group="fstatus" data-val="觀望" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 shrink-0">觀望</button>
-          <button data-group="fstatus" data-val="規避" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 shrink-0">規避</button>
-          <button data-group="fstatus" data-val="不宜" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 shrink-0">不宜</button>
-        </div>
-      </div>
-
-      <!-- 5. Setup -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">Setup</span>
-        <div class="flex items-center gap-1.5" id="filter-setup-group">
-          <button data-group="setup" data-val="W Wheel" class="filter-btn px-2.5 py-0.5 rounded border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5 font-semibold shrink-0">W Wheel</button>
-          <button data-group="setup" data-val="L LEAPS" class="filter-btn px-2.5 py-0.5 rounded border border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5 font-semibold shrink-0">L LEAPS</button>
-          <button data-group="setup" data-val="P PMCC" class="filter-btn px-2.5 py-0.5 rounded border border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-500/5 font-semibold shrink-0">P PMCC</button>
-          <button data-group="setup" data-val="Z ZEBRA" class="filter-btn px-2.5 py-0.5 rounded border border-teal-500/30 text-teal-600 dark:text-teal-400 bg-teal-500/5 font-semibold shrink-0">Z ZEBRA</button>
-        </div>
-      </div>
-
-      <!-- 6. 事件 & OI -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
-        <span class="w-14 text-slate-400 font-medium shrink-0">事件 & OI</span>
-        <div class="flex items-center gap-1.5" id="filter-event">
-          <button data-group="event" data-val="Clear" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 shrink-0">Clear (無業績)</button>
-          <button data-group="event" data-val="Block" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 shrink-0">Block (即將業績)</button>
-          <span class="text-slate-300 dark:text-slate-700">|</span>
-          <button data-group="oi" data-val="OI 同向" class="filter-btn px-2.5 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 font-semibold shrink-0">OI 同向</button>
-          <button data-group="oi" data-val="OI 壓頂" class="filter-btn px-2.5 py-0.5 rounded border border-rose-500/30 text-rose-600 dark:text-rose-400 bg-rose-500/5 font-semibold shrink-0">OI 壓頂</button>
-        </div>
-      </div>
-
-      <!-- 工具列 -->
+      <!-- 工具列 (搜尋與重設) -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80">
         <div class="flex items-center gap-2">
           <span class="text-[11px] text-slate-400">同列「或」，跨列「且」</span>
@@ -255,8 +221,8 @@
   <script>
     let rawData = [];
     let watchlist = JSON.parse(localStorage.getItem('my_watchlist') || '[]');
-    let activeFilters = { 
-      cat: [], pos: [], event: [], fstatus: [], setup: [], oi: [], sector: [], accdist: [], watchlistOnly: false 
+   let activeFilters = { 
+      sector: [], accdist: [], pos: [], cat: [], watchlistOnly: false 
     };
     let sortKey = 'rank';
     let sortAsc = true;
@@ -483,13 +449,9 @@
         if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
         if (searchQuery && !d.ticker.includes(searchQuery)) return false;
         if (activeFilters.sector.length > 0 && !activeFilters.sector.includes(d.sector)) return false;
-        if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
-        if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
         if (activeFilters.accdist.length > 0 && !activeFilters.accdist.includes(d.acc_dist)) return false;
-        if (activeFilters.event.length > 0 && !activeFilters.event.includes(d.event)) return false;
-        if (activeFilters.fstatus.length > 0 && !activeFilters.fstatus.includes(d.filter_status)) return false;
-        if (activeFilters.setup.length > 0 && !activeFilters.setup.includes(d.setup)) return false;
-        if (activeFilters.oi.length > 0 && !activeFilters.oi.includes(d.oi_status)) return false;
+        if (activeFilters.pos.length > 0 && !activeFilters.pos.includes(d.position)) return false;
+        if (activeFilters.cat.length > 0 && !activeFilters.cat.includes(d.category)) return false;
         return true;
       });
     }
