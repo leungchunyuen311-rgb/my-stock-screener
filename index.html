@@ -58,17 +58,11 @@
     <!-- 完整的 8 大行篩選面板 (加入板塊主題輪動) -->
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 md:p-5 shadow-sm space-y-2.5 text-xs">
       
-      <!-- 0. 板塊主題輪動 (新加入!) -->
-      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
+      <!-- 0. 板塊主題輪動 (動態自動生成) -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none py-1">
         <span class="w-14 text-slate-400 font-medium shrink-0">板塊</span>
         <div class="flex items-center gap-1.5" id="filter-sector">
           <button data-group="sector" data-val="全部" class="filter-btn active px-2.5 py-0.5 rounded border border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold shrink-0">全部</button>
-          <button data-group="sector" data-val="AI & 半導體" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">AI & 半導體</button>
-          <button data-group="sector" data-val="雲端 & 軟件" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">雲端 & 軟件</button>
-          <button data-group="sector" data-val="網絡安全" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">網絡安全</button>
-          <button data-group="sector" data-val="巨型權重" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">巨型權重</button>
-          <button data-group="sector" data-val="生物醫藥" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">生物醫藥</button>
-          <button data-group="sector" data-val="金融與周期" class="filter-btn px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 shrink-0">金融與周期</button>
         </div>
       </div>
 
@@ -373,9 +367,49 @@
           oi_status: d.oi_status || '中性'
         }));
 
-        updateWatchlistCount();
+       updateWatchlistCount();
+        renderSectorButtons(); // 👈 加上這行呼叫
         applyFiltersAndRender();
       });
+
+    // 👈 在下方貼上這個函數：自動依據 JSON 數據生成所有板塊按鈕
+    function renderSectorButtons() {
+      const sectorContainer = document.getElementById('filter-sector');
+      if (!sectorContainer) return;
+      const counts = {};
+      rawData.forEach(d => {
+        counts[d.sector] = (counts[d.sector] || 0) + 1;
+      });
+
+      const sectors = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+      let html = `<button data-group="sector" data-val="全部" class="filter-btn ${activeFilters.sector.length === 0 ? 'active border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : 'border-slate-200 dark:border-slate-800 text-slate-400'} px-2.5 py-0.5 rounded border shrink-0">全部</button>`;
+
+      sectors.forEach(sec => {
+        const isSelected = activeFilters.sector.includes(sec);
+        const activeClass = isSelected ? 'border-emerald-500 bg-emerald-500/10 text-emerald-500 font-bold ring-2 ring-emerald-500' : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300';
+        html += `<button data-group="sector" data-val="${sec}" class="filter-btn px-2.5 py-0.5 rounded border ${activeClass} shrink-0">${sec} <span class="text-[10px] opacity-60">(${counts[sec]})</span></button>`;
+      });
+
+      sectorContainer.innerHTML = html;
+
+      sectorContainer.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.dataset.val;
+          if (val === '全部') {
+            activeFilters.sector = [];
+          } else {
+            if (activeFilters.sector.includes(val)) {
+              activeFilters.sector = activeFilters.sector.filter(s => s !== val);
+            } else {
+              activeFilters.sector.push(val);
+            }
+          }
+          renderSectorButtons();
+          applyFiltersAndRender();
+        });
+      });
+    }
 
     function toggleWatchlist(ticker, e) {
       if (e) e.stopPropagation();
