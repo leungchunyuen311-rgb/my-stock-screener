@@ -1,34 +1,39 @@
-name: Update Stock Data
+name: Daily Stock Screener Update
 
 on:
   schedule:
-    # 逢星期一至五 美股收市後 (香港時間早上 06:00) 自動跑一次
+    # 每個交易日美股收市後執行：UTC 22:00（即香港時間週二至週六早上 06:00）
     - cron: '0 22 * * 1-5'
-  workflow_dispatch: # 支援手動撳掣即刻更新
+  workflow_dispatch: # 支援在 GitHub 網頁手動點擊立即運行
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  update-screener:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install Packages
         run: |
-          pip install -r requirements.txt
+          pip install --upgrade pip
+          pip install pandas yfinance
 
-      - name: Run Script
+      - name: Run Screener Script
         run: |
           python screener.py
 
-      - name: Commit and Push
+      - name: Commit & Push New Data
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add screener_data.json
-          git diff --staged --quiet || (git commit -m "Update screener data" && git push)
+          git diff --staged --quiet || (git commit -m "Auto update screener data [skip ci]" && git push)
