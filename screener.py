@@ -166,15 +166,20 @@ def determine_advanced_metrics(
     else:
         setup = '—'
 
-    # 全局動能排名得分公式
+   # 1. 將長期均線偏離度設限封頂，避免歷史大牛股（如 D200 高達 200%）永久霸佔榜首
+    norm_d200 = min(max(d200, -15.0), 25.0)
+    norm_d50 = min(max(d50, -10.0), 20.0)
+    norm_d20 = min(max(d20, -8.0), 15.0)
+
+    # 2. 短線動能輪動評分：將「當日升跌幅」權重提升至 3.0 倍
+    # 只要當日有板塊強勢放量拉升，其成分股便會即時躍升至前列
     rank_score = (
-        (0.45 * daily_change)
-        + (0.25 * d20)
-        + (0.15 * d50)
-        + (0.15 * max(d200, -10.0))
+        (3.0 * daily_change)
+        + (0.8 * norm_d20)
+        + (0.3 * norm_d50)
+        + (0.1 * norm_d200)
         - (3.0 if oi_status == 'OI 壓頂' else 0.0)
     )
-
     return filter_status, setup, oi_status, rank_score
 
 def main():
