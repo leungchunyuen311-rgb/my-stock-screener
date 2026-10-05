@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>美股自動濾網排名終端 (PRO)</title>
+  <title>美股觀察名單濾網 (PRO)</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -31,7 +31,7 @@
     <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
       <div class="flex items-center gap-2">
         <span class="text-sm font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-          <span>📈</span> 自動濾網排名表
+          <span>📈</span> 觀察名單濾網
         </span>
         <div class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded font-mono text-slate-600 dark:text-slate-300">
           結構日期 <span id="header-date">更新中...</span> · 最新 ↕
@@ -53,6 +53,15 @@
           0 / 0
         </div>
       </div>
+    </div>
+
+
+    <!-- 大市閘橫幅 -->
+    <div id="market-banner" class="rounded-xl px-4 py-2.5 border text-xs font-semibold flex flex-wrap items-center gap-3 bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700">
+      <span class="text-slate-500 dark:text-slate-400">大市閘</span>
+      <span id="market-regime" class="px-2.5 py-0.5 rounded-md font-black tracking-wide bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200">大市：—</span>
+      <span id="market-detail" class="font-mono text-slate-500 dark:text-slate-400 text-[11px]">SPY —</span>
+      <span id="market-hint" class="text-slate-400 text-[11px]">先過閘，再標形態，最後排觀察順序。# 名次唔係買入訊號。</span>
     </div>
 
   <!-- 精簡版 4 大核心篩選面板 -->
@@ -104,6 +113,17 @@
         </div>
       </div>
 
+
+      <!-- 5. 觀察閘 / 形態 -->
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none">
+        <span class="w-14 text-slate-400 font-medium shrink-0">觀察閘</span>
+        <div class="flex items-center gap-1.5" id="filter-eligible">
+          <button id="eligible-only-btn" class="px-2.5 py-0.5 rounded border border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold shrink-0">只看過閘</button>
+          <button id="watch-only-btn" class="px-2.5 py-0.5 rounded border border-teal-500/40 text-teal-500 bg-teal-500/5 font-semibold shrink-0">今日觀察名單</button>
+          <button id="show-all-btn" class="px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-800 text-slate-500 shrink-0">展開全部（含未過閘）</button>
+        </div>
+      </div>
+
       <!-- 工具列 (搜尋與重設) -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80">
         <div class="flex items-center gap-2">
@@ -125,8 +145,9 @@
           <thead class="bg-slate-100/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-400 font-semibold sticky top-0 z-20 backdrop-blur">
             <tr class="border-b border-slate-200 dark:border-slate-800">
               <th class="p-3 w-10 text-center">⭐</th>
-              <th class="p-3 w-14 text-center cursor-pointer select-none font-bold text-slate-800 dark:text-white" onclick="sortBy('rank')"># ↓</th>
+              <th class="p-3 w-16 text-center cursor-pointer select-none font-bold text-slate-800 dark:text-white" onclick="sortBy('watch_rank')" title="觀察名單次序（過閘後排序）">觀察 ↓</th>
               <th class="p-3 w-28 cursor-pointer select-none sticky-col bg-slate-100 dark:bg-slate-800" onclick="sortBy('ticker')">TICKER ↕</th>
+              <th class="p-3 w-24 text-center cursor-pointer select-none" onclick="sortBy('setup_tag')">形態 ↕</th>
               <th class="p-3 w-24 text-right cursor-pointer select-none" onclick="sortBy('price')">SPOT ↕</th>
               <th class="p-3 w-20 text-right cursor-pointer select-none" onclick="sortBy('daily_change')">1D % ↕</th>
               <th class="p-3 w-20 text-center cursor-pointer select-none" onclick="sortBy('position')">ZONE ↕</th>
@@ -135,11 +156,13 @@
               <th class="p-3 w-20 text-right cursor-pointer select-none" onclick="sortBy('d50')">D50 ↕</th>
               <th class="p-3 w-20 text-right cursor-pointer select-none" onclick="sortBy('d200')">D200 ↕</th>
               <th class="p-3 w-28 text-center cursor-pointer select-none" onclick="sortBy('sector')">板塊 ↕</th>
+              <th class="p-3 w-14 text-right cursor-pointer select-none text-slate-400" onclick="sortBy('rank')" title="舊全域 score 排名（對照）">舊# ↕</th>
+              <th class="p-3 w-14 text-right cursor-pointer select-none text-slate-400" onclick="sortBy('score')" title="舊綜合分（對照，非預設排序）">分 ↕</th>
               <th class="p-3 w-14 text-center">圖表</th>
             </tr>
           </thead>
           <tbody id="table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono">
-            <tr><td colspan="14" class="p-8 text-center text-slate-400">正在讀取全市場排名數據...</td></tr>
+            <tr><td colspan="16" class="p-8 text-center text-slate-400">正在讀取觀察名單數據...</td></tr>
           </tbody>
         </table>
       </div>
@@ -200,29 +223,31 @@
   <div id="guide-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-5 shadow-2xl space-y-3.5 text-xs">
       <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 自動濾網排名表 · 機構級指南</h3>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">📘 觀察名單濾網 · 過閘指南</h3>
         <button id="close-modal-btn" class="text-slate-400 text-base font-bold">✕</button>
       </div>
       <div class="space-y-3 text-slate-600 dark:text-slate-300 leading-relaxed">
-        <p><b># (全域排名)</b>：綜合分由高至低。當日升跌幅封頂 ±6/8 後權重 1.2，再加 D20/D50/D200（有封頂）、籌碼 A+6 至 E−8、位置、量能、同板塊相對強度；D20 高過 8 或 RSI≥75 會扣分。20 日平均成交額低過 2,000 萬美元，分數乘 0.5。篩選只藏行，不重排名次。</p>
-        <p><b>歐奈爾籌碼評級 (Acc/Dist A~E)</b>：<br>
-          • <b>A / B</b>：主力真金白銀狂掃貨，強烈吸籌。<br>
-          • <b>C</b>：持平中性。<br>
-          • <b>D / E</b>：主力高位派發出貨，散戶接盤。
-        </p>
-        <p><b>操盤點位試算</b>：點擊任何股票，自動計算 20MA/50MA 支撐位、跌穿 2% 止蝕位及盈虧比。</p>
-        <p><b>一鍵複製代碼</b>：點擊右上角「📋 複製代碼」，直接將符合的 Ticker 貼入富途或 IB 自選組！</p>
+        <p><b>原則</b>：觀察次序唔係買入訊號。先過大市閘與個股硬閘，再標形態，最後先排今日觀察名單。</p>
+        <p><b>大市閘（SPY）</b>：SPY &gt; SMA200 且 D20 &gt; −3 → <b>開</b>（最多 8 隻）；&gt; SMA200 但 D20 ≤ −3 → <b>半倉</b>（最多 4 隻）；≤ SMA200 → <b>關</b>（新倉 0，名單仍可出但標關）。</p>
+        <p><b>個股硬閘</b>（全部要過）：20 日平均成交額 ≥ 2,000 萬美元；籌碼唔係 E；D200 ≥ −4；D20 &lt; 12 且 RSI &lt; 75；盈虧比 ≥ 2；當日升幅 ≤ 8%（再大標「待確認」、唔入今日觀察）。D 級唔剔除但唔會排前。</p>
+        <p><b>形態</b>（過閘後，可多個）：回踩／收斂待破／超賣吸籌；否則「僅過閘」。觀察排序優先回踩或收斂待破，再籌碼 A→D、盈虧比、板塊相對強度、代碼字母序。</p>
+        <p><b>觀察欄</b>：只對今日觀察名單頭 N 隻編號；其餘過閘但未入名單者 watch_rank 為空。舊#／分為舊綜合分對照，唔再做預設排序。</p>
+        <p><b>歐奈爾籌碼評級 (Acc/Dist A~E)</b>：A/B 吸籌、C 中性、D/E 派發（E 直接唔過閘）。</p>
+        <p><b>操盤點位</b>：點擊股票睇支撐／止蝕／阻力／盈虧比。一鍵複製可將目前列表貼入富途或 IB。</p>
       </div>
     </div>
   </div>
 
   <script>
     let rawData = [];
+    let marketInfo = null;
     let watchlist = JSON.parse(localStorage.getItem('my_watchlist') || '[]');
-   let activeFilters = { 
-      sector: [], accdist: [], pos: [], cat: [], watchlistOnly: false 
+    let activeFilters = {
+      sector: [], accdist: [], pos: [], cat: [], watchlistOnly: false,
+      // eligibleOnly (default): only eligible; watchOnly: watch_rank set; all: include non-eligible
+      gateMode: 'eligible'
     };
-    let sortKey = 'rank';
+    let sortKey = 'watch_rank';
     let sortAsc = true;
     let searchQuery = '';
 
@@ -299,20 +324,36 @@
       });
     }
 
-    // 抓取數據
+    // 抓取數據（新格式 {updated_at, market, stocks}；舊陣列格式仍兼容）
     fetch('screener_data.json?t=' + new Date().getTime())
       .then(r => r.json())
-      .then(data => {
-        if (data && data.length > 0 && data[0].updated_at) {
-          document.getElementById('header-date').textContent = data[0].updated_at;
+      .then(payload => {
+        let stocks = [];
+        if (Array.isArray(payload)) {
+          stocks = payload;
+          marketInfo = null;
+        } else {
+          stocks = payload.stocks || [];
+          marketInfo = payload.market || null;
+          if (payload.updated_at) {
+            document.getElementById('header-date').textContent = payload.updated_at;
+          }
         }
+        if (!payload.updated_at && stocks.length > 0 && stocks[0].updated_at) {
+          document.getElementById('header-date').textContent = stocks[0].updated_at;
+        }
+        updateMarketBanner(marketInfo);
 
-       rawData = data.map(d => ({
+        rawData = stocks.map(d => ({
           rank: d.rank || 999,
+          watch_rank: (d.watch_rank === null || d.watch_rank === undefined) ? null : Number(d.watch_rank),
+          eligible: !!d.eligible,
+          setup_tag: d.setup_tag || '',
+          score: typeof d.score === 'number' ? d.score : null,
           ticker: d.ticker || '',
           name: d.name || d.ticker || '',
           price: d.price ? Number(d.price).toFixed(2) : '0.00',
-          daily_change: typeof d.daily_change === 'number' ? d.daily_change : 0, // 👈 補上這行，搞定 undefined%
+          daily_change: typeof d.daily_change === 'number' ? d.daily_change : 0,
           category: d.category || '睇位',
           position: d.position || '中性',
           sector: d.sector || '綜合 / 其他',
@@ -329,13 +370,87 @@
           event: d.event || 'Clear',
           filter_status: d.filter_status || '觀望',
           setup: d.setup || '—',
-          oi_status: d.oi_status || '中性'
+          oi_status: d.oi_status || '中性',
+          vol_ratio: typeof d.vol_ratio === 'number' ? d.vol_ratio : null,
+          dollar_vol_20: typeof d.dollar_vol_20 === 'number' ? d.dollar_vol_20 : null,
+          sector_pct: typeof d.sector_pct === 'number' ? d.sector_pct : null
         }));
 
-       updateWatchlistCount();
-        renderSectorButtons(); // 👈 加上這行呼叫
+        updateWatchlistCount();
+        renderSectorButtons();
+        syncGateButtons();
         applyFiltersAndRender();
       });
+
+    function updateMarketBanner(m) {
+      const el = document.getElementById('market-regime');
+      const detail = document.getElementById('market-detail');
+      const banner = document.getElementById('market-banner');
+      if (!el) return;
+      if (!m) {
+        el.textContent = '大市：—';
+        detail.textContent = '（尚無 SPY 閘狀態；請重新跑 screener）';
+        return;
+      }
+      const label = m.regime_label || ({ open: '開', half: '半倉', closed: '關' }[m.regime] || '—');
+      el.textContent = '大市：' + label;
+      el.className = 'px-2.5 py-0.5 rounded-md font-black tracking-wide ' + (
+        m.regime === 'open' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' :
+        m.regime === 'half' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' :
+        'bg-rose-500/20 text-rose-400 border border-rose-500/40'
+      );
+      if (banner) {
+        banner.className = 'rounded-xl px-4 py-2.5 border text-xs font-semibold flex flex-wrap items-center gap-3 ' + (
+          m.regime === 'open' ? 'bg-emerald-500/5 border-emerald-500/30' :
+          m.regime === 'half' ? 'bg-amber-500/5 border-amber-500/30' :
+          'bg-rose-500/5 border-rose-500/30'
+        );
+      }
+      const bits = [];
+      if (m.price != null) bits.push('SPY $' + m.price);
+      if (m.d20 != null) bits.push('D20 ' + (m.d20 > 0 ? '+' : '') + m.d20 + '%');
+      if (m.d200 != null) bits.push('D200 ' + (m.d200 > 0 ? '+' : '') + m.d200 + '%');
+      if (m.max_watch != null) bits.push('觀察上限 ' + m.max_watch);
+      if (m.regime === 'closed') bits.push('大市閘關 · 新倉 0');
+      detail.textContent = bits.join(' · ');
+    }
+
+    function syncGateButtons() {
+      const mode = activeFilters.gateMode;
+      const map = {
+        eligible: 'eligible-only-btn',
+        watch: 'watch-only-btn',
+        all: 'show-all-btn'
+      };
+      Object.entries(map).forEach(([k, id]) => {
+        const b = document.getElementById(id);
+        if (!b) return;
+        const on = mode === k;
+        b.classList.toggle('border-emerald-500', on);
+        b.classList.toggle('bg-emerald-500/10', on);
+        b.classList.toggle('text-emerald-600', on);
+        b.classList.toggle('dark:text-emerald-400', on);
+        b.classList.toggle('font-bold', on);
+        b.classList.toggle('ring-2', on);
+        b.classList.toggle('ring-emerald-500', on);
+      });
+    }
+
+    document.getElementById('eligible-only-btn').addEventListener('click', () => {
+      activeFilters.gateMode = 'eligible';
+      syncGateButtons();
+      applyFiltersAndRender();
+    });
+    document.getElementById('watch-only-btn').addEventListener('click', () => {
+      activeFilters.gateMode = 'watch';
+      syncGateButtons();
+      applyFiltersAndRender();
+    });
+    document.getElementById('show-all-btn').addEventListener('click', () => {
+      activeFilters.gateMode = 'all';
+      syncGateButtons();
+      applyFiltersAndRender();
+    });
 
     // 👈 在下方貼上這個函數：自動依據 JSON 數據生成所有板塊按鈕
     function renderSectorButtons() {
@@ -434,17 +549,22 @@
     });
 
     document.getElementById('clear-btn').addEventListener('click', () => {
-      activeFilters = { cat: [], pos: [], event: [], fstatus: [], setup: [], oi: [], sector: [], accdist: [], watchlistOnly: false };
+      activeFilters = { cat: [], pos: [], event: [], fstatus: [], setup: [], oi: [], sector: [], accdist: [], watchlistOnly: false, gateMode: 'eligible' };
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('ring-2', 'ring-emerald-500', 'font-bold'));
       document.getElementById('watchlist-filter-btn').classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
       document.querySelectorAll(`[data-val="全部"]`).forEach(b => b.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-emerald-500', 'font-bold'));
       document.getElementById('search-input').value = '';
       searchQuery = '';
+      sortKey = 'watch_rank';
+      sortAsc = true;
+      syncGateButtons();
       applyFiltersAndRender();
     });
 
     function getFilteredData() {
       return rawData.filter(d => {
+        if (activeFilters.gateMode === 'eligible' && !d.eligible) return false;
+        if (activeFilters.gateMode === 'watch' && (d.watch_rank === null || d.watch_rank === undefined)) return false;
         if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
         if (searchQuery && !d.ticker.includes(searchQuery)) return false;
         if (activeFilters.sector.length > 0 && !activeFilters.sector.includes(d.sector)) return false;
@@ -459,8 +579,14 @@
       let filtered = getFilteredData();
 
       filtered.sort((a, b) => {
-        let valA = a[sortKey] !== undefined ? a[sortKey] : 0;
-        let valB = b[sortKey] !== undefined ? b[sortKey] : 0;
+        let valA = a[sortKey];
+        let valB = b[sortKey];
+        // nulls last for watch_rank / numeric ranks
+        const aNull = valA === null || valA === undefined || valA === '';
+        const bNull = valB === null || valB === undefined || valB === '';
+        if (aNull && bNull) return (a.ticker || '').localeCompare(b.ticker || '');
+        if (aNull) return 1;
+        if (bNull) return -1;
         if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
         return sortAsc ? (valA - valB) : (valB - valA);
       });
@@ -470,7 +596,11 @@
 
     function sortBy(key) {
       if (sortKey === key) sortAsc = !sortAsc;
-      else { sortKey = key; sortAsc = (key === 'rank' ? true : false); }
+      else {
+        sortKey = key;
+        // watch_rank / rank: ascending (1 first); score: descending
+        sortAsc = (key === 'watch_rank' || key === 'rank' || key === 'ticker' || key === 'setup_tag');
+      }
       applyFiltersAndRender();
     }
 
@@ -494,16 +624,30 @@
               ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-bold font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">▼ ${changeVal.toFixed(2)}%</span>`
               : `<span class="text-slate-400 font-mono text-[11px]">0.00%</span>`);
 
+        const watchLabel = d.watch_rank != null ? d.watch_rank : '—';
+        const tag = d.setup_tag || (d.eligible ? '僅過閘' : '—');
+        const tagClass = tag.includes('回踩') || tag.includes('收斂待破')
+          ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+          : tag.includes('超賣吸籌')
+          ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30'
+          : tag === '待確認'
+          ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+          : 'bg-slate-800 text-slate-400 border-slate-700';
+        const rowDim = d.eligible ? '' : 'opacity-50';
+
         return `
-        <tr class="hover:bg-slate-800/40 transition-colors border-b border-slate-800/60 cursor-pointer group" onclick="openChart('${d.ticker}')">
+        <tr class="hover:bg-slate-800/40 transition-colors border-b border-slate-800/60 cursor-pointer group ${rowDim}" onclick="openChart('${d.ticker}')">
           <td class="p-3 text-center cursor-pointer select-none text-base" onclick="toggleWatchlist('${d.ticker}', event)">
             ${isWatched ? '⭐' : '<span class="text-slate-600 hover:text-amber-400">☆</span>'}
           </td>
-          <td class="p-3 text-slate-400 font-extrabold text-center font-mono text-xs">${d.rank}</td>
+          <td class="p-3 text-center font-extrabold font-mono text-xs ${d.watch_rank != null ? 'text-emerald-400' : 'text-slate-600'}">${watchLabel}</td>
           <td class="p-3 sticky-col bg-[#0B0F19]">
             <span class="font-black text-slate-100 group-hover:text-emerald-400 transition-colors font-mono tracking-wide text-[13px]">
               ${d.ticker}
             </span>
+          </td>
+          <td class="p-3 text-center">
+            <span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold border ${tagClass}">${tag || '—'}</span>
           </td>
           <td class="p-3 text-right font-bold text-slate-200 font-mono text-[12px]">$${d.price}</td>
           <td class="p-3 text-right">${changePill}</td>
@@ -532,6 +676,8 @@
               ${d.sector}
             </span>
           </td>
+          <td class="p-3 text-right font-mono text-[10px] text-slate-500" title="舊全域 rank 對照">${d.rank}</td>
+          <td class="p-3 text-right font-mono text-[10px] text-slate-500" title="舊 score 對照">${d.score != null ? d.score : '—'}</td>
           <td class="p-3 text-center">
             <button class="px-2 py-1 bg-slate-800 hover:bg-emerald-500 hover:text-white rounded text-[11px] text-slate-400 transition" title="開啟 TradingView 圖表">📊</button>
           </td>

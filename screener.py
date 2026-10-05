@@ -51,6 +51,8 @@ GICS_CN = {
 
 GICS_MAP = {}
 
+CHIP_ORDER = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+
 def get_sector(ticker: str) -> str:
     # 優先符合特色熱門主題
     for sector, tickers in SECTOR_MAP.items():
@@ -155,6 +157,7 @@ def determine_advanced_metrics(
     sector_pct: float,
     dollar_vol_20: float,
 ) -> tuple[str, str, str, float]:
+    """Existing online score formula — DO NOT retune this round (kept for 對照)."""
     oi_status = 'OI 壓頂' if d20 >= 10.0 else ('OI 同向' if d20 <= 2.0 else '中性')
 
     if event == 'Block' or d200 < -15.0:
@@ -224,6 +227,174 @@ def determine_advanced_metrics(
         score *= 0.5
     score = round(score, 2)
     return filter_status, setup, oi_status, score
+
+
+# ---------------------------------------------------------------------------
+# Watchlist / hard-gate layer (product UX). Does not change score formula.
+# ---------------------------------------------------------------------------
+
+def compute_spy_regime(spy_close: pd.Series) -> dict:
+    """SPY market gate from close vs SMA200 and D20.
+
+    Returns top-level market block for screener_data.json:
+      regime: 'open' | 'half' | 'closed'
+      regime_label: '開' | '半倉' | '關'
+      max_watch: 8 (open), 4 (half), 8 (closed — list may still show; UI marks 關)
+    """
+    price = float(spy_close.iloc[-1])
+    sma20 = float(spy_close.rolling(20).mean().iloc[-1])
+    sma200 = (
+        float(spy_close.rolling(200).mean().iloc[-1])
+        if len(spy_close) >= 200
+        else float(spy_close.mean())
+    )
+    d20 = round(((price - sma20) / sma20) * 100, 1) if sma20 else 0.0
+    d200 = round(((price - sma200) / sma200) * 100, 1) if sma200 else 0.0
+
+    if price > sma200 and d20 > -3:
+        regime, label, max_watch = 'open', '開', 8
+    elif price > sma200:  # d20 <= -3
+        regime, label, max_watch = 'half', '半倉', 4
+    else:
+        # Closed: new positions 0, but observation list may still show (cap 8).
+        regime, label, max_watch = 'closed', '關', 8
+
+    return {
+        'ticker': 'SPY',
+        'price': round(price, 2),
+        'sma200': round(sma200, 2),
+        'd20': d20,
+        'd200': d200,
+        'above_sma200': bool(price > sma200),
+        'regime': regime,
+        'regime_label': label,
+        'max_watch': max_watch,
+    }
+
+
+def evaluate_eligibility(item: dict) -> tuple[bool, str]:
+    """Hard gates — all must pass. Returns (eligible, setup_tag hint for failures).
+
+    daily_change > 8 → not eligible, tagged 待確認 (event day).
+    D grade is NOT excluded here (cannot rank high later via chip sort).
+    """
+    dollar_vol_20 = float(item.get('dollar_vol_20') or 0)
+    acc_dist = item.get('acc_dist') or 'C'
+    d200 = float(item.get('d200') or 0)
+    d20 = float(item.get('d20') or 0)
+    rsi = float(item.get('rsi') or 50)
+    rr_ratio = float(item.get('rr_ratio') or 0)
+    daily_change = float(item.get('daily_change') or 0)
+
+    if daily_change > 8:
+        return False, '待確認'
+    if dollar_vol_20 < 20_000_000:
+        return False, ''
+    if acc_dist == 'E':
+        return False, ''
+    if d200 < -4:
+        return False, ''
+    if not (d20 < 12 and rsi < 75):
+        return False, ''
+    if rr_ratio < 2.0:
+        return False, ''
+    return True, ''
+
+
+def compute_setup_tags(item: dict) -> str:
+    """Morphology tags after gates pass. Multiple allowed, joined by '·'.
+    If none match → 僅過閘.
+    """
+    d20 = float(item.get('d20') or 0)
+    d50 = float(item.get('d50') or 0)
+    d200 = float(item.get('d200') or 0)
+    acc_dist = item.get('acc_dist') or 'C'
+    position = item.get('position') or ''
+    vol_ratio = float(item.get('vol_ratio') or 1.0)
+
+    tags = []
+    # 回踩
+    if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
+        tags.append('回踩')
+    # 收斂待破
+    if abs(d20) <= 3 and d200 >= 5 and vol_ratio < 1:
+        tags.append('收斂待破')
+    # 超賣吸籌
+    if position == '超賣' and acc_dist in ('A', 'B') and d200 >= -4:
+        tags.append('超賣吸籌')
+
+    if not tags:
+        return '僅過閘'
+    return '·'.join(tags)
+
+
+def watch_sort_key(item: dict) -> tuple:
+    """Sort eligible only:
+    1) 回踩 or 收斂待破 first
+    2) chip A>B>C>D
+    3) rr_ratio high first
+    4) sector_pct high first
+    5) ticker alpha
+    """
+    tag = item.get('setup_tag') or ''
+    has_priority = 0 if ('回踩' in tag or '收斂待破' in tag) else 1
+    chip = CHIP_ORDER.get(item.get('acc_dist', 'C'), 9)
+    rr = -float(item.get('rr_ratio') or 0)
+    sector = -float(item.get('sector_pct') or 0)
+    ticker = item.get('ticker') or ''
+    return (has_priority, chip, rr, sector, ticker)
+
+
+def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
+    """Mutates stocks: sets eligible, setup_tag, watch_rank.
+
+    watch_rank: only top N among ordered eligible (N = market['max_watch']).
+    Other eligible keep eligible=true but watch_rank=None.
+    Non-eligible: watch_rank=None; setup_tag='' or '待確認'.
+    """
+    max_watch = int(market.get('max_watch') or 0)
+
+    eligible_items = []
+    for item in raw_list:
+        ok, fail_tag = evaluate_eligibility(item)
+        item['eligible'] = ok
+        if ok:
+            item['setup_tag'] = compute_setup_tags(item)
+            eligible_items.append(item)
+        else:
+            item['setup_tag'] = fail_tag  # '' or '待確認'
+            item['watch_rank'] = None
+
+    eligible_items.sort(key=watch_sort_key)
+    for idx, item in enumerate(eligible_items):
+        if idx < max_watch:
+            item['watch_rank'] = idx + 1
+        else:
+            item['watch_rank'] = None
+
+
+def fetch_spy_market() -> dict:
+    """Download SPY 1y daily and compute regime block."""
+    print('正在下載 SPY 大市閘數據...')
+    spy = yf.download(
+        tickers='SPY',
+        period='1y',
+        interval='1d',
+        threads=False,
+        auto_adjust=True,
+        progress=False,
+    )
+    if isinstance(spy.columns, pd.MultiIndex):
+        close = spy['Close']
+        if isinstance(close, pd.DataFrame):
+            close = close.iloc[:, 0]
+    else:
+        close = spy['Close']
+    close = close.dropna()
+    if len(close) < 25:
+        raise RuntimeError('SPY data too short for SMA200/D20')
+    return compute_spy_regime(close)
+
 
 def main():
     tickers = get_sp500_tickers()
@@ -376,7 +547,7 @@ def main():
         except Exception:
             continue
 
-    # Pass 2: sector relative strength, then score / rank
+    # Pass 2: sector relative strength, then score / rank (unchanged formula)
     sector_groups: dict[str, list[dict]] = defaultdict(list)
     for item in raw_list:
         sector_groups[item['sector']].append(item)
@@ -414,10 +585,42 @@ def main():
     for idx, item in enumerate(raw_list):
         item['rank'] = idx + 1
 
-    with open('screener_data.json', 'w', encoding='utf-8') as f:
-        json.dump(raw_list, f, ensure_ascii=False, indent=2)
+    # Pass 3: SPY market gate + hard gates + setup tags + watch_rank
+    try:
+        market = fetch_spy_market()
+    except Exception as e:
+        print(f'警告: SPY 大市閘下載失敗，預設半倉: {e}')
+        market = {
+            'ticker': 'SPY',
+            'price': None,
+            'sma200': None,
+            'd20': None,
+            'd200': None,
+            'above_sma200': None,
+            'regime': 'half',
+            'regime_label': '半倉',
+            'max_watch': 4,
+            'error': str(e),
+        }
 
-    print(f'\n[完成] 成功生成含板塊、機構籌碼 A~E、止蝕試算之全市場數據！')
+    apply_watchlist_layer(raw_list, market)
+
+    payload = {
+        'updated_at': today_date_str,
+        'market': market,
+        'stocks': raw_list,
+    }
+
+    with open('screener_data.json', 'w', encoding='utf-8') as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    n_elig = sum(1 for x in raw_list if x.get('eligible'))
+    n_watch = sum(1 for x in raw_list if x.get('watch_rank'))
+    print(
+        f'\n[完成] 大市閘={market.get("regime_label")} '
+        f'(max_watch={market.get("max_watch")}) | '
+        f'eligible={n_elig} watch={n_watch} / {len(raw_list)}'
+    )
 
 if __name__ == '__main__':
     main()
