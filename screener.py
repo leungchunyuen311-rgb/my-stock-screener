@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 import json
 import pandas as pd
 import yfinance as yf
@@ -142,7 +143,17 @@ def classify_category(ticker: str, d50: float, d200: float, event: str = 'Clear'
     return '留神'
 
 def determine_advanced_metrics(
-    d20: float, d50: float, d200: float, rsi: float, daily_change: float, event: str
+    d20: float,
+    d50: float,
+    d200: float,
+    rsi: float,
+    daily_change: float,
+    event: str,
+    acc_dist: str,
+    position: str,
+    vol_ratio: float,
+    sector_pct: float,
+    dollar_vol_20: float,
 ) -> tuple[str, str, str, float]:
     oi_status = 'OI 壓頂' if d20 >= 10.0 else ('OI 同向' if d20 <= 2.0 else '中性')
 
@@ -166,21 +177,53 @@ def determine_advanced_metrics(
     else:
         setup = '—'
 
-   # 1. 將長期均線偏離度設限封頂，避免歷史大牛股（如 D200 高達 200%）永久霸佔榜首
+    # Cap pulse / norm_d* to avoid permanent top dominance from extreme moves
+    norm_d20 = min(max(d20, -8.0), 12.0)
+    norm_d50 = min(max(d50, -10.0), 18.0)
     norm_d200 = min(max(d200, -15.0), 25.0)
-    norm_d50 = min(max(d50, -10.0), 20.0)
-    norm_d20 = min(max(d20, -8.0), 15.0)
+    pulse = min(max(daily_change, -6.0), 8.0)
 
-    # 2. 短線動能輪動評分：將「當日升跌幅」權重提升至 3.0 倍
-    # 只要當日有板塊強勢放量拉升，其成分股便會即時躍升至前列
-    rank_score = (
-        (3.0 * daily_change)
-        + (0.8 * norm_d20)
-        + (0.3 * norm_d50)
-        + (0.1 * norm_d200)
-        - (3.0 if oi_status == 'OI 壓頂' else 0.0)
+    chip = {'A': 6.0, 'B': 3.0, 'C': 0.0, 'D': -4.0, 'E': -8.0}.get(acc_dist, 0.0)
+
+    if position == '過熱':
+        zone = -4.0
+    elif position == '偏強':
+        zone = 2.0
+    elif position == '偏弱':
+        zone = -1.0
+    elif position == '超賣' and acc_dist in ('A', 'B'):
+        zone = 3.0
+    else:
+        zone = 0.0
+
+    volume_score = 0.0
+    if vol_ratio >= 1.5 and daily_change > 0:
+        volume_score += 3.0
+    if vol_ratio < 0.7 and daily_change >= 4.0:
+        volume_score -= 2.0
+
+    sector_score = (sector_pct - 0.5) * 8.0  # -4 to +4
+
+    # Extension penalty scales with D20 overheat (no fixed -3 for OI 壓頂)
+    extension_penalty = max(0.0, d20 - 8.0) * 0.6
+    if rsi >= 75.0:
+        extension_penalty += 2.0
+
+    score = (
+        1.2 * pulse
+        + 0.5 * norm_d20
+        + 0.25 * norm_d50
+        + 0.15 * norm_d200
+        + chip
+        + zone
+        + volume_score
+        + sector_score
+        - extension_penalty
     )
-    return filter_status, setup, oi_status, rank_score
+    if dollar_vol_20 < 20_000_000:
+        score *= 0.5
+    score = round(score, 2)
+    return filter_status, setup, oi_status, score
 
 def main():
     tickers = get_sp500_tickers()
@@ -282,10 +325,29 @@ def main():
                 )
             )
 
-            filter_status, setup, oi_status, score = determine_advanced_metrics(
-                d20, d50, d200, rsi, daily_change, event_status
-            )
+            # vol_ratio: today Volume / mean of prior up to 20 days (exclude today)
+            vol_ratio = 1.0
+            dollar_vol_20 = 0.0
+            try:
+                if 'Volume' in df.columns:
+                    vol_series = df['Volume'].dropna()
+                    if len(vol_series) >= 2:
+                        today_vol = float(vol_series.iloc[-1])
+                        prior = vol_series.iloc[:-1].tail(20)
+                        mean_prior = float(prior.mean()) if len(prior) > 0 else 0.0
+                        if mean_prior > 0 and today_vol == today_vol:  # not NaN
+                            vol_ratio = today_vol / mean_prior
+                        else:
+                            vol_ratio = 1.0
+                    # dollar_vol_20: mean of Close*Volume over past 20 days
+                    dv = (df['Close'] * df['Volume']).dropna().tail(20)
+                    if len(dv) > 0:
+                        dollar_vol_20 = float(dv.mean())
+            except Exception:
+                vol_ratio = 1.0
+                dollar_vol_20 = 0.0
 
+            # Pass 1: store metrics only (no score / rank yet)
             raw_list.append({
                 'ticker': ticker,
                 'name': ticker,
@@ -307,14 +369,46 @@ def main():
                 'iv_level': iv_level,
                 'event': event_status,
                 'event_date': event_date,
-                'filter_status': filter_status,
-                'setup': setup,
-                'oi_status': oi_status,
-                'score': score,
+                'vol_ratio': round(vol_ratio, 3),
+                'dollar_vol_20': round(dollar_vol_20, 2),
                 'updated_at': today_date_str,
             })
         except Exception:
             continue
+
+    # Pass 2: sector relative strength, then score / rank
+    sector_groups: dict[str, list[dict]] = defaultdict(list)
+    for item in raw_list:
+        sector_groups[item['sector']].append(item)
+
+    for sector, members in sector_groups.items():
+        n = len(members)
+        if n == 1:
+            members[0]['sector_pct'] = 0.5
+        else:
+            # Percentile of daily_change within sector (0–1)
+            ordered = sorted(members, key=lambda x: x['daily_change'])
+            for i, m in enumerate(ordered):
+                m['sector_pct'] = i / (n - 1)
+
+    for item in raw_list:
+        filter_status, setup, oi_status, score = determine_advanced_metrics(
+            item['d20'],
+            item['d50'],
+            item['d200'],
+            item['rsi'],
+            item['daily_change'],
+            item['event'],
+            item['acc_dist'],
+            item['position'],
+            item['vol_ratio'],
+            item['sector_pct'],
+            item['dollar_vol_20'],
+        )
+        item['filter_status'] = filter_status
+        item['setup'] = setup
+        item['oi_status'] = oi_status
+        item['score'] = score
 
     raw_list.sort(key=lambda x: x['score'], reverse=True)
     for idx, item in enumerate(raw_list):
