@@ -1232,8 +1232,8 @@
       "oi_status": "中性",
       "score": 13.16,
       "rank": 36,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "回踩·收斂待破",
       "watch_rank": null
     },
     {
@@ -1744,7 +1744,7 @@
       "rank": 51,
       "eligible": true,
       "setup_tag": "回踩·收斂待破",
-      "watch_rank": 8
+      "watch_rank": null
     },
     {
       "ticker": "ADI",
@@ -1878,8 +1878,8 @@
       "oi_status": "OI 同向",
       "score": 10.81,
       "rank": 55,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -2014,9 +2014,9 @@
       "oi_status": "OI 同向",
       "score": 9.96,
       "rank": 59,
-      "eligible": false,
-      "setup_tag": "",
-      "watch_rank": null
+      "eligible": true,
+      "setup_tag": "回踩",
+      "watch_rank": 7
     },
     {
       "ticker": "ETN",
@@ -2388,8 +2388,8 @@
       "oi_status": "OI 同向",
       "score": 9.0,
       "rank": 70,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "回踩·收斂待破",
       "watch_rank": null
     },
     {
@@ -2422,8 +2422,8 @@
       "oi_status": "OI 同向",
       "score": 8.93,
       "rank": 71,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -2796,9 +2796,9 @@
       "oi_status": "OI 同向",
       "score": 7.58,
       "rank": 82,
-      "eligible": false,
-      "setup_tag": "",
-      "watch_rank": null
+      "eligible": true,
+      "setup_tag": "回踩",
+      "watch_rank": 8
     },
     {
       "ticker": "PM",
@@ -2830,8 +2830,8 @@
       "oi_status": "OI 同向",
       "score": 7.47,
       "rank": 83,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "回踩·收斂待破",
       "watch_rank": null
     },
     {
@@ -3068,8 +3068,8 @@
       "oi_status": "OI 同向",
       "score": 7.07,
       "rank": 90,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -3714,8 +3714,8 @@
       "oi_status": "OI 同向",
       "score": 5.45,
       "rank": 109,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -4088,8 +4088,8 @@
       "oi_status": "OI 同向",
       "score": 4.45,
       "rank": 120,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "收斂待破",
       "watch_rank": null
     },
     {
@@ -4192,7 +4192,7 @@
       "rank": 123,
       "eligible": true,
       "setup_tag": "收斂待破",
-      "watch_rank": 7
+      "watch_rank": null
     },
     {
       "ticker": "PPL",
@@ -4462,8 +4462,8 @@
       "oi_status": "中性",
       "score": 4.01,
       "rank": 131,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -4904,8 +4904,8 @@
       "oi_status": "OI 同向",
       "score": 3.15,
       "rank": 144,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "收斂待破",
       "watch_rank": null
     },
     {
@@ -4938,8 +4938,8 @@
       "oi_status": "OI 同向",
       "score": 3.1,
       "rank": 145,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -5176,8 +5176,8 @@
       "oi_status": "OI 同向",
       "score": 2.67,
       "rank": 152,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -7080,8 +7080,8 @@
       "oi_status": "OI 同向",
       "score": -1.72,
       "rank": 208,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -7114,8 +7114,8 @@
       "oi_status": "OI 同向",
       "score": -1.75,
       "rank": 209,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "收斂待破",
       "watch_rank": null
     },
     {
@@ -8202,8 +8202,8 @@
       "oi_status": "OI 同向",
       "score": -3.67,
       "rank": 241,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "收斂待破",
       "watch_rank": null
     },
     {
@@ -9154,8 +9154,8 @@
       "oi_status": "OI 同向",
       "score": -5.38,
       "rank": 269,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {
@@ -11228,8 +11228,8 @@
       "oi_status": "OI 同向",
       "score": -7.81,
       "rank": 330,
-      "eligible": false,
-      "setup_tag": "",
+      "eligible": true,
+      "setup_tag": "僅過閘",
       "watch_rank": null
     },
     {

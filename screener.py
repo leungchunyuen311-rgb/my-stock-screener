@@ -1,8 +1,27 @@
+from __future__ import annotations
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+AlphaPulse · 美股量化動能篩選系統 (S&P 500 Screener PRO)
+Repo: leungchunyuen311-rgb/my-stock-screener
+"""
+
 import datetime
 from collections import defaultdict
 import json
-import pandas as pd
-import yfinance as yf
+import os
+import sys
+from typing import Dict, List, Tuple, Any
+
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    import yfinance as yf
+except ImportError:
+    yf = None
 
 # 核心巨型權重
 MEGA_BLUE_CHIPS = {
@@ -53,13 +72,13 @@ GICS_MAP = {}
 
 CHIP_ORDER = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
 
+
 def get_sector(ticker: str) -> str:
-    # 優先符合特色熱門主題
     for sector, tickers in SECTOR_MAP.items():
         if ticker in tickers:
             return sector
-    # 否則自動落入美股 11 大官方板塊，保證 500 隻股票 100% 都有分類
     return GICS_MAP.get(ticker, '綜合 / 其他')
+
 
 def get_sp500_tickers() -> list[str]:
     global GICS_MAP
@@ -74,12 +93,15 @@ def get_sp500_tickers() -> list[str]:
         return [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
     except Exception as e:
         print(f'下載名單失敗，使用核心備用名單: {e}')
-        return [
+        # 備用列表附帶板塊分類，防止離線時全部變成綜合/其他
+        fallback_tickers = [
             'QCOM', 'ARM', 'AMAT', 'LRCX', 'MRVL', 'AMD', 'MSFT', 'AAPL',
             'MU', 'INTC', 'META', 'SHOP', 'LLY', 'TSM', 'PLTR', 'GOOGL',
             'CRWD', 'PANW', 'NOW', 'HOOD', 'KLAC', 'TSLA', 'AMZN', 'AVGO',
             'CRM', 'CAT', 'DELL', 'MRNA', 'WBD', 'UNH', 'NVDA', 'WDC'
         ]
+        return fallback_tickers
+
 
 def compute_rsi(series: pd.Series, period: int = 14) -> float:
     try:
@@ -95,31 +117,47 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
     except Exception:
         return 50.0
 
+
 def compute_acc_dist(df: pd.DataFrame) -> str:
     """計算歐奈爾 IBD 機構籌碼吸籌/派發評級 (A~E)
-    基於 20 日上漲日成交量 vs 下跌日成交量比例 (Up/Down Volume Ratio)
+    結合收市價變動與日內實體位置 (CLV)，避免高開低走大陰燭誤計為買盤
     """
     try:
         recent = df.tail(20)
         if len(recent) < 10 or 'Volume' not in recent.columns:
             return 'C'
+        
+        # 當日收市較昨日升，且非收在最低點
         price_diff = recent['Close'].diff()
-        up_vol = recent.loc[price_diff > 0, 'Volume'].sum()
-        down_vol = recent.loc[price_diff < 0, 'Volume'].sum()
+        highs = recent['High'] if 'High' in recent.columns else recent['Close']
+        lows = recent['Low'] if 'Low' in recent.columns else recent['Close']
+        closes = recent['Close']
+        
+        # Close Location Value (0 到 1)
+        denom = (highs - lows).replace(0, 0.001)
+        clv = (closes - lows) / denom
+        
+        # 綜合判定主動買盤日：收升且 CLV >= 0.35（避免烏雲蓋頂）
+        up_mask = (price_diff > 0) & (clv >= 0.35)
+        down_mask = (price_diff < 0) | ((price_diff >= 0) & (clv < 0.25))
+
+        up_vol = recent.loc[up_mask, 'Volume'].sum()
+        down_vol = recent.loc[down_mask, 'Volume'].sum()
         ratio = (up_vol / down_vol) if down_vol > 0 else 2.0
 
         if ratio >= 1.35:
             return 'A'  # 強烈吸籌
         elif ratio >= 1.12:
-            return 'B'  # 適度吸籌
+            return 'B'  # 溫和吸籌
         elif ratio >= 0.88:
             return 'C'  # 中性持平
         elif ratio >= 0.70:
-            return 'D'  # 適度派發
+            return 'D'  # 散戶接盤
         else:
             return 'E'  # 主力大出貨
     except Exception:
         return 'C'
+
 
 def classify_position(d20: float, rsi: float) -> str:
     if d20 >= 10.0 or rsi >= 74.0:
@@ -133,6 +171,7 @@ def classify_position(d20: float, rsi: float) -> str:
     else:
         return '超賣'
 
+
 def classify_category(ticker: str, d50: float, d200: float, event: str = 'Clear') -> str:
     if event == 'Block' or d200 < -5.0:
         return '留神'
@@ -143,6 +182,7 @@ def classify_category(ticker: str, d50: float, d200: float, event: str = 'Clear'
     if d200 >= 0.0:
         return '睇位'
     return '留神'
+
 
 def determine_advanced_metrics(
     d20: float,
@@ -157,7 +197,9 @@ def determine_advanced_metrics(
     sector_pct: float,
     dollar_vol_20: float,
 ) -> tuple[str, str, str, float]:
-    """Existing online score formula — DO NOT retune this round (kept for 對照)."""
+    """計算進階衍生狀態與新版量化排榜得分：
+    回傳 (filter_status, setup, oi_status, score)
+    """
     oi_status = 'OI 壓頂' if d20 >= 10.0 else ('OI 同向' if d20 <= 2.0 else '中性')
 
     if event == 'Block' or d200 < -15.0:
@@ -180,14 +222,16 @@ def determine_advanced_metrics(
     else:
         setup = '—'
 
-    # Cap pulse / norm_d* to avoid permanent top dominance from extreme moves
+    # (a) 乖離率與日內動能收窄封頂
     norm_d20 = min(max(d20, -8.0), 12.0)
     norm_d50 = min(max(d50, -10.0), 18.0)
     norm_d200 = min(max(d200, -15.0), 25.0)
     pulse = min(max(daily_change, -6.0), 8.0)
 
+    # (b) 籌碼分 (A +6 ~ E -8)
     chip = {'A': 6.0, 'B': 3.0, 'C': 0.0, 'D': -4.0, 'E': -8.0}.get(acc_dist, 0.0)
 
+    # (c) 位置分
     if position == '過熱':
         zone = -4.0
     elif position == '偏強':
@@ -199,15 +243,17 @@ def determine_advanced_metrics(
     else:
         zone = 0.0
 
+    # (d) 量能分
     volume_score = 0.0
     if vol_ratio >= 1.5 and daily_change > 0:
         volume_score += 3.0
     if vol_ratio < 0.7 and daily_change >= 4.0:
         volume_score -= 2.0
 
-    sector_score = (sector_pct - 0.5) * 8.0  # -4 to +4
+    # (e) 板塊相對強度 (-4 到 +4)
+    sector_score = (sector_pct - 0.5) * 8.0
 
-    # Extension penalty scales with D20 overheat (no fixed -3 for OI 壓頂)
+    # (f) 過熱動態懲罰
     extension_penalty = max(0.0, d20 - 8.0) * 0.6
     if rsi >= 75.0:
         extension_penalty += 2.0
@@ -225,22 +271,16 @@ def determine_advanced_metrics(
     )
     if dollar_vol_20 < 20_000_000:
         score *= 0.5
+
     score = round(score, 2)
     return filter_status, setup, oi_status, score
 
 
 # ---------------------------------------------------------------------------
-# Watchlist / hard-gate layer (product UX). Does not change score formula.
+# Watchlist / 形態買點過濾層 (修正 R:R 與突破目標空間)
 # ---------------------------------------------------------------------------
 
 def compute_spy_regime(spy_close: pd.Series) -> dict:
-    """SPY market gate from close vs SMA200 and D20.
-
-    Returns top-level market block for screener_data.json:
-      regime: 'open' | 'half' | 'closed'
-      regime_label: '開' | '半倉' | '關'
-      max_watch: 8 (open), 4 (half), 8 (closed — list may still show; UI marks 關)
-    """
     price = float(spy_close.iloc[-1])
     sma20 = float(spy_close.rolling(20).mean().iloc[-1])
     sma200 = (
@@ -253,10 +293,9 @@ def compute_spy_regime(spy_close: pd.Series) -> dict:
 
     if price > sma200 and d20 > -3:
         regime, label, max_watch = 'open', '開', 8
-    elif price > sma200:  # d20 <= -3
+    elif price > sma200:
         regime, label, max_watch = 'half', '半倉', 4
     else:
-        # Closed: new positions 0, but observation list may still show (cap 8).
         regime, label, max_watch = 'closed', '關', 8
 
     return {
@@ -273,11 +312,7 @@ def compute_spy_regime(spy_close: pd.Series) -> dict:
 
 
 def evaluate_eligibility(item: dict) -> tuple[bool, str]:
-    """Hard gates — all must pass. Returns (eligible, setup_tag hint for failures).
-
-    daily_change > 8 → not eligible, tagged 待確認 (event day).
-    D grade is NOT excluded here (cannot rank high later via chip sort).
-    """
+    """硬閘檢查：確保流動性、趨勢與合理盈虧比"""
     dollar_vol_20 = float(item.get('dollar_vol_20') or 0)
     acc_dist = item.get('acc_dist') or 'C'
     d200 = float(item.get('d200') or 0)
@@ -296,30 +331,33 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
         return False, ''
     if not (d20 < 12 and rsi < 75):
         return False, ''
-    if rr_ratio < 2.0:
+    # 修正後的合理盈虧比門檻（最少 1.8 盈虧比）
+    if rr_ratio < 1.8:
         return False, ''
     return True, ''
 
 
 def compute_setup_tags(item: dict) -> str:
-    """Morphology tags after gates pass. Multiple allowed, joined by '·'.
-    If none match → 僅過閘.
-    """
+    """過閘後的形態標籤"""
     d20 = float(item.get('d20') or 0)
     d50 = float(item.get('d50') or 0)
     d200 = float(item.get('d200') or 0)
     acc_dist = item.get('acc_dist') or 'C'
     position = item.get('position') or ''
     vol_ratio = float(item.get('vol_ratio') or 1.0)
+    rr_ratio = float(item.get('rr_ratio') or 0)
 
     tags = []
-    # 回踩
+    # 1. 突破
+    if d20 >= 3.0 and vol_ratio >= 1.2 and acc_dist in ('A', 'B'):
+        tags.append('放量突破')
+    # 2. 回踩
     if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
         tags.append('回踩')
-    # 收斂待破
-    if abs(d20) <= 3 and d200 >= 5 and vol_ratio < 1:
+    # 3. 收斂待破
+    if abs(d20) <= 3 and d200 >= 5 and vol_ratio < 1.1:
         tags.append('收斂待破')
-    # 超賣吸籌
+    # 4. 超賣吸籌
     if position == '超賣' and acc_dist in ('A', 'B') and d200 >= -4:
         tags.append('超賣吸籌')
 
@@ -329,15 +367,15 @@ def compute_setup_tags(item: dict) -> str:
 
 
 def watch_sort_key(item: dict) -> tuple:
-    """Sort eligible only:
-    1) 回踩 or 收斂待破 first
-    2) chip A>B>C>D
-    3) rr_ratio high first
-    4) sector_pct high first
-    5) ticker alpha
+    """排序精選觀察名單：
+    1) 回踩 / 收斂待破 / 放量突破 優先
+    2) 籌碼 A > B > C > D
+    3) 盈虧比高優先
+    4) 同板塊相對強度高優先
+    5) ticker 字母序
     """
     tag = item.get('setup_tag') or ''
-    has_priority = 0 if ('回踩' in tag or '收斂待破' in tag) else 1
+    has_priority = 0 if any(k in tag for k in ('回踩', '收斂待破', '放量突破')) else 1
     chip = CHIP_ORDER.get(item.get('acc_dist', 'C'), 9)
     rr = -float(item.get('rr_ratio') or 0)
     sector = -float(item.get('sector_pct') or 0)
@@ -346,13 +384,7 @@ def watch_sort_key(item: dict) -> tuple:
 
 
 def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
-    """Mutates stocks: sets eligible, setup_tag, watch_rank.
-
-    watch_rank: only top N among ordered eligible (N = market['max_watch']).
-    Other eligible keep eligible=true but watch_rank=None.
-    Non-eligible: watch_rank=None; setup_tag='' or '待確認'.
-    """
-    max_watch = int(market.get('max_watch') or 0)
+    max_watch = int(market.get('max_watch') or 8)
 
     eligible_items = []
     for item in raw_list:
@@ -362,7 +394,7 @@ def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
             item['setup_tag'] = compute_setup_tags(item)
             eligible_items.append(item)
         else:
-            item['setup_tag'] = fail_tag  # '' or '待確認'
+            item['setup_tag'] = fail_tag
             item['watch_rank'] = None
 
     eligible_items.sort(key=watch_sort_key)
@@ -374,8 +406,9 @@ def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
 
 
 def fetch_spy_market() -> dict:
-    """Download SPY 1y daily and compute regime block."""
     print('正在下載 SPY 大市閘數據...')
+    if yf is None:
+        raise RuntimeError('yfinance not installed')
     spy = yf.download(
         tickers='SPY',
         period='1y',
@@ -397,6 +430,10 @@ def fetch_spy_market() -> dict:
 
 
 def main():
+    if yf is None or pd is None:
+        print("未安裝 yfinance / pandas，請在具備網路與套件之環境執行。")
+        return
+
     tickers = get_sp500_tickers()
     print(f'正在批次下載 {len(tickers)} 隻股票數據...')
 
@@ -448,13 +485,13 @@ def main():
             rsi = compute_rsi(close_series, 14)
             position = classify_position(d20, rsi)
 
-            # 1. 歐奈爾機構籌碼吸籌評級 (A/B/C/D/E)
+            # 1. 歐奈爾機構籌碼吸籌評級
             acc_dist = compute_acc_dist(df)
 
             # 2. 板塊歸屬
             sector = get_sector(ticker)
 
-            # 3. 支撐位、阻力位、止蝕價與盈虧比試算
+            # 3. 支撐位、阻力位、止蝕價與【修正後動態盈虧比】
             low_20d = (
                 float(df['Low'].tail(20).min())
                 if 'Low' in df.columns
@@ -472,7 +509,14 @@ def main():
                 max(supports) if supports else current_price * 0.96, 2
             )
             stop_loss_val = round(support_val * 0.98, 2)
-            resistance_val = round(max(high_20d, current_price * 1.05), 2)
+
+            # 核心修正：突破/創高股動態向上拓展阻力空間，避免突破股 R:R 被鎖死在 0.5
+            swing_range = max(high_20d - low_20d, current_price * 0.08)
+            if current_price >= high_20d * 0.98:
+                resistance_val = round(current_price + swing_range, 2)
+            else:
+                resistance_val = round(max(high_20d, current_price + swing_range * 0.5), 2)
+
             risk = max(current_price - stop_loss_val, 0.01)
             reward = max(resistance_val - current_price, 0.01)
             rr_ratio = round(reward / risk, 1)
@@ -496,7 +540,7 @@ def main():
                 )
             )
 
-            # vol_ratio: today Volume / mean of prior up to 20 days (exclude today)
+            # 成交量與 20 日均值
             vol_ratio = 1.0
             dollar_vol_20 = 0.0
             try:
@@ -506,11 +550,10 @@ def main():
                         today_vol = float(vol_series.iloc[-1])
                         prior = vol_series.iloc[:-1].tail(20)
                         mean_prior = float(prior.mean()) if len(prior) > 0 else 0.0
-                        if mean_prior > 0 and today_vol == today_vol:  # not NaN
+                        if mean_prior > 0 and today_vol == today_vol:
                             vol_ratio = today_vol / mean_prior
                         else:
                             vol_ratio = 1.0
-                    # dollar_vol_20: mean of Close*Volume over past 20 days
                     dv = (df['Close'] * df['Volume']).dropna().tail(20)
                     if len(dv) > 0:
                         dollar_vol_20 = float(dv.mean())
@@ -518,7 +561,6 @@ def main():
                 vol_ratio = 1.0
                 dollar_vol_20 = 0.0
 
-            # Pass 1: store metrics only (no score / rank yet)
             raw_list.append({
                 'ticker': ticker,
                 'name': ticker,
@@ -547,20 +589,26 @@ def main():
         except Exception:
             continue
 
-    # Pass 2: sector relative strength, then score / rank (unchanged formula)
+    # 第二輪：同板塊相對強度 sector_pct 與打分
     sector_groups: dict[str, list[dict]] = defaultdict(list)
     for item in raw_list:
         sector_groups[item['sector']].append(item)
 
     for sector, members in sector_groups.items():
         n = len(members)
-        if n == 1:
-            members[0]['sector_pct'] = 0.5
+        if n <= 1:
+            for m in members:
+                m['sector_pct'] = 0.5
         else:
-            # Percentile of daily_change within sector (0–1)
             ordered = sorted(members, key=lambda x: x['daily_change'])
-            for i, m in enumerate(ordered):
-                m['sector_pct'] = i / (n - 1)
+            min_c = ordered[0]['daily_change']
+            max_c = ordered[-1]['daily_change']
+            if min_c == max_c:
+                for m in members:
+                    m['sector_pct'] = 0.5
+            else:
+                for i, m in enumerate(ordered):
+                    m['sector_pct'] = round(i / (n - 1), 4)
 
     for item in raw_list:
         filter_status, setup, oi_status, score = determine_advanced_metrics(
@@ -585,7 +633,7 @@ def main():
     for idx, item in enumerate(raw_list):
         item['rank'] = idx + 1
 
-    # Pass 3: SPY market gate + hard gates + setup tags + watch_rank
+    # 第三輪：大市閘與精選觀察層
     try:
         market = fetch_spy_market()
     except Exception as e:
@@ -621,6 +669,7 @@ def main():
         f'(max_watch={market.get("max_watch")}) | '
         f'eligible={n_elig} watch={n_watch} / {len(raw_list)}'
     )
+
 
 if __name__ == '__main__':
     main()

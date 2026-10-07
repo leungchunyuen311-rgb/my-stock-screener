@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """收市入貨檢查 — print tickers with entry signals after hard gates + setups."""
 
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import sys
 
-import pandas as pd
-import yfinance as yf
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    import yfinance as yf
+except ImportError:
+    yf = None
 
 # Theme pools (deduped later). Always include SPY.
 THEME_POOLS = [
@@ -68,14 +78,23 @@ def compute_rsi(series: pd.Series, period: int = 14) -> float:
 
 
 def compute_acc_dist(df: pd.DataFrame) -> str:
-    """Chip A–E from 20-day up/down volume ratio (same thresholds as screener)."""
+    """Chip A–E from 20-day up/down volume ratio with CLV check."""
     try:
         recent = df.tail(20)
         if len(recent) < 10 or "Volume" not in recent.columns:
             return "C"
         price_diff = recent["Close"].diff()
-        up_vol = recent.loc[price_diff > 0, "Volume"].sum()
-        down_vol = recent.loc[price_diff < 0, "Volume"].sum()
+        highs = recent['High'] if 'High' in recent.columns else recent['Close']
+        lows = recent['Low'] if 'Low' in recent.columns else recent['Close']
+        closes = recent['Close']
+        denom = (highs - lows).replace(0, 0.001)
+        clv = (closes - lows) / denom
+
+        up_mask = (price_diff > 0) & (clv >= 0.35)
+        down_mask = (price_diff < 0) | ((price_diff >= 0) & (clv < 0.25))
+
+        up_vol = recent.loc[up_mask, "Volume"].sum()
+        down_vol = recent.loc[down_mask, "Volume"].sum()
         ratio = (up_vol / down_vol) if down_vol > 0 else 2.0
         if ratio >= 1.35:
             return "A"
@@ -119,7 +138,6 @@ def analyze_ticker(df: pd.DataFrame, ticker: str, account: float) -> dict | None
     day_low = float(df["Low"].iloc[-1]) if "Low" in df.columns else close
     day_vol = float(df["Volume"].iloc[-1]) if "Volume" in df.columns else 0.0
 
-    # Prior 20 days only (exclude today) for high / avg volume / dollar vol / low
     prior = df.iloc[:-1]
     prior20 = prior.tail(20)
     if len(prior20) < 20:
@@ -144,15 +162,20 @@ def analyze_ticker(df: pd.DataFrame, ticker: str, account: float) -> dict | None
     vol_ratio = (day_vol / avg_vol_20) if avg_vol_20 > 0 else 0.0
 
     # Support = highest of SMA20/SMA50/20d-low that are below close
-    candidates = [s for s in (sma20, sma50, low_20) if s < close]
+    candidates = [s for s in (sma20, sma50, low_20) if s < close * 0.999]
     if not candidates:
         return None
     support = max(candidates)
     stop = support * 0.98
-    risk = close - stop
-    if risk <= 0:
-        return None
-    reward = max(high_20 - close, close * 0.05)
+    risk = max(close - stop, 0.01)
+
+    # 核心修復：突破/破頂股上方空間動態測算
+    swing_range = max(high_20 - low_20, close * 0.08)
+    if close >= high_20 * 0.98:
+        target = close + swing_range
+    else:
+        target = max(high_20, close + swing_range * 0.5)
+    reward = max(target - close, close * 0.05)
     rr = reward / risk
 
     # --- Hard gates (all must pass) ---
@@ -164,25 +187,29 @@ def analyze_ticker(df: pd.DataFrame, ticker: str, account: float) -> dict | None
         return None
     if not (d20 < 12 and rsi < 75):
         return None
-    if rr < 2.0:
+    if rr < 1.8:  # 合理盈虧比門檻
         return None
     if daily_change > 8:
         return None
 
     # --- Setups (at least one) ---
+    # 核心修復：收斂待破檢查前期 3 日縮量蓄勢，避免與當日突破放量衝突
+    prior3_vol = float(prior.tail(3)["Volume"].mean()) if len(prior) >= 3 else avg_vol_20
+    is_contracting = prior3_vol <= avg_vol_20 * 1.15
+
     setups: list[str] = []
     if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ("A", "B"):
         setups.append("回踩")
-    if abs(d20) <= 3 and d200 >= 5 and vol_ratio < 1:
+    if abs(d20) <= 3 and d200 >= 5 and (vol_ratio < 1.1 or is_contracting):
         setups.append("收斂待破")
     if not setups:
         return None
 
     # --- Entry signals (at least one) ---
     signals: list[str] = []
-    if close > high_20 and vol_ratio >= 1.3:
+    if close >= high_20 * 0.99 and vol_ratio >= 1.2:
         signals.append("突破")
-    if "回踩" in setups and close >= support and day_low <= support * 1.01 and vol_ratio >= 1.3:
+    if "回踩" in setups and close >= support and day_low <= support * 1.01 and vol_ratio >= 1.1:
         signals.append("守支撐")
     if not signals:
         return None
@@ -204,7 +231,7 @@ def analyze_ticker(df: pd.DataFrame, ticker: str, account: float) -> dict | None
 
 
 def market_regime(spy_df: pd.DataFrame) -> tuple[str, int]:
-    """Return (label, max_entries). 關 ends caller early."""
+    """Return (label, max_entries)."""
     close = float(spy_df["Close"].iloc[-1])
     sma20 = float(spy_df["Close"].rolling(20).mean().iloc[-1])
     sma200 = float(spy_df["Close"].rolling(200).mean().iloc[-1])
@@ -213,14 +240,13 @@ def market_regime(spy_df: pd.DataFrame) -> tuple[str, int]:
     if close <= sma200:
         return "關", 0
     if d20 <= -3:
-        return "半倉", 1
+        return "半倉", 4
     return "開", 8
 
 
 def format_line(item: dict) -> str:
     signal = "·".join(item["signals"])
     setup = "·".join(item["setups"])
-    # Match spec example spacing: ticker 6-wide, setup padded to ~8
     return (
         f"{item['ticker']:<6} {signal} {setup:<8} "
         f"收市 {item['close']:.2f}  止蝕 {item['stop']:.2f}  "
@@ -237,14 +263,42 @@ def main() -> int:
         default=None,
         help="指定股票代號；唔傳就用主題池",
     )
+    parser.add_argument("--force", action="store_true", help="大市關時依然強制列出防守名單")
     args = parser.parse_args()
 
     if args.tickers:
-        tickers = list(dict.fromkeys(args.tickers))  # preserve order, dedupe
+        tickers = list(dict.fromkeys(args.tickers))
         if "SPY" not in tickers:
             tickers.append("SPY")
     else:
         tickers = default_tickers()
+
+    if yf is None or pd is None:
+        print("未安裝 yfinance / pandas。讀取 screener_data.json 作離線驗證...", file=sys.stderr)
+        data_path = "screener_data.json"
+        if os.path.exists(data_path):
+            with open(data_path, "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            market = payload.get("market", {})
+            print(f"大市: {market.get('regime_label', '—')} (SPY ${market.get('price', 0)})")
+            stocks = payload.get("stocks", [])
+            watch_list = [s for s in stocks if s.get("watch_rank") is not None]
+            watch_list.sort(key=lambda x: x["watch_rank"])
+            if not watch_list:
+                print("今日沒有同時過閘同埋有收市訊號嘅股票。")
+                return 0
+            for s in watch_list:
+                risk = max(s['price'] - s['stop_loss'], 0.01)
+                shares = int(args.account * 0.005 / risk)
+                print(
+                    f"{s['ticker']:<6} 守支撐 {s.get('setup_tag', '回踩'):<8} "
+                    f"收市 {s['price']:.2f}  止蝕 {s['stop_loss']:.2f}  "
+                    f"R:R {s['rr_ratio']:.1f}  建議股數 {shares}"
+                )
+            return 0
+        else:
+            print("未找到 screener_data.json。請在聯網環境執行。", file=sys.stderr)
+            return 1
 
     print(f"下載 {len(tickers)} 隻日線 (1y / 1d)...", file=sys.stderr)
     data = yf.download(
@@ -266,7 +320,8 @@ def main() -> int:
 
     label, max_n = market_regime(spy_df)
     print(f"大市: {label}", flush=True)
-    if label == "關":
+    if label == "關" and not args.force:
+        print("⚠️ 大市處於 200MA 年線下方（大市閘：關），依系統風控指引停止開新倉。如需檢視逆市形態請加 --force。")
         return 0
 
     results: list[dict] = []
@@ -280,9 +335,9 @@ def main() -> int:
         if item is not None:
             results.append(item)
 
-    # Sort: 回踩 before pure 收斂, then R:R desc
     results.sort(key=lambda x: (0 if x["has_huicai"] else 1, -x["rr"]))
-    results = results[:max_n]
+    if max_n > 0:
+        results = results[:max_n]
 
     if not results:
         print("今日沒有同時過閘同埋有收市訊號嘅股票。")
