@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="AlphaPulse">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2422/2422796.png">
-  <meta name="theme-color" content="#0B0F19">
+  <meta name="theme-color" content="#080C14">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
@@ -35,183 +35,215 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     
+    * {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding-top: max(12px, env(safe-area-inset-top));
+      padding-bottom: max(75px, env(safe-area-inset-bottom));
     }
     .font-mono {
       font-family: 'JetBrains Mono', monospace;
     }
-    ::-webkit-scrollbar { height: 6px; width: 6px; }
+    ::-webkit-scrollbar { height: 4px; width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     .sticky-col { position: sticky; left: 0; z-index: 10; }
     .sticky-col-header { position: sticky; left: 0; z-index: 25; }
     .glass-card {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(51, 65, 85, 0.4);
     }
     .light .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+    .card-tap-feedback:active {
+      transform: scale(0.985);
+      transition: transform 0.08s ease;
     }
   </style>
 </head>
-<body class="bg-[#F8FAFC] dark:bg-[#080C14] text-slate-800 dark:text-slate-100 min-h-screen antialiased p-3 sm:p-5 md:p-6 select-none">
-  <div class="max-w-7xl mx-auto space-y-3.5">
+<body class="bg-[#F8FAFC] dark:bg-[#080C14] text-slate-800 dark:text-slate-100 min-h-screen antialiased p-2.5 sm:p-4 md:p-6 select-none">
+  <div class="max-w-7xl mx-auto space-y-3">
     
     <!-- 頂部頂級終端導覽列 -->
-    <header class="glass-card rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
+    <header class="glass-card rounded-2xl p-3 sm:p-4 shadow-lg flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2.5">
         <!-- Logo Badge -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-xl tracking-tighter">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-lg tracking-tighter shrink-0">
           ⚡
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1">
               AlphaPulse
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">QUANT PRO</span>
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">PRO</span>
             </h1>
           </div>
-          <div class="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
+          <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
             <span class="inline-flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              標普 500 量化動能榜
+              標普 500 量化榜
             </span>
             <span>·</span>
-            <span>更新：<b id="header-date" class="text-slate-700 dark:text-slate-200">讀取中...</b></span>
+            <span id="header-date" class="text-slate-700 dark:text-slate-300">讀取中...</span>
           </div>
         </div>
       </div>
       
       <!-- 控制操作區 -->
-      <div class="flex items-center flex-wrap gap-2 text-xs">
-        <!-- 市場統計膠囊 -->
-        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 font-mono text-[11px]">
-          <span class="text-emerald-500 font-semibold" id="stats-up">▲ 0 升</span>
-          <span class="text-slate-400">/</span>
-          <span class="text-rose-500 font-semibold" id="stats-down">▼ 0 跌</span>
-          <span class="text-slate-400">·</span>
-          <span class="text-slate-500 dark:text-slate-400">籌碼 A/B: <b id="stats-acc" class="text-teal-400">0</b></span>
+      <div class="flex items-center flex-wrap gap-1.5 sm:gap-2 text-xs">
+        
+        <!-- 📱 手機視圖切換器：卡片流 vs 表格 -->
+        <div class="inline-flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-mono text-[11px]">
+          <button id="view-card-btn" class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1" title="切換為垂直卡片流模式">
+            <span>📱</span> <span class="hidden xs:inline">卡片</span>
+          </button>
+          <button id="view-table-btn" class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1" title="切換為完整寬表格模式">
+            <span>📊</span> <span class="hidden xs:inline">表格</span>
+          </button>
         </div>
 
-        <!-- 複製按鈕 -->
-        <button id="copy-btn" class="px-3 py-1.5 rounded-xl border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95" title="一鍵複製篩選出來的股票代號">
-          <span>📋</span> 複製代碼
+        <!-- 複製按鈕 (電腦版顯示) -->
+        <button id="copy-btn" class="hidden md:flex px-2.5 py-1.5 rounded-xl border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 font-bold transition items-center gap-1 shadow-sm active:scale-95" title="一鍵複製篩選出來的股票代號">
+          <span>📋</span> 複製
         </button>
 
         <!-- 指南按鈕 -->
-        <button id="guide-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700/60 transition flex items-center gap-1 shadow-sm active:scale-95">
-          <span>📘</span> 指南
+        <button id="guide-btn" class="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700/60 transition flex items-center gap-1 shadow-sm active:scale-95 text-xs">
+          <span>📘</span> <span class="hidden sm:inline">指南</span>
         </button>
 
         <!-- 主題切換按鈕 -->
-        <button id="theme-toggle" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition shadow-sm active:scale-95 text-xs">
+        <button id="theme-toggle" class="p-1.5 sm:p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 transition shadow-sm active:scale-95 text-xs">
           🌙
         </button>
 
-        <!-- 篩選計數 -->
-        <div class="px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-slate-950 text-white font-mono font-bold text-xs border border-slate-700/50">
+        <!-- 篩選計數膠囊 -->
+        <div class="px-2.5 py-1.5 rounded-xl bg-slate-900 dark:bg-slate-950 text-white font-mono font-bold text-xs border border-slate-700/50">
           <span id="count-display" class="text-emerald-400">0</span> <span class="text-slate-400" id="count-total">/ 0</span>
         </div>
       </div>
     </header>
 
     <!-- 🌐 大市閘橫幅 (SPY Market Regime) -->
-    <div id="market-banner" class="glass-card rounded-xl px-4 py-2.5 shadow-md text-xs font-semibold flex flex-wrap items-center gap-3">
-      <span class="text-slate-400 font-bold text-[11px] uppercase tracking-wider">大市閘</span>
-      <span id="market-regime" class="px-2.5 py-0.5 rounded-md font-black tracking-wide bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200">大市：—</span>
-      <span id="market-detail" class="font-mono text-slate-500 dark:text-slate-400 text-[11px]">SPY —</span>
-      <span id="market-hint" class="text-slate-400 text-[11px] hidden sm:inline">全域榜單綜合分數由高至低排列，形態買點標註低吸/突破契機。</span>
+    <div id="market-banner" class="glass-card rounded-xl px-3 sm:px-4 py-2 shadow-md text-xs font-semibold flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-slate-400 font-bold text-[10px] uppercase tracking-wider">大市閘</span>
+        <span id="market-regime" class="px-2 py-0.5 rounded-md font-black tracking-wide bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs">大市：—</span>
+        <span id="market-detail" class="font-mono text-slate-500 dark:text-slate-400 text-[11px]">SPY —</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 text-[11px] font-mono text-slate-400">
+        <span class="text-emerald-400" id="stats-up">▲ 0 升</span>
+        <span>/</span>
+        <span class="text-rose-400" id="stats-down">▼ 0 跌</span>
+        <span>·</span>
+        <span>主力吸籌: <b id="stats-acc" class="text-teal-400 font-bold">0</b></span>
+      </div>
     </div>
 
-    <!-- 🎯 4 大核心量化篩選面板 -->
-    <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-lg space-y-3 text-xs">
-      
-      <!-- 0. 模式切換：全部榜單 vs 形態買點 vs 今日精選觀察 -->
-      <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/60 dark:border-slate-800/80">
-        <span class="w-14 text-slate-400 font-bold shrink-0 tracking-wider uppercase text-[11px]">視圖</span>
-        <div class="flex flex-wrap items-center gap-1.5 flex-1" id="filter-view">
-          <button id="show-all-btn" class="px-3 py-1 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold shrink-0 transition flex items-center gap-1.5 shadow-sm">
-            <span>🏆</span> 全部榜單 (<span id="count-all">0</span>)
-          </button>
-          <button id="eligible-only-btn" class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium shrink-0 transition flex items-center gap-1.5">
-            <span>🎯</span> 形態買點 (<span id="count-eligible">0</span>)
-          </button>
-          <button id="watch-only-btn" class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium shrink-0 transition flex items-center gap-1.5">
-            <span>⭐</span> 今日精選觀察 (<span id="count-watch">0</span>)
-          </button>
-        </div>
+    <!-- 🎯 快捷視圖切換列 + 搜尋列 (手機置頂常駐) -->
+    <div class="glass-card rounded-2xl p-2.5 sm:p-3 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+      <!-- 快速分類膠囊 -->
+      <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-0.5 md:pb-0" id="filter-view">
+        <button id="show-all-btn" class="px-3 py-1.5 rounded-xl border border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold text-xs shrink-0 transition flex items-center gap-1 shadow-sm">
+          <span>🏆</span> 全部榜單 (<span id="count-all">0</span>)
+        </button>
+        <button id="eligible-only-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium text-xs shrink-0 transition flex items-center gap-1">
+          <span>🎯</span> 形態買點 (<span id="count-eligible">0</span>)
+        </button>
+        <button id="watch-only-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium text-xs shrink-0 transition flex items-center gap-1">
+          <span>⭐</span> 今日精選 (<span id="count-watch">0</span>)
+        </button>
+        <button id="watchlist-filter-btn" class="px-3 py-1.5 rounded-xl border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 font-bold text-xs shrink-0 transition flex items-center gap-1">
+          <span>★</span> 自選 (<span id="watchlist-count">0</span>)
+        </button>
       </div>
 
+      <!-- 手機折疊篩選開關 + 搜尋列 -->
+      <div class="flex items-center gap-2">
+        <button id="toggle-filter-panel-btn" class="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs shrink-0 flex items-center gap-1 transition active:scale-95">
+          <span>⚙️</span> 篩選 <span id="filter-active-badge" class="hidden w-2 h-2 rounded-full bg-emerald-400"></span>
+        </button>
+        <div class="relative flex-1 sm:w-56">
+          <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 text-xs">
+            🔍
+          </span>
+          <input id="search-input" type="text" placeholder="搜尋 TICKER (如 NVDA, META)..." class="w-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl pl-7 pr-2.5 py-1 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-emerald-500/50 focus:border-emerald-500 transition shadow-inner">
+        </div>
+      </div>
+    </div>
+
+    <!-- 🛠️ 可折疊詳細篩選面板 (手機預設隱藏以釋放空間) -->
+    <div id="filter-panel" class="hidden glass-card rounded-2xl p-3 sm:p-4 shadow-lg space-y-2.5 text-xs transition-all duration-200">
+      
       <!-- 1. 板塊主題輪動 -->
-      <div class="flex items-start gap-2.5">
-        <span class="w-14 text-slate-400 font-bold shrink-0 pt-1 tracking-wider uppercase text-[11px]">板塊</span>
+      <div class="flex items-start gap-2">
+        <span class="w-12 text-slate-400 font-bold shrink-0 pt-1 text-[11px]">板塊</span>
         <div class="flex flex-wrap items-center gap-1.5 flex-1" id="filter-sector">
-          <button data-group="sector" data-val="全部" class="filter-btn active px-3 py-1 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-500 font-bold shrink-0 shadow-sm transition">全部</button>
+          <button data-group="sector" data-val="全部" class="filter-btn active px-2.5 py-0.5 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-500 font-bold shrink-0 shadow-sm transition">全部</button>
         </div>
       </div>
 
       <!-- 2. 機構籌碼評級 (IBD A~E) -->
-      <div class="flex items-center gap-2.5">
-        <span class="w-14 text-slate-400 font-bold shrink-0 tracking-wider uppercase text-[11px]">籌碼</span>
+      <div class="flex items-center gap-2">
+        <span class="w-12 text-slate-400 font-bold shrink-0 text-[11px]">籌碼</span>
         <div class="flex flex-wrap items-center gap-1.5 flex-1" id="filter-accdist">
-          <button data-group="accdist" data-val="A" class="filter-btn px-3 py-1 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 font-bold shrink-0 transition">A (大戶狂掃)</button>
-          <button data-group="accdist" data-val="B" class="filter-btn px-3 py-1 rounded-lg border border-teal-500/30 text-teal-400 bg-teal-500/5 hover:bg-teal-500/10 font-semibold shrink-0 transition">B (溫和吸籌)</button>
-          <button data-group="accdist" data-val="C" class="filter-btn px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">C (持平中性)</button>
-          <button data-group="accdist" data-val="D" class="filter-btn px-3 py-1 rounded-lg border border-orange-500/30 text-orange-400 bg-orange-500/5 hover:bg-orange-500/10 shrink-0 transition">D (散戶接盤)</button>
-          <button data-group="accdist" data-val="E" class="filter-btn px-3 py-1 rounded-lg border border-rose-500/30 text-rose-400 bg-rose-500/5 hover:bg-rose-500/10 font-bold shrink-0 transition">E (主力大出貨)</button>
+          <button data-group="accdist" data-val="A" class="filter-btn px-2.5 py-0.5 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 font-bold shrink-0 transition">A (大戶狂掃)</button>
+          <button data-group="accdist" data-val="B" class="filter-btn px-2.5 py-0.5 rounded-lg border border-teal-500/30 text-teal-400 bg-teal-500/5 hover:bg-teal-500/10 font-semibold shrink-0 transition">B (溫和吸籌)</button>
+          <button data-group="accdist" data-val="C" class="filter-btn px-2.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">C (持平中性)</button>
+          <button data-group="accdist" data-val="D" class="filter-btn px-2.5 py-0.5 rounded-lg border border-orange-500/30 text-orange-400 bg-orange-500/5 hover:bg-orange-500/10 shrink-0 transition">D (散戶接盤)</button>
+          <button data-group="accdist" data-val="E" class="filter-btn px-2.5 py-0.5 rounded-lg border border-rose-500/30 text-rose-400 bg-rose-500/5 hover:bg-rose-500/10 font-bold shrink-0 transition">E (主力大出貨)</button>
         </div>
       </div>
 
       <!-- 3. 位置 (ZONE) -->
-      <div class="flex items-center gap-2.5">
-        <span class="w-14 text-slate-400 font-bold shrink-0 tracking-wider uppercase text-[11px]">位置</span>
+      <div class="flex items-center gap-2">
+        <span class="w-12 text-slate-400 font-bold shrink-0 text-[11px]">位置</span>
         <div class="flex flex-wrap items-center gap-1.5 flex-1" id="filter-position">
-          <button data-group="pos" data-val="過熱" class="filter-btn px-3 py-1 rounded-lg border border-orange-500/30 text-orange-400 bg-orange-500/5 hover:bg-orange-500/10 font-medium shrink-0 transition">過熱 Extended</button>
-          <button data-group="pos" data-val="偏強" class="filter-btn px-3 py-1 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 font-semibold shrink-0 transition">偏強 Bullish</button>
-          <button data-group="pos" data-val="中性" class="filter-btn px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">中性 Neutral</button>
-          <button data-group="pos" data-val="偏弱" class="filter-btn px-3 py-1 rounded-lg border border-blue-500/30 text-blue-400 bg-blue-500/5 hover:bg-blue-500/10 font-medium shrink-0 transition">偏弱 Pullback</button>
-          <button data-group="pos" data-val="超賣" class="filter-btn px-3 py-1 rounded-lg border border-cyan-500/30 text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 font-medium shrink-0 transition">超賣 Oversold</button>
+          <button data-group="pos" data-val="過熱" class="filter-btn px-2.5 py-0.5 rounded-lg border border-orange-500/30 text-orange-400 bg-orange-500/5 hover:bg-orange-500/10 font-medium shrink-0 transition">過熱 Extended</button>
+          <button data-group="pos" data-val="偏強" class="filter-btn px-2.5 py-0.5 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 font-semibold shrink-0 transition">偏強 Bullish</button>
+          <button data-group="pos" data-val="中性" class="filter-btn px-2.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">中性 Neutral</button>
+          <button data-group="pos" data-val="偏弱" class="filter-btn px-2.5 py-0.5 rounded-lg border border-blue-500/30 text-blue-400 bg-blue-500/5 hover:bg-blue-500/10 font-medium shrink-0 transition">偏弱 Pullback</button>
+          <button data-group="pos" data-val="超賣" class="filter-btn px-2.5 py-0.5 rounded-lg border border-cyan-500/30 text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 font-medium shrink-0 transition">超賣 Oversold</button>
         </div>
       </div>
 
-      <!-- 4. 分類與自選 -->
-      <div class="flex items-center gap-2.5">
-        <span class="w-14 text-slate-400 font-bold shrink-0 tracking-wider uppercase text-[11px]">分類</span>
+      <!-- 4. 分類 -->
+      <div class="flex items-center gap-2">
+        <span class="w-12 text-slate-400 font-bold shrink-0 text-[11px]">分類</span>
         <div class="flex flex-wrap items-center gap-1.5 flex-1" id="filter-category">
-          <button data-group="cat" data-val="全部" class="filter-btn active px-3 py-1 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-500 font-bold shrink-0 transition">全部</button>
-          <button data-group="cat" data-val="穩陣" class="filter-btn px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-300 hover:bg-slate-800 shrink-0 transition">穩陣 Blue-chip</button>
-          <button data-group="cat" data-val="睇位" class="filter-btn px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-300 hover:bg-slate-800 shrink-0 transition">睇位 Watch</button>
-          <button data-group="cat" data-val="留神" class="filter-btn px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">留神 Caution</button>
-          <button id="watchlist-filter-btn" class="px-3 py-1 rounded-lg border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 font-bold shrink-0 transition flex items-center gap-1">
-            ⭐ 自選 (<span id="watchlist-count">0</span>)
-          </button>
+          <button data-group="cat" data-val="全部" class="filter-btn active px-2.5 py-0.5 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-500 font-bold shrink-0 transition">全部</button>
+          <button data-group="cat" data-val="穩陣" class="filter-btn px-2.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-300 hover:bg-slate-800 shrink-0 transition">穩陣 Blue-chip</button>
+          <button data-group="cat" data-val="睇位" class="filter-btn px-2.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-300 hover:bg-slate-800 shrink-0 transition">睇位 Watch</button>
+          <button data-group="cat" data-val="留神" class="filter-btn px-2.5 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800 shrink-0 transition">留神 Caution</button>
         </div>
       </div>
 
-      <!-- 工具與搜尋列 -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-200/60 dark:border-slate-800/80">
-        <div class="flex items-center gap-2">
-          <span class="text-[11px] text-slate-400 font-medium">同列「或」，跨列「且」</span>
-          <button id="clear-btn" class="px-2.5 py-1 text-slate-400 hover:text-slate-200 border border-slate-200 dark:border-slate-800 hover:border-slate-700 rounded-lg hover:bg-slate-800/60 shrink-0 text-xs transition">
-            ↺ 清除重設
-          </button>
-        </div>
-        <div class="relative w-full sm:w-64">
-          <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400">
-            🔍
-          </span>
-          <input id="search-input" type="text" placeholder="搜尋 TICKER (如 NVDA, META)..." class="w-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl pl-8 pr-3 py-1.5 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition shadow-inner">
+      <div class="pt-1.5 flex justify-end">
+        <button id="clear-btn" class="px-2.5 py-1 text-slate-400 hover:text-slate-200 border border-slate-200 dark:border-slate-800 hover:border-slate-700 rounded-lg hover:bg-slate-800/60 text-xs transition">
+          ↺ 重設所有篩選條件
+        </button>
+      </div>
+    </div>
+
+    <!-- 📱 視圖模式 A：手機原生「卡片流」 (Card View Container) -->
+    <div id="card-view-container" class="space-y-2.5">
+      <div id="card-list" class="space-y-2.5">
+        <div class="glass-card rounded-2xl p-8 text-center text-slate-400 font-sans">
+          正在讀取全市場量化數據...
         </div>
       </div>
     </div>
 
-    <!-- 📊 核心數據表格 -->
-    <div class="glass-card rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+    <!-- 📊 視圖模式 B：電腦完整「寬表格」 (Table View Container) -->
+    <div id="table-view-container" class="hidden glass-card rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800">
       <div class="overflow-x-auto max-h-[75vh]">
         <table class="w-full text-left text-xs border-collapse">
           <thead class="bg-slate-100/95 dark:bg-slate-900/95 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider sticky top-0 z-20 backdrop-blur border-b border-slate-200 dark:border-slate-800 text-[11px]">
@@ -241,45 +273,64 @@
 
   </div>
 
-  <!-- 內嵌 TradingView 專業圖表 ＋ 🎯 操盤防守點位彈窗 -->
+  <!-- 📱 手機底部固定「拇指操作欄 (Thumb Zone)」(僅在小螢幕浮現) -->
+  <nav class="md:hidden fixed bottom-2.5 left-2.5 right-2.5 z-40 glass-card rounded-2xl p-2 shadow-2xl flex items-center justify-around border border-slate-700/60 bg-slate-900/90 backdrop-blur-xl text-xs font-semibold">
+    <button id="mobile-copy-btn" class="flex-1 py-1.5 px-2 rounded-xl text-emerald-400 bg-emerald-500/10 active:bg-emerald-500/30 flex items-center justify-center gap-1 font-bold">
+      <span>📋</span> 複製代碼
+    </button>
+    <div class="h-4 w-px bg-slate-700 mx-1"></div>
+    <button id="mobile-watchlist-btn" class="flex-1 py-1.5 px-2 rounded-xl text-amber-400 active:bg-amber-500/20 flex items-center justify-center gap-1 font-bold">
+      <span>⭐</span> 自選
+    </button>
+    <div class="h-4 w-px bg-slate-700 mx-1"></div>
+    <button id="mobile-scroll-top-btn" class="py-1.5 px-3 rounded-xl text-slate-300 active:bg-slate-800 flex items-center justify-center gap-1">
+      <span>⬆️</span> 置頂
+    </button>
+  </nav>
+
+  <!-- 內嵌 TradingView 專業圖表 ＋ 🎯 操盤防守點位彈窗 (支援富途/TV App 直接呼起) -->
   <div id="chart-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex flex-col justify-end md:justify-center p-0 md:p-6 backdrop-blur-md transition-opacity">
-    <div class="bg-white dark:bg-slate-900 border-t md:border border-slate-200 dark:border-slate-800 rounded-t-3xl md:rounded-3xl max-w-5xl w-full h-[92vh] md:h-[86vh] flex flex-col shadow-2xl overflow-hidden mx-auto">
+    <div class="bg-white dark:bg-slate-900 border-t md:border border-slate-200 dark:border-slate-800 rounded-t-3xl md:rounded-3xl max-w-5xl w-full h-[94vh] md:h-[86vh] flex flex-col shadow-2xl overflow-hidden mx-auto">
       
       <!-- 頂部資訊與 4 大操盤防守點位 -->
-      <div class="px-5 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-800/80 space-y-2">
+      <div class="px-4 sm:px-5 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-800/80 space-y-2">
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <span id="modal-ticker" class="text-2xl font-black font-mono text-slate-900 dark:text-white tracking-tight">AAPL</span>
-            <span id="modal-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono">--</span>
+          <div class="flex items-center gap-2 sm:gap-3">
+            <span id="modal-ticker" class="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white tracking-tight">AAPL</span>
+            <span id="modal-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono">--</span>
             <span id="modal-accdist" class="px-2 py-0.5 rounded-lg text-[10px] font-black font-mono">--</span>
-            <span id="modal-price" class="text-sm font-mono font-bold text-slate-700 dark:text-slate-200">$0.00</span>
+            <span id="modal-price" class="text-xs sm:text-sm font-mono font-bold text-slate-700 dark:text-slate-200">$0.00</span>
           </div>
-          <div class="flex items-center gap-2">
-            <a id="modal-tv-link" href="#" target="_blank" class="px-2.5 py-1 text-xs rounded-xl border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-100 hover:border-slate-500 transition font-sans">
-              TradingView ↗
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <!-- ⚡ 支援一鍵呼起富途牛牛 App -->
+            <a id="modal-futu-link" href="#" class="px-2 py-1 text-[11px] rounded-lg border border-orange-500/40 text-orange-400 bg-orange-500/10 hover:bg-orange-500/20 font-bold transition flex items-center gap-1" title="在富途牛牛 App 打開">
+              <span>🐂</span> 富途
             </a>
-            <button id="close-chart-btn" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 font-bold transition">
+            <a id="modal-tv-link" href="#" target="_blank" class="px-2 py-1 text-[11px] rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-100 hover:border-slate-500 transition font-sans">
+              TV ↗
+            </a>
+            <button id="close-chart-btn" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 font-bold transition text-xs sm:text-sm">
               ✕
             </button>
           </div>
         </div>
 
         <!-- 🎯 量化操盤點位卡片 (Support, Stop-Loss, Resistance, R:R) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white dark:bg-slate-900/90 p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800/80 text-[11px] font-mono shadow-inner">
-          <div class="px-2 py-1">
-            <span class="text-slate-400 block text-[10px] font-sans font-medium">關鍵支撐 (Support)</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 bg-white dark:bg-slate-900/90 p-2 sm:p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800/80 text-[11px] font-mono shadow-inner">
+          <div class="px-2 py-0.5 sm:py-1">
+            <span class="text-slate-400 block text-[9px] sm:text-[10px] font-sans font-medium">關鍵支撐</span>
             <b id="modal-support" class="text-emerald-400 font-bold text-xs">$0.00</b>
           </div>
-          <div class="px-2 py-1">
-            <span class="text-slate-400 block text-[10px] font-sans font-medium">止蝕防守 (Stop-Loss)</span>
+          <div class="px-2 py-0.5 sm:py-1">
+            <span class="text-slate-400 block text-[9px] sm:text-[10px] font-sans font-medium">止蝕防守</span>
             <b id="modal-stoploss" class="text-rose-400 font-bold text-xs">$0.00</b>
           </div>
-          <div class="px-2 py-1">
-            <span class="text-slate-400 block text-[10px] font-sans font-medium">目標阻力 (Target)</span>
+          <div class="px-2 py-0.5 sm:py-1">
+            <span class="text-slate-400 block text-[9px] sm:text-[10px] font-sans font-medium">目標阻力</span>
             <b id="modal-resistance" class="text-teal-400 font-bold text-xs">$0.00</b>
           </div>
-          <div class="px-2 py-1">
-            <span class="text-slate-400 block text-[10px] font-sans font-medium">盈虧比 (R : R)</span>
+          <div class="px-2 py-0.5 sm:py-1">
+            <span class="text-slate-400 block text-[9px] sm:text-[10px] font-sans font-medium">盈虧比 (R:R)</span>
             <b id="modal-rr" class="text-amber-400 font-bold text-xs">0.0 : 1</b>
           </div>
         </div>
@@ -292,7 +343,7 @@
 
   <!-- 說明指南彈窗 -->
   <div id="guide-modal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
-    <div class="glass-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 shadow-2xl space-y-4 text-xs">
+    <div class="glass-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-5 sm:p-6 shadow-2xl space-y-4 text-xs">
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
           <span>📘</span> AlphaPulse · 操盤指南
@@ -323,8 +374,10 @@
           <p>• <b class="text-rose-400">D / E</b>：下跌放量或高位派發，散戶接盤（E 級直接剔除過閘資格）。</p>
         </div>
         <div class="space-y-1">
-          <b class="text-slate-900 dark:text-white">一鍵導出：</b>
-          <p>點擊右上角「📋 複製代碼」，可將篩選出的股票一鍵貼入富途牛牛、Interactive Brokers 或 TradingView 自選組。</p>
+          <b class="text-slate-900 dark:text-white">📱 手機 App 操作技巧：</b>
+          <p>• 點擊右上角「卡片 / 表格」可無縫切換雙模式。</p>
+          <p>• 點擊任何卡片或表格行，可直接呼起 TradingView 圖表與富途牛牛 App 下單。</p>
+          <p>• 點擊底部「📋 複製代碼」，可一鍵貼入富途牛牛、IBKR 觀察組合。</p>
         </div>
       </div>
     </div>
@@ -336,11 +389,51 @@
     let watchlist = JSON.parse(localStorage.getItem('my_watchlist') || '[]');
     let activeFilters = { 
       sector: [], accdist: [], pos: [], cat: [], watchlistOnly: false,
-      gateMode: 'all' // 預設顯示全部榜單，絕不強行閘走股票！
+      gateMode: 'all'
     };
     let sortKey = 'rank';
     let sortAsc = true;
     let searchQuery = '';
+
+    // 📱 視圖模式記憶 (預設手機 Card，電腦 Table)
+    let isMobileScreen = window.innerWidth < 768;
+    let currentViewMode = localStorage.getItem('view_mode') || (isMobileScreen ? 'card' : 'table');
+
+    function applyViewMode(mode) {
+      currentViewMode = mode;
+      localStorage.setItem('view_mode', mode);
+      const cardContainer = document.getElementById('card-view-container');
+      const tableContainer = document.getElementById('table-view-container');
+      const cardBtn = document.getElementById('view-card-btn');
+      const tableBtn = document.getElementById('view-table-btn');
+
+      if (mode === 'card') {
+        cardContainer.classList.remove('hidden');
+        tableContainer.classList.add('hidden');
+        cardBtn.className = 'px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-white shadow-sm';
+        tableBtn.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200';
+      } else {
+        cardContainer.classList.add('hidden');
+        tableContainer.classList.remove('hidden');
+        tableBtn.className = 'px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-white shadow-sm';
+        cardBtn.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200';
+      }
+    }
+
+    document.getElementById('view-card-btn').addEventListener('click', () => applyViewMode('card'));
+    document.getElementById('view-table-btn').addEventListener('click', () => applyViewMode('table'));
+    applyViewMode(currentViewMode);
+
+    // 📱 手機折疊篩選面板開關
+    const toggleFilterBtn = document.getElementById('toggle-filter-panel-btn');
+    const filterPanel = document.getElementById('filter-panel');
+    toggleFilterBtn.addEventListener('click', () => {
+      filterPanel.classList.toggle('hidden');
+      const isExpanded = !filterPanel.classList.contains('hidden');
+      toggleFilterBtn.classList.toggle('bg-emerald-500/10', isExpanded);
+      toggleFilterBtn.classList.toggle('text-emerald-400', isExpanded);
+      toggleFilterBtn.classList.toggle('border-emerald-500/50', isExpanded);
+    });
 
     // 主題切換
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -360,24 +453,36 @@
     document.getElementById('close-modal-btn').addEventListener('click', () => document.getElementById('guide-modal').classList.add('hidden'));
     document.getElementById('close-chart-btn').addEventListener('click', () => document.getElementById('chart-modal').classList.add('hidden'));
 
+    // 一鍵置頂
+    document.getElementById('mobile-scroll-top-btn').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     // 一鍵複製
-    document.getElementById('copy-btn').addEventListener('click', () => {
+    function copyFilteredTickers() {
       const filtered = getFilteredData();
       if (filtered.length === 0) return alert('目前沒有符合篩選的股票代號！');
       const tickersText = filtered.map(d => d.ticker).join(', ');
       navigator.clipboard.writeText(tickersText).then(() => {
         const btn = document.getElementById('copy-btn');
-        const orig = btn.innerHTML;
-        btn.innerHTML = `<span>✓</span> 已複製 ${filtered.length} 隻！`;
-        btn.classList.add('bg-emerald-500', 'text-white');
+        const mBtn = document.getElementById('mobile-copy-btn');
+        const origText = btn ? btn.innerHTML : '';
+        const origMText = mBtn ? mBtn.innerHTML : '';
+        
+        if (btn) btn.innerHTML = `<span>✓</span> 已複製 ${filtered.length} 隻！`;
+        if (mBtn) mBtn.innerHTML = `<span>✓</span> 已複製 ${filtered.length} 隻！`;
+        
         setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.classList.remove('bg-emerald-500', 'text-white');
+          if (btn) btn.innerHTML = origText;
+          if (mBtn) mBtn.innerHTML = origMText;
         }, 2000);
       });
-    });
+    }
 
-    // 打開圖表
+    document.getElementById('copy-btn').addEventListener('click', copyFilteredTickers);
+    document.getElementById('mobile-copy-btn').addEventListener('click', copyFilteredTickers);
+
+    // 打開圖表與呼起券商 App
     function openChart(ticker) {
       const stock = rawData.find(s => s.ticker === ticker);
       if (!stock) return;
@@ -401,6 +506,8 @@
       document.getElementById('modal-resistance').textContent = '$' + stock.resistance;
       document.getElementById('modal-rr').textContent = `${stock.rr_ratio} : 1`;
 
+      // ⚡ 支援一鍵呼起富途牛牛 App Deep Link
+      document.getElementById('modal-futu-link').href = `futunn://stock?symbol=US.${stock.ticker}`;
       document.getElementById('modal-tv-link').href = `https://www.tradingview.com/chart/?symbol=${stock.ticker}`;
       document.getElementById('chart-modal').classList.remove('hidden');
 
@@ -460,10 +567,10 @@
           d50: typeof d.d50 === 'number' ? d.d50 : 0,
           d200: typeof d.d200 === 'number' ? d.d200 : 0,
           rsi: typeof d.rsi === 'number' ? d.rsi : 50,
-          iv: typeof d.iv === 'number' ? d.iv : 0
+          iv: typeof d.iv === 'number' ? d.iv : 0,
+          vol_ratio: typeof d.vol_ratio === 'number' ? d.vol_ratio : 1.0
         }));
 
-        // 計算統計
         let upCount = 0, downCount = 0, accCount = 0;
         let eligibleCount = 0, watchCount = 0;
         rawData.forEach(d => {
@@ -491,7 +598,6 @@
     function updateMarketBanner(m) {
       const el = document.getElementById('market-regime');
       const detail = document.getElementById('market-detail');
-      const banner = document.getElementById('market-banner');
       if (!el) return;
       if (!m) {
         el.textContent = '大市：—';
@@ -500,7 +606,7 @@
       }
       const label = m.regime_label || ({ open: '開', half: '半倉', closed: '關' }[m.regime] || '—');
       el.textContent = '大市：' + label;
-      el.className = 'px-2.5 py-0.5 rounded-md font-black tracking-wide ' + (
+      el.className = 'px-2 py-0.5 rounded-md font-black tracking-wide text-xs ' + (
         m.regime === 'open' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' :
         m.regime === 'half' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' :
         'bg-rose-500/20 text-rose-400 border border-rose-500/40'
@@ -510,7 +616,6 @@
       if (m.d20 != null) bits.push('D20 ' + (m.d20 > 0 ? '+' : '') + m.d20 + '%');
       if (m.d200 != null) bits.push('D200 ' + (m.d200 > 0 ? '+' : '') + m.d200 + '%');
       if (m.max_watch != null) bits.push('精選上限 ' + m.max_watch);
-      if (m.regime === 'closed') bits.push('規避系統性風險');
       detail.textContent = bits.join(' · ');
     }
 
@@ -529,8 +634,6 @@
         b.classList.toggle('bg-emerald-500/10', on);
         b.classList.toggle('text-emerald-400', on);
         b.classList.toggle('font-bold', on);
-        b.classList.toggle('ring-1', on);
-        b.classList.toggle('ring-emerald-500/50', on);
         if (!on) {
           b.classList.add('border-slate-200', 'dark:border-slate-800', 'text-slate-400');
           b.classList.remove('text-emerald-400', 'font-bold');
@@ -569,14 +672,14 @@
 
       const sectors = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
 
-      let html = `<button data-group="sector" data-val="全部" class="filter-btn ${activeFilters.sector.length === 0 ? 'active border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold' : 'border-slate-200 dark:border-slate-800 text-slate-400'} px-3 py-1 rounded-lg border shrink-0 transition">全部</button>`;
+      let html = `<button data-group="sector" data-val="全部" class="filter-btn ${activeFilters.sector.length === 0 ? 'active border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold' : 'border-slate-200 dark:border-slate-800 text-slate-400'} px-2.5 py-0.5 rounded-lg border shrink-0 transition">全部</button>`;
 
       sectors.forEach(sec => {
         const isSelected = activeFilters.sector.includes(sec);
         const activeClass = isSelected 
           ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold ring-1 ring-emerald-500/50' 
           : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60';
-        html += `<button data-group="sector" data-val="${sec}" class="filter-btn px-2.5 py-1 rounded-lg border ${activeClass} shrink-0 transition">${sec} <span class="text-[10px] opacity-60">(${counts[sec]})</span></button>`;
+        html += `<button data-group="sector" data-val="${sec}" class="filter-btn px-2.5 py-0.5 rounded-lg border ${activeClass} shrink-0 transition">${sec} <span class="text-[10px] opacity-60">(${counts[sec]})</span></button>`;
       });
 
       sectorContainer.innerHTML = html;
@@ -594,6 +697,7 @@
             }
           }
           renderSectorButtons();
+          updateFilterActiveBadge();
           applyFiltersAndRender();
         });
       });
@@ -615,16 +719,22 @@
       document.getElementById('watchlist-count').textContent = watchlist.length;
     }
 
-    document.getElementById('watchlist-filter-btn').addEventListener('click', () => {
+    function toggleWatchlistFilter() {
       activeFilters.watchlistOnly = !activeFilters.watchlistOnly;
       const btn = document.getElementById('watchlist-filter-btn');
+      const mBtn = document.getElementById('mobile-watchlist-btn');
       if (activeFilters.watchlistOnly) {
         btn.classList.add('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+        mBtn.classList.add('bg-amber-500/20', 'ring-1', 'ring-amber-500');
       } else {
         btn.classList.remove('ring-2', 'ring-amber-500', 'bg-amber-500/20');
+        mBtn.classList.remove('bg-amber-500/20', 'ring-1', 'ring-amber-500');
       }
       applyFiltersAndRender();
-    });
+    }
+
+    document.getElementById('watchlist-filter-btn').addEventListener('click', toggleWatchlistFilter);
+    document.getElementById('mobile-watchlist-btn').addEventListener('click', toggleWatchlistFilter);
 
     document.getElementById('search-input').addEventListener('input', (e) => {
       searchQuery = e.target.value.trim().toUpperCase();
@@ -652,9 +762,16 @@
             btn.classList.add('ring-2', 'ring-emerald-500', 'font-bold', 'text-emerald-400');
           }
         }
+        updateFilterActiveBadge();
         applyFiltersAndRender();
       });
     });
+
+    function updateFilterActiveBadge() {
+      const hasActive = activeFilters.sector.length > 0 || activeFilters.accdist.length > 0 || activeFilters.pos.length > 0 || activeFilters.cat.length > 0;
+      const badge = document.getElementById('filter-active-badge');
+      if (badge) badge.classList.toggle('hidden', !hasActive);
+    }
 
     document.getElementById('clear-btn').addEventListener('click', () => {
       activeFilters = { sector: [], accdist: [], pos: [], cat: [], watchlistOnly: false, gateMode: 'all' };
@@ -667,6 +784,7 @@
       sortAsc = true;
       renderSectorButtons();
       syncViewButtons();
+      updateFilterActiveBadge();
       applyFiltersAndRender();
     });
 
@@ -715,6 +833,101 @@
       document.getElementById('count-display').textContent = data.length;
       document.getElementById('count-total').textContent = `/ ${rawData.length}`;
       
+      // 1. 渲染手機原生「卡片流」 (Card View)
+      const cardList = document.getElementById('card-list');
+      if (data.length === 0) {
+        cardList.innerHTML = `<div class="glass-card rounded-2xl p-8 text-center text-slate-400 font-sans">沒有符合篩選條件的股票。</div>`;
+      } else {
+        cardList.innerHTML = data.map(d => {
+          const isWatched = watchlist.includes(d.ticker);
+          const accColor = d.acc_dist === 'A' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                           d.acc_dist === 'B' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/30' :
+                           d.acc_dist === 'E' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' :
+                           d.acc_dist === 'D' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
+                           'text-slate-400 bg-slate-800/80 border border-slate-700/50';
+
+          const changeVal = Number(d.daily_change);
+          const changePill = changeVal > 0 
+            ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[11px] font-bold font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">▲ +${changeVal.toFixed(2)}%</span>`
+            : (changeVal < 0 
+                ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[11px] font-bold font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">▼ ${changeVal.toFixed(2)}%</span>`
+                : `<span class="text-slate-400 font-mono text-[11px]">0.00%</span>`);
+
+          let setupBadge = '';
+          if (d.watch_rank !== null) {
+            setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">⭐ 精選 #${d.watch_rank}</span>`;
+          } else if (d.setup_tag && d.setup_tag !== '僅過閘') {
+            setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">${d.setup_tag}</span>`;
+          }
+
+          return `
+          <div class="glass-card card-tap-feedback rounded-2xl p-3 sm:p-3.5 shadow-md border border-slate-200/80 dark:border-slate-800/80 hover:border-emerald-500/40 transition-all cursor-pointer space-y-2.5" onclick="openChart('${d.ticker}')">
+            <!-- 卡片頂部：名次 + 代號 + 現價 + 升跌 -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800/90 text-center leading-6 font-extrabold font-mono text-[11px] ${d.rank <= 10 ? 'text-emerald-400 ring-1 ring-emerald-500/30' : 'text-slate-400'}">
+                  ${d.rank}
+                </span>
+                <span class="font-black text-slate-900 dark:text-white font-mono text-base tracking-wide">
+                  ${d.ticker}
+                </span>
+                <button class="text-base select-none pl-0.5" onclick="toggleWatchlist('${d.ticker}', event)">
+                  ${isWatched ? '⭐' : '<span class="text-slate-400 dark:text-slate-600 hover:text-amber-400">☆</span>'}
+                </button>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-900 dark:text-slate-100 font-mono text-sm">$${d.price}</span>
+                ${changePill}
+              </div>
+            </div>
+
+            <!-- 卡片第二行：標籤膠囊列 -->
+            <div class="flex items-center gap-1.5 flex-wrap text-[10px]">
+              <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60 font-sans">
+                ${d.sector}
+              </span>
+              <span class="px-2 py-0.5 rounded-md font-mono font-bold ${accColor}">
+                籌碼 ${d.acc_dist}
+              </span>
+              <span class="px-2 py-0.5 rounded-md font-medium border ${
+                d.position === '過熱' ? 'bg-orange-500/10 text-orange-400 border-orange-500/30' :
+                d.position === '偏強' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                d.position === '超賣' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' :
+                'text-slate-400 border-slate-200 dark:border-slate-800'
+              }">${d.position}</span>
+              ${setupBadge}
+            </div>
+
+            <!-- 卡片第三行：關鍵量化指標微網格 -->
+            <div class="grid grid-cols-4 gap-1.5 py-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 text-[10px] font-mono text-center">
+              <div>
+                <span class="text-slate-400 block text-[9px] font-sans">D20</span>
+                <b class="${d.d20 >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${d.d20 > 0 ? '+' : ''}${d.d20}%</b>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[9px] font-sans">D50</span>
+                <b class="${d.d50 >= 0 ? 'text-teal-400' : 'text-rose-400'}">${d.d50 > 0 ? '+' : ''}${d.d50}%</b>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[9px] font-sans">D200</span>
+                <b class="${d.d200 >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${d.d200 > 0 ? '+' : ''}${d.d200}%</b>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[9px] font-sans">綜合分</span>
+                <b class="text-emerald-400 font-bold">${d.score.toFixed(1)}</b>
+              </div>
+            </div>
+
+            <!-- 卡片第四行：點位提示 -->
+            <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 dark:text-slate-400 pt-0.5">
+              <span>支撐 <b class="text-emerald-400 font-bold">$${d.support}</b> · 止蝕 <b class="text-rose-400 font-bold">$${d.stop_loss}</b></span>
+              <span>R:R <b class="text-amber-400 font-bold">${d.rr_ratio}:1</b> ↗</span>
+            </div>
+          </div>
+        `}).join('');
+      }
+
+      // 2. 渲染完整寬表格 (Table View)
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = data.map(d => {
         const isWatched = watchlist.includes(d.ticker);
@@ -731,7 +944,6 @@
               ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[11px] font-bold font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">▼ ${changeVal.toFixed(2)}%</span>`
               : `<span class="text-slate-400 font-mono text-[11px]">0.00%</span>`);
 
-        // 形態與精選觀察標籤
         let tagHtml = '—';
         if (d.watch_rank !== null) {
           tagHtml = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">⭐ 精選 #${d.watch_rank}</span>`;
