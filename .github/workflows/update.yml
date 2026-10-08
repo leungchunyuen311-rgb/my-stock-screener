@@ -2,38 +2,47 @@ name: Daily Stock Screener Update
 
 on:
   schedule:
-    # 每個交易日美股收市後執行：UTC 22:00（即香港時間週二至週六早上 06:00）
-    - cron: '0 22 * * 1-5'
-  workflow_dispatch: # 支援在 GitHub 網頁手動點擊立即運行
+    # 逢星期二至星期六 凌晨 05:00 HKT (即 UTC 21:00 星期一至五)，美股收市後執行
+    - cron: '0 21 * * 1-5'
+  workflow_dispatch: # 支援在 GitHub 網頁手動點擊「Run workflow」立即更新
 
+# 關鍵權限：允許 Actions 寫入並推送代碼回倉庫 (解決 403 報錯)
 permissions:
   contents: write
 
 jobs:
-  update-screener:
+  update-data:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: 檢出倉庫代碼
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: 設定 Python 環境
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           cache: 'pip'
 
-      - name: Install Packages
+      - name: 安裝依賴套件
         run: |
-          pip install --upgrade pip
-          pip install pandas yfinance
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Screener Script
+      - name: 執行量化篩選腳本
         run: |
           python screener.py
 
-      - name: Commit & Push New Data
+      - name: 提交並推送更新數據至 GitHub
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add screener_data.json
-          git diff --staged --quiet || (git commit -m "Auto update screener data [skip ci]" && git push)
+          
+          # 檢查是否有數據變動，有的話才提交
+          if git diff --staged --quiet; then
+            echo "沒有數據變動，無需提交。"
+          else
+            git commit -m "Auto-update stock data: $(date +'%Y-%m-%d %H:%M:%S') [skip ci]"
+            git push
+          fi
