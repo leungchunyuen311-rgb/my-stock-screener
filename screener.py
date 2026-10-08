@@ -107,6 +107,43 @@ def extract_ticker_df(data: pd.DataFrame, ticker: str, total_tickers: int) -> pd
     if data is None or data.empty:
         return None
     try:
+        # 單層索引直接返回
+        if not isinstance(data.columns, pd.MultiIndex):
+            if 'Close' in data.columns:
+                return data.dropna(subset=['Close'])
+            return None
+
+        level0 = data.columns.get_level_values(0)
+        level1 = data.columns.get_level_values(1)
+
+        # 格式 A: (Ticker, Field)
+        if ticker in level0:
+            df = data[ticker].copy()
+            if 'Close' in df.columns:
+                return df.dropna(subset=['Close'])
+
+        # 格式 B: (Field, Ticker)
+        if ticker in level1:
+            df = data.xs(ticker, axis=1, level=1).copy()
+            if 'Close' in df.columns:
+                return df.dropna(subset=['Close'])
+
+        # 單一股票容錯抽取
+        if total_tickers == 1:
+            df_l0 = data.copy()
+            df_l0.columns = df_l0.columns.get_level_values(0)
+            if 'Close' in df_l0.columns:
+                return df_l0.dropna(subset=['Close'])
+
+            df_l1 = data.copy()
+            df_l1.columns = df_l1.columns.get_level_values(1)
+            if 'Close' in df_l1.columns:
+                return df_l1.dropna(subset=['Close'])
+
+        return None
+    except Exception:
+        return None
+    try:
         if total_tickers == 1:
             df = data.copy()
             if isinstance(df.columns, pd.MultiIndex):

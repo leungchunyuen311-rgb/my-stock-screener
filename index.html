@@ -104,6 +104,15 @@
       <div class="flex items-center flex-wrap gap-1.5 sm:gap-2 text-xs">
         
         <!-- 📱 手機視圖切換器：卡片流 vs 表格 -->
+                <!-- 市場統計膠囊 -->
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 font-mono text-[11px]">
+          <span class="text-emerald-500 font-semibold" id="stats-up">▲ 0 升</span>
+          <span class="text-slate-400">/</span>
+          <span class="text-rose-500 font-semibold" id="stats-down">▼ 0 跌</span>
+          <span class="text-slate-400">·</span>
+          <span class="text-slate-500 dark:text-slate-400">主力吸籌: <b id="stats-acc" class="text-teal-400">0</b></span>
+        </div>
+
         <div class="inline-flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-mono text-[11px]">
           <button id="view-card-btn" class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1" title="切換為垂直卡片流模式">
             <span>📱</span> <span class="hidden xs:inline">卡片</span>
@@ -816,9 +825,12 @@
           if (d.watch_rank !== null) watchCount++;
         });
 
-        document.getElementById('stats-up').textContent = `▲ ${upCount} 升`;
-        document.getElementById('stats-down').textContent = `▼ ${downCount} 跌`;
-        document.getElementById('stats-acc').textContent = accCount;
+        const elUp = document.getElementById('stats-up');
+        if (elUp) elUp.textContent = `▲ ${upCount} 升`;
+        const elDown = document.getElementById('stats-down');
+        if (elDown) elDown.textContent = `▼ ${downCount} 跌`;
+        const elAcc = document.getElementById('stats-acc');
+        if (elAcc) elAcc.textContent = accCount;
 
         document.getElementById('count-all').textContent = rawData.length;
         document.getElementById('count-eligible').textContent = eligibleCount;
@@ -829,6 +841,11 @@
         renderSectorButtons();
         syncViewButtons();
         applyFiltersAndRender();
+      })
+      .catch(err => {
+        console.error('讀取數據失敗:', err);
+        const tbody = document.getElementById('table-body');
+        if (tbody) tbody.innerHTML = `<tr><td colspan="14" class="p-8 text-center text-rose-400 font-sans">數據讀取異常，請重新整理網頁。</td></tr>`;
       });
 
     function updateMarketBanner(m) {
