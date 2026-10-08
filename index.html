@@ -165,11 +165,11 @@
           <span class="text-base sm:text-lg">🔥</span>
           <div>
             <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5 tracking-tight">
-              🔥 今日交易推薦決策池
-              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">每日數據動態選股 · 共 <span id="recommended-count">0</span> 隻</span>
+              🔥 今日核心推薦 TOP 5
+              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">嚴格精選 TOP 5 · 寧缺毋濫</span>
             </h2>
             <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-              純客觀量化條件：大市閘許可、主力籌碼 A/B 級、20MA 回踩/縮量收斂蓄勢、R:R ≥ 1.8 且動能正分，隻數完全因應每日真實市場數據浮動
+              通過大市風控、主力籌碼 A 級、口袋支點、回踩收斂與高盈虧比五重硬核量化過濾，每日最多只挑選最頂尖的 5 隻標的
             </p>
           </div>
         </div>
@@ -518,9 +518,14 @@
     const toggleTop5Btn = document.getElementById('toggle-top5-btn');
     const top5Container = document.getElementById('top5-cards-container');
     toggleTop5Btn.addEventListener('click', () => {
-      top5Container.classList.toggle('hidden');
-      const isHidden = top5Container.classList.contains('hidden');
-      toggleTop5Btn.textContent = isHidden ? '展開 ▾' : '收起 ▴';
+      const isHidden = top5Container.style.display === 'none';
+      if (isHidden) {
+        top5Container.style.display = '';
+        toggleTop5Btn.innerHTML = '收起 ▴';
+      } else {
+        top5Container.style.display = 'none';
+        toggleTop5Btn.innerHTML = '展開 ▾';
+      }
     });
 
     // 主題切換

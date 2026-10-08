@@ -483,8 +483,12 @@ def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
             item['watch_rank'] = None
 
     recommended_items.sort(key=watch_sort_key)
+    # 寧缺毋濫：精選專區最多只保留當日最優質的 TOP 5，其餘合格股票保留形態但不上精選榜
     for idx, item in enumerate(recommended_items, 1):
-        item['watch_rank'] = idx
+        if idx <= 5:
+            item['watch_rank'] = idx
+        else:
+            item['watch_rank'] = None
 
 
 def fetch_spy_market() -> dict:
