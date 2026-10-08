@@ -230,18 +230,17 @@ def analyze_ticker(df: pd.DataFrame, ticker: str, account: float) -> dict | None
     }
 
 
-def market_regime(spy_df: pd.DataFrame) -> tuple[str, int]:
-    """Return (label, max_entries)."""
+def market_regime(spy_df: pd.DataFrame) -> str:
     close = float(spy_df["Close"].iloc[-1])
     sma20 = float(spy_df["Close"].rolling(20).mean().iloc[-1])
     sma200 = float(spy_df["Close"].rolling(200).mean().iloc[-1])
     d20 = ((close - sma20) / sma20) * 100 if sma20 else 0.0
 
     if close <= sma200:
-        return "關", 0
+        return "關"
     if d20 <= -3:
-        return "半倉", 4
-    return "開", 8
+        return "半倉"
+    return "開"
 
 
 def format_line(item: dict) -> str:
@@ -318,7 +317,7 @@ def main() -> int:
         print("SPY 數據不足，無法判斷大市閘。", file=sys.stderr)
         return 1
 
-    label, max_n = market_regime(spy_df)
+    label = market_regime(spy_df)
     print(f"大市: {label}", flush=True)
     if label == "關" and not args.force:
         print("⚠️ 大市處於 200MA 年線下方（大市閘：關），依系統風控指引停止開新倉。如需檢視逆市形態請加 --force。")
@@ -336,8 +335,8 @@ def main() -> int:
             results.append(item)
 
     results.sort(key=lambda x: (0 if x["has_huicai"] else 1, -x["rr"]))
-    if max_n > 0:
-        results = results[:max_n]
+    # 完全因應每日數據動態輸出全部符合條件的股票
+    # if args.limit: results = results[:args.limit]
 
     if not results:
         print("今日沒有同時過閘同埋有收市訊號嘅股票。")

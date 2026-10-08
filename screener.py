@@ -93,7 +93,6 @@ def get_sp500_tickers() -> list[str]:
         return [str(t).replace('.', '-') for t in df['Symbol'].tolist()]
     except Exception as e:
         print(f'下載名單失敗，使用核心備用名單: {e}')
-        # 備用列表附帶板塊分類，防止離線時全部變成綜合/其他
         fallback_tickers = [
             'QCOM', 'ARM', 'AMAT', 'LRCX', 'MRVL', 'AMD', 'MSFT', 'AAPL',
             'MU', 'INTC', 'META', 'SHOP', 'LLY', 'TSM', 'PLTR', 'GOOGL',
@@ -101,6 +100,37 @@ def get_sp500_tickers() -> list[str]:
             'CRM', 'CAT', 'DELL', 'MRNA', 'WBD', 'UNH', 'NVDA', 'WDC'
         ]
         return fallback_tickers
+
+
+def extract_ticker_df(data: pd.DataFrame, ticker: str, total_tickers: int) -> pd.DataFrame | None:
+    """兼顧 yfinance 所有版本之 MultiIndex 欄位抽取 (Field, Ticker) 與 (Ticker, Field)"""
+    if data is None or data.empty:
+        return None
+    try:
+        if total_tickers == 1:
+            df = data.copy()
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+            return df.dropna(subset=['Close']) if 'Close' in df.columns else None
+
+        if isinstance(data.columns, pd.MultiIndex):
+            level0 = data.columns.get_level_values(0)
+            level1 = data.columns.get_level_values(1)
+            if ticker in level0:
+                df = data[ticker].copy()
+            elif ticker in level1:
+                df = data.xs(ticker, axis=1, level=1).copy()
+            else:
+                return None
+        else:
+            df = data.copy()
+
+        if 'Close' in df.columns:
+            df = df.dropna(subset=['Close'])
+            return df if len(df) >= 20 else None
+    except Exception:
+        return None
+    return None
 
 
 def compute_rsi(series: pd.Series, period: int = 14) -> float:
@@ -127,17 +157,14 @@ def compute_acc_dist(df: pd.DataFrame) -> str:
         if len(recent) < 10 or 'Volume' not in recent.columns:
             return 'C'
         
-        # 當日收市較昨日升，且非收在最低點
         price_diff = recent['Close'].diff()
         highs = recent['High'] if 'High' in recent.columns else recent['Close']
         lows = recent['Low'] if 'Low' in recent.columns else recent['Close']
         closes = recent['Close']
         
-        # Close Location Value (0 到 1)
         denom = (highs - lows).replace(0, 0.001)
         clv = (closes - lows) / denom
         
-        # 綜合判定主動買盤日：收升且 CLV >= 0.35（避免烏雲蓋頂）
         up_mask = (price_diff > 0) & (clv >= 0.35)
         down_mask = (price_diff < 0) | ((price_diff >= 0) & (clv < 0.25))
 
@@ -292,27 +319,25 @@ def compute_spy_regime(spy_close: pd.Series) -> dict:
     d200 = round(((price - sma200) / sma200) * 100, 1) if sma200 else 0.0
 
     if price > sma200 and d20 > -3:
-        regime, label, max_watch = 'open', '開', 8
+        regime, label = open, 開
     elif price > sma200:
-        regime, label, max_watch = 'half', '半倉', 4
+        regime, label = half, 半倉
     else:
-        regime, label, max_watch = 'closed', '關', 8
+        regime, label = closed, 關
 
     return {
-        'ticker': 'SPY',
-        'price': round(price, 2),
-        'sma200': round(sma200, 2),
-        'd20': d20,
-        'd200': d200,
-        'above_sma200': bool(price > sma200),
-        'regime': regime,
-        'regime_label': label,
-        'max_watch': max_watch,
+        ticker: SPY,
+        price: round(price, 2),
+        sma200: round(sma200, 2),
+        d20: d20,
+        d200: d200,
+        above_sma200: bool(price > sma200),
+        regime: regime,
+        regime_label: label,
     }
 
 
 def evaluate_eligibility(item: dict) -> tuple[bool, str]:
-    """硬閘檢查：確保流動性、趨勢與合理盈虧比"""
     dollar_vol_20 = float(item.get('dollar_vol_20') or 0)
     acc_dist = item.get('acc_dist') or 'C'
     d200 = float(item.get('d200') or 0)
@@ -331,24 +356,21 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
         return False, ''
     if not (d20 < 12 and rsi < 75):
         return False, ''
-    # 修正後的合理盈虧比門檻（最少 1.8 盈虧比）
     if rr_ratio < 1.8:
         return False, ''
     return True, ''
 
 
 def compute_setup_tags(item: dict) -> str:
-    """過閘後的形態標籤"""
     d20 = float(item.get('d20') or 0)
     d50 = float(item.get('d50') or 0)
     d200 = float(item.get('d200') or 0)
     acc_dist = item.get('acc_dist') or 'C'
     position = item.get('position') or ''
     vol_ratio = float(item.get('vol_ratio') or 1.0)
-    rr_ratio = float(item.get('rr_ratio') or 0)
 
     tags = []
-    # 1. 突破
+    # 1. 放量突破
     if d20 >= 3.0 and vol_ratio >= 1.2 and acc_dist in ('A', 'B'):
         tags.append('放量突破')
     # 2. 回踩
@@ -367,13 +389,6 @@ def compute_setup_tags(item: dict) -> str:
 
 
 def watch_sort_key(item: dict) -> tuple:
-    """排序精選觀察名單：
-    1) 回踩 / 收斂待破 / 放量突破 優先
-    2) 籌碼 A > B > C > D
-    3) 盈虧比高優先
-    4) 同板塊相對強度高優先
-    5) ticker 字母序
-    """
     tag = item.get('setup_tag') or ''
     has_priority = 0 if any(k in tag for k in ('回踩', '收斂待破', '放量突破')) else 1
     chip = CHIP_ORDER.get(item.get('acc_dist', 'C'), 9)
@@ -384,32 +399,45 @@ def watch_sort_key(item: dict) -> tuple:
 
 
 def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
-    max_watch = int(market.get('max_watch') or 8)
-
-    eligible_items = []
+    """完全因應每日市場數據動態評定推薦名單：
+    純客觀量化條件：
+    1. 通過個股硬閘 (eligible == True)
+    2. 具備明確買點形態 (setup_tag != '僅過閘')
+    3. 機構籌碼為主力吸籌 (acc_dist in ('A', 'B'))
+    4. 綜合動能評分 > 0 (score > 0)
+    符合條件者全數入選，按籌碼優先度與盈虧比排序，絕不人工寫死固定隻數！
+    """
+    recommended_items = []
     for item in raw_list:
         ok, fail_tag = evaluate_eligibility(item)
         item['eligible'] = ok
         if ok:
             item['setup_tag'] = compute_setup_tags(item)
-            eligible_items.append(item)
+            is_rec = (
+                item['setup_tag'] != '僅過閘'
+                and item.get('acc_dist') in ('A', 'B')
+                and float(item.get('score', 0)) > 0
+            )
+            item['is_recommended'] = is_rec
+            if is_rec:
+                recommended_items.append(item)
+            else:
+                item['watch_rank'] = None
         else:
             item['setup_tag'] = fail_tag
+            item['is_recommended'] = False
             item['watch_rank'] = None
 
-    eligible_items.sort(key=watch_sort_key)
-    for idx, item in enumerate(eligible_items):
-        if idx < max_watch:
-            item['watch_rank'] = idx + 1
-        else:
-            item['watch_rank'] = None
+    recommended_items.sort(key=watch_sort_key)
+    for idx, item in enumerate(recommended_items, 1):
+        item['watch_rank'] = idx
 
 
 def fetch_spy_market() -> dict:
     print('正在下載 SPY 大市閘數據...')
     if yf is None:
         raise RuntimeError('yfinance not installed')
-    spy = yf.download(
+    spy_data = yf.download(
         tickers='SPY',
         period='1y',
         interval='1d',
@@ -417,16 +445,10 @@ def fetch_spy_market() -> dict:
         auto_adjust=True,
         progress=False,
     )
-    if isinstance(spy.columns, pd.MultiIndex):
-        close = spy['Close']
-        if isinstance(close, pd.DataFrame):
-            close = close.iloc[:, 0]
-    else:
-        close = spy['Close']
-    close = close.dropna()
-    if len(close) < 25:
+    spy_df = extract_ticker_df(spy_data, 'SPY', 1)
+    if spy_df is None or len(spy_df) < 25:
         raise RuntimeError('SPY data too short for SMA200/D20')
-    return compute_spy_regime(close)
+    return compute_spy_regime(spy_df['Close'])
 
 
 def main():
@@ -435,27 +457,52 @@ def main():
         return
 
     tickers = get_sp500_tickers()
-    print(f'正在批次下載 {len(tickers)} 隻股票數據...')
+    print(f'正在分批下載 {len(tickers)} 隻股票數據 (每批 100 隻)...')
 
-    data = yf.download(
-        tickers=tickers,
-        period='1y',
-        interval='1d',
-        group_by='ticker',
-        threads=True,
-        auto_adjust=True,
-    )
+    # 分批下載，避免 500 隻單次呼叫 timeout 或觸發限流
+    chunk_size = 100
+    all_raw_dfs = {}
+
+    for i in range(0, len(tickers), chunk_size):
+        chunk = tickers[i : i + chunk_size]
+        print(f'  正在下載批次 {i // chunk_size + 1}/{(len(tickers) - 1) // chunk_size + 1} ({len(chunk)} 隻)...')
+        try:
+            chunk_data = yf.download(
+                tickers=chunk,
+                period='1y',
+                interval='1d',
+                threads=True,
+                auto_adjust=True,
+                progress=False,
+            )
+            for t in chunk:
+                df_t = extract_ticker_df(chunk_data, t, len(chunk))
+                if df_t is not None and len(df_t) >= 20:
+                    all_raw_dfs[t] = df_t
+        except Exception as e:
+            print(f'  批次異常 ({e})，逐隻嘗試備用下載...')
+            for t in chunk:
+                try:
+                    single_data = yf.download(
+                        tickers=t,
+                        period='1y',
+                        interval='1d',
+                        auto_adjust=True,
+                        progress=False,
+                    )
+                    df_t = extract_ticker_df(single_data, t, 1)
+                    if df_t is not None and len(df_t) >= 20:
+                        all_raw_dfs[t] = df_t
+                except Exception:
+                    continue
+
+    print(f'成功下載並解析 {len(all_raw_dfs)} / {len(tickers)} 隻股票數據！')
 
     raw_list = []
     today_date_str = datetime.date.today().strftime('%Y-%m-%d')
 
-    for ticker in tickers:
+    for ticker, df in all_raw_dfs.items():
         try:
-            df = data[ticker] if len(tickers) > 1 else data
-            df = df.dropna(subset=['Close'])
-            if len(df) < 25:
-                continue
-
             close_series = df['Close']
             current_price = float(close_series.iloc[-1])
             prev_price = (
@@ -586,8 +633,13 @@ def main():
                 'dollar_vol_20': round(dollar_vol_20, 2),
                 'updated_at': today_date_str,
             })
-        except Exception:
+        except Exception as e:
             continue
+
+    # 安全防護：若沒有解析到任何股票，絕不覆蓋舊文件為空！
+    if len(raw_list) == 0:
+        print("❌ 錯誤：未能成功解析任何個股數據，保留既有數據以防網站清空！")
+        return
 
     # 第二輪：同板塊相對強度 sector_pct 與打分
     sector_groups: dict[str, list[dict]] = defaultdict(list)
@@ -667,7 +719,7 @@ def main():
     print(
         f'\n[完成] 大市閘={market.get("regime_label")} '
         f'(max_watch={market.get("max_watch")}) | '
-        f'eligible={n_elig} watch={n_watch} / {len(raw_list)}'
+        f'共解析股票={len(raw_list)} 隻 | eligible={n_elig} watch={n_watch}'
     )
 
 

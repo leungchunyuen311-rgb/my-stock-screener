@@ -156,11 +156,11 @@
           <span class="text-base sm:text-lg">🔥</span>
           <div>
             <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5 tracking-tight">
-              今日交易推薦 TOP 5
-              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">高勝率盈虧比池</span>
+              🔥 今日交易推薦決策池
+              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">每日數據動態選股 · 共 <span id="recommended-count">0</span> 隻</span>
             </h2>
             <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-              經嚴格大市閘、機構籌碼 A 級、20MA 健康回踩、縮量收斂及 R:R ≥ 2.0 嚴格篩選出的今日最高勝率買點
+              純客觀量化條件：大市閘許可、主力籌碼 A/B 級、20MA 回踩/縮量收斂蓄勢、R:R ≥ 1.8 且動能正分，隻數完全因應每日真實市場數據浮動
             </p>
           </div>
         </div>
@@ -170,7 +170,7 @@
       </div>
 
       <!-- TOP 5 決策卡片網格 (手機橫向滑動 / 桌面 5 列佈局) -->
-      <div id="top5-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 transition-all">
+      <div id="top5-cards-container" class="flex gap-2.5 overflow-x-auto pb-1 scrollbar-none sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 transition-all">
         <div class="col-span-full text-center py-6 text-slate-400 text-xs">正在挑選今日最佳交易候選股...</div>
       </div>
     </section>
@@ -182,11 +182,11 @@
         <button id="show-all-btn" class="px-3 py-1.5 rounded-xl border border-emerald-500 bg-emerald-500/10 text-emerald-400 font-bold text-xs shrink-0 transition flex items-center gap-1 shadow-sm">
           <span>🏆</span> 全部榜單 (<span id="count-all">0</span>)
         </button>
+        <button id="recommended-only-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium text-xs shrink-0 transition flex items-center gap-1">
+          <span>🔥</span> 今日推薦 (<span id="count-recommended-btn">0</span>)
+        </button>
         <button id="eligible-only-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium text-xs shrink-0 transition flex items-center gap-1">
           <span>🎯</span> 形態買點 (<span id="count-eligible">0</span>)
-        </button>
-        <button id="watch-only-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-800/60 font-medium text-xs shrink-0 transition flex items-center gap-1">
-          <span>⭐</span> 今日精選 (<span id="count-watch">0</span>)
         </button>
         <button id="watchlist-filter-btn" class="px-3 py-1.5 rounded-xl border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 font-bold text-xs shrink-0 transition flex items-center gap-1">
           <span>★</span> 自選 (<span id="watchlist-count">0</span>)
@@ -663,30 +663,24 @@
       });
     }
 
-    // 🏆 渲染今日交易精選 TOP 5 卡片
-    function renderTop5Cards() {
+    // 🔥 動態渲染今日交易推薦卡片（每日依據真實數據浮動，不硬寫固定隻數）
+    function renderRecommendedCards() {
       const container = document.getElementById('top5-cards-container');
       if (!container) return;
 
-      // 篩選出 watch_rank 最前 5 名
-      const watchStocks = rawData.filter(d => d.watch_rank !== null).sort((a, b) => a.watch_rank - b.watch_rank);
-      const top5 = watchStocks.slice(0, 5);
+      const recStocks = rawData.filter(d => d.watch_rank !== null).sort((a, b) => a.watch_rank - b.watch_rank);
+      document.getElementById('recommended-count').textContent = recStocks.length;
+      const countBtn = document.getElementById('count-recommended-btn');
+      if (countBtn) countBtn.textContent = recStocks.length;
 
-      if (top5.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center py-4 text-slate-400 text-xs font-mono">今日大市閘暫未有符合嚴格低吸買點的精選股票。</div>`;
+      if (recStocks.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-6 text-slate-400 text-xs font-mono">今日大市閘或個股硬閘下，未有符合高盈虧比低吸條件的推薦股票，建議持幣觀望。</div>`;
         return;
       }
 
-      const medals = ['🥇 TOP 1', '🥈 TOP 2', '🥉 TOP 3', '⭐ TOP 4', '⭐ TOP 5'];
-      const borderColors = [
-        'border-amber-500/50 bg-gradient-to-b from-amber-500/[0.08] to-transparent',
-        'border-slate-300/40 bg-gradient-to-b from-slate-400/[0.05] to-transparent',
-        'border-amber-700/40 bg-gradient-to-b from-amber-700/[0.05] to-transparent',
-        'border-emerald-500/30 bg-gradient-to-b from-emerald-500/[0.04] to-transparent',
-        'border-teal-500/30 bg-gradient-to-b from-teal-500/[0.04] to-transparent'
-      ];
+      const medals = ['🥇 #1', '🥈 #2', '🥉 #3', '⭐ #4', '⭐ #5'];
 
-      container.innerHTML = top5.map((s, idx) => {
+      container.innerHTML = recStocks.map((s, idx) => {
         const changeVal = Number(s.daily_change);
         const changeColor = changeVal >= 0 ? 'text-emerald-400' : 'text-rose-400';
         
@@ -702,7 +696,7 @@
         }
 
         return `
-        <div class="glass-card card-tap-feedback rounded-2xl p-3 shadow-lg border ${borderColors[idx] || 'border-slate-700'} space-y-2 flex flex-col justify-between cursor-pointer" onclick="openChart('${s.ticker}')">
+        <div class="glass-card card-tap-feedback rounded-2xl p-3 shadow-lg border border-slate-700/80 hover:border-amber-500/50 space-y-2 flex flex-col justify-between cursor-pointer min-w-[240px] sm:min-w-0 shrink-0" onclick="openChart('${s.ticker}')">
           <div class="space-y-1.5">
             <!-- 頂部名次與代號 -->
             <div class="flex items-center justify-between">
@@ -828,10 +822,10 @@
 
         document.getElementById('count-all').textContent = rawData.length;
         document.getElementById('count-eligible').textContent = eligibleCount;
-        document.getElementById('count-watch').textContent = watchCount;
+        
 
         updateWatchlistCount();
-        renderTop5Cards();
+        renderRecommendedCards();
         renderSectorButtons();
         syncViewButtons();
         applyFiltersAndRender();
@@ -857,7 +851,7 @@
       if (m.price != null) bits.push('SPY $' + m.price);
       if (m.d20 != null) bits.push('D20 ' + (m.d20 > 0 ? '+' : '') + m.d20 + '%');
       if (m.d200 != null) bits.push('D200 ' + (m.d200 > 0 ? '+' : '') + m.d200 + '%');
-      if (m.max_watch != null) bits.push('精選上限 ' + m.max_watch);
+      
       detail.textContent = bits.join(' · ');
     }
 
@@ -866,7 +860,7 @@
       const map = {
         all: 'show-all-btn',
         eligible: 'eligible-only-btn',
-        watch: 'watch-only-btn'
+        
       };
       Object.entries(map).forEach(([k, id]) => {
         const b = document.getElementById(id);
@@ -890,18 +884,19 @@
       syncViewButtons();
       applyFiltersAndRender();
     });
-    document.getElementById('eligible-only-btn').addEventListener('click', () => {
-      activeFilters.gateMode = 'eligible';
-      syncViewButtons();
-      applyFiltersAndRender();
-    });
-    document.getElementById('watch-only-btn').addEventListener('click', () => {
-      activeFilters.gateMode = 'watch';
+    document.getElementById('recommended-only-btn').addEventListener('click', () => {
+      activeFilters.gateMode = 'recommended';
       sortKey = 'watch_rank';
       sortAsc = true;
       syncViewButtons();
       applyFiltersAndRender();
     });
+    document.getElementById('eligible-only-btn').addEventListener('click', () => {
+      activeFilters.gateMode = 'eligible';
+      syncViewButtons();
+      applyFiltersAndRender();
+    });
+    
 
     // 動態生成板塊按鈕
     function renderSectorButtons() {
@@ -1032,6 +1027,7 @@
 
     function getFilteredData() {
       return rawData.filter(d => {
+        if (activeFilters.gateMode === 'recommended' && (d.watch_rank === null || d.watch_rank === undefined)) return false;
         if (activeFilters.gateMode === 'eligible' && !d.eligible) return false;
         if (activeFilters.gateMode === 'watch' && (d.watch_rank === null || d.watch_rank === undefined)) return false;
         if (activeFilters.watchlistOnly && !watchlist.includes(d.ticker)) return false;
@@ -1097,7 +1093,7 @@
 
           let setupBadge = '';
           if (d.watch_rank !== null) {
-            setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">⭐ 精選 #${d.watch_rank}</span>`;
+            setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">TOP ${d.watch_rank} 推薦</span>`;
           } else if (d.setup_tag && d.setup_tag !== '僅過閘') {
             setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">${d.setup_tag}</span>`;
           }
@@ -1188,7 +1184,7 @@
 
         let tagHtml = '—';
         if (d.watch_rank !== null) {
-          tagHtml = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">⭐ 精選 #${d.watch_rank}</span>`;
+          tagHtml = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">TOP ${d.watch_rank} 推薦</span>`;
         } else if (d.setup_tag && d.setup_tag !== '僅過閘') {
           const isGreen = d.setup_tag.includes('回踩') || d.setup_tag.includes('收斂') || d.setup_tag.includes('突破');
           tagHtml = `<span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-medium border ${isGreen ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'}">${d.setup_tag}</span>`;
