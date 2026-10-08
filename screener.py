@@ -382,6 +382,8 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
     rsi = float(item.get('rsi') or 50)
     rr_ratio = float(item.get('rr_ratio') or 0)
     daily_change = float(item.get('daily_change') or 0)
+    dist_52w_high = float(item.get('dist_52w_high') or -100)
+    dist_52w_low = float(item.get('dist_52w_low') or 0)
 
     if daily_change > 8:
         return False, '待確認'
@@ -395,6 +397,11 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
         return False, ''
     if rr_ratio < 1.8:
         return False, ''
+    # Minervini 52 週準則：距離 52 週高位 28% 以內 (排除深度破底股)，遠離 52 週低位 25% 以上 (排除死貓彈)
+    if dist_52w_high < -30.0:
+        return False, ''
+    if dist_52w_low < 8.0:
+        return False, ''
     return True, ''
 
 
@@ -405,18 +412,26 @@ def compute_setup_tags(item: dict) -> str:
     acc_dist = item.get('acc_dist') or 'C'
     position = item.get('position') or ''
     vol_ratio = float(item.get('vol_ratio') or 1.0)
+    is_pocket_pivot = bool(item.get('is_pocket_pivot'))
+    is_vdu = bool(item.get('is_vdu'))
 
     tags = []
-    # 1. 放量突破
-    if d20 >= 3.0 and vol_ratio >= 1.2 and acc_dist in ('A', 'B'):
-        tags.append('放量突破')
-    # 2. 回踩
+    # 1. 口袋支點量能 (Pocket Pivot - O'Neil體系頂級低吸)
+    if is_pocket_pivot and (-2.5 <= d20 <= 4.0) and acc_dist in ('A', 'B'):
+        tags.append('口袋支點')
+    # 2. 回踩均線支撐
     if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
         tags.append('回踩')
-    # 3. 收斂待破
-    if abs(d20) <= 3 and d200 >= 5 and vol_ratio < 1.1:
+    # 3. 窄幅收斂待破 (VCP)
+    if abs(d20) <= 3 and d200 >= 5 and (vol_ratio < 1.1 or is_vdu):
         tags.append('收斂待破')
-    # 4. 超賣吸籌
+    # 4. 賣壓極致枯竭 (Volume Dry-Up)
+    if is_vdu and abs(d20) <= 3.5:
+        tags.append('極致量縮')
+    # 5. 放量突破
+    if d20 >= 3.0 and vol_ratio >= 1.2 and acc_dist in ('A', 'B'):
+        tags.append('放量突破')
+    # 6. 超賣吸籌
     if position == '超賣' and acc_dist in ('A', 'B') and d200 >= -4:
         tags.append('超賣吸籌')
 
@@ -427,12 +442,14 @@ def compute_setup_tags(item: dict) -> str:
 
 def watch_sort_key(item: dict) -> tuple:
     tag = item.get('setup_tag') or ''
-    has_priority = 0 if any(k in tag for k in ('回踩', '收斂待破', '放量突破')) else 1
+    # 口袋支點、回踩、收斂待破最優先
+    has_priority = 0 if any(k in tag for k in ('口袋支點', '回踩', '收斂待破', '放量突破')) else 1
+    pocket_bonus = 0 if item.get('is_pocket_pivot') else 1
     chip = CHIP_ORDER.get(item.get('acc_dist', 'C'), 9)
     rr = -float(item.get('rr_ratio') or 0)
     sector = -float(item.get('sector_pct') or 0)
     ticker = item.get('ticker') or ''
-    return (has_priority, chip, rr, sector, ticker)
+    return (has_priority, pocket_bonus, chip, rr, sector, ticker)
 
 
 def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
@@ -645,6 +662,38 @@ def main():
                 vol_ratio = 1.0
                 dollar_vol_20 = 0.0
 
+            # 4. Minervini 52 週高低位距離
+            high_52w = float(df['High'].tail(252).max()) if 'High' in df.columns else current_price * 1.05
+            low_52w = float(df['Low'].tail(252).min()) if 'Low' in df.columns else current_price * 0.7
+            dist_52w_high = round(((current_price - high_52w) / high_52w) * 100, 1)
+            dist_52w_low = round(((current_price - low_52w) / low_52w) * 100, 1)
+
+            # 5. Pocket Pivot 口袋支點量能 (超越近 10 日最大陰燭量)
+            is_pocket_pivot = False
+            try:
+                if 'Volume' in df.columns and len(df) >= 11:
+                    c_list = df['Close'].tail(11).tolist()
+                    v_list = df['Volume'].tail(11).tolist()
+                    down_vols = [v_list[i] for i in range(1, len(c_list) - 1) if c_list[i] < c_list[i - 1]]
+                    max_down = max(down_vols) if down_vols else 0.0
+                    today_v = float(v_list[-1])
+                    if daily_change > 0 and today_v >= max_down * 0.95:
+                        is_pocket_pivot = True
+            except Exception:
+                is_pocket_pivot = False
+
+            # 6. VDU (Volume Dry-Up 賣壓極致枯竭)
+            is_vdu = bool(vol_ratio <= 0.65 and abs(d20) <= 3.5)
+
+            # 7. 平滑高質量動能 (Alpha Architect: Frog in the Pan)
+            is_smooth = False
+            try:
+                if len(df) >= 60:
+                    pos_ratio = (df['Close'].pct_change().tail(60) > 0).mean()
+                    is_smooth = bool(pos_ratio >= 0.52)
+            except Exception:
+                is_smooth = False
+
             raw_list.append({
                 'ticker': ticker,
                 'name': ticker,
@@ -669,6 +718,13 @@ def main():
                 'vol_ratio': round(vol_ratio, 3),
                 'dollar_vol_20': round(dollar_vol_20, 2),
                 'updated_at': today_date_str,
+                'high_52w': round(high_52w, 2),
+                'low_52w': round(low_52w, 2),
+                'dist_52w_high': dist_52w_high,
+                'dist_52w_low': dist_52w_low,
+                'is_pocket_pivot': is_pocket_pivot,
+                'is_vdu': is_vdu,
+                'is_smooth': is_smooth,
             })
         except Exception as e:
             continue
@@ -744,6 +800,13 @@ def main():
 
     payload = {
         'updated_at': today_date_str,
+                'high_52w': round(high_52w, 2),
+                'low_52w': round(low_52w, 2),
+                'dist_52w_high': dist_52w_high,
+                'dist_52w_low': dist_52w_low,
+                'is_pocket_pivot': is_pocket_pivot,
+                'is_vdu': is_vdu,
+                'is_smooth': is_smooth,
         'market': market,
         'stocks': raw_list,
     }
