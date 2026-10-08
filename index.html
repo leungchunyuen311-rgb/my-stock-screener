@@ -166,7 +166,7 @@
           <div>
             <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5 tracking-tight">
               🔥 今日核心推薦 TOP 5
-              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">嚴格精選 TOP 5 · 寧缺毋濫</span>
+              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">嚴格精選 TOP <span id="recommended-count">5</span> · 寧缺毋濫</span>
             </h2>
             <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               通過大市風控、主力籌碼 A 級、口袋支點、回踩收斂與高盈虧比五重硬核量化過濾，每日最多只挑選最頂尖的 5 隻標的
@@ -683,7 +683,7 @@
       if (!container) return;
 
       const recStocks = rawData.filter(d => d.watch_rank !== null).sort((a, b) => a.watch_rank - b.watch_rank);
-      document.getElementById('recommended-count').textContent = recStocks.length;
+      const recEl = document.getElementById('recommended-count'); if (recEl) recEl.textContent = recStocks.length;
       const countBtn = document.getElementById('count-recommended-btn');
       if (countBtn) countBtn.textContent = recStocks.length;
 
