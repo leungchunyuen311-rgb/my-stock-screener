@@ -2,8 +2,10 @@ name: Daily Stock Screener Update
 
 on:
   schedule:
-   # 改為 21:25 UTC，避開全球整點高峰，觸發率大幅提升
-- cron: '25 21 * * 1-5'
+    # 逢星期二至星期六 凌晨 05:25 HKT (即 UTC 21:25 星期一至五)，美股收市後執行
+    # 設定為 25 分避開 GitHub 全球整點 (:00) 塞車延遲
+    - cron: '25 21 * * 1-5'
+  workflow_dispatch: # 支援在 GitHub 網頁隨時點擊「Run workflow」手動一鍵立即更新
 
 # 關鍵權限：允許 Actions 寫入並推送代碼回倉庫 (解決 403 報錯)
 permissions:
