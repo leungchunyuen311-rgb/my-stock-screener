@@ -345,6 +345,9 @@ def determine_advanced_metrics(
 # ---------------------------------------------------------------------------
 
 def compute_spy_regime(spy_close: pd.Series) -> dict:
+    if isinstance(spy_close, pd.DataFrame):
+        spy_close = spy_close.iloc[:, 0]
+    spy_close = spy_close.dropna()
     price = float(spy_close.iloc[-1])
     sma20 = float(spy_close.rolling(20).mean().iloc[-1])
     sma200 = (
@@ -503,10 +506,21 @@ def fetch_spy_market() -> dict:
         auto_adjust=True,
         progress=False,
     )
-    spy_df = extract_ticker_df(spy_data, 'SPY', 1)
-    if spy_df is None or len(spy_df) < 25:
+    if isinstance(spy_data.columns, pd.MultiIndex):
+        if 'Close' in spy_data.columns.get_level_values(0):
+            close_s = spy_data['Close']
+        elif 'Close' in spy_data.columns.get_level_values(1):
+            close_s = spy_data.xs('Close', axis=1, level=1)
+        else:
+            close_s = spy_data.iloc[:, 0]
+        if isinstance(close_s, pd.DataFrame):
+            close_s = close_s.iloc[:, 0]
+    else:
+        close_s = spy_data['Close']
+    close_s = close_s.dropna()
+    if len(close_s) < 25:
         raise RuntimeError('SPY data too short for SMA200/D20')
-    return compute_spy_regime(spy_df['Close'])
+    return compute_spy_regime(close_s)
 
 
 def main():
@@ -557,7 +571,8 @@ def main():
     print(f'成功下載並解析 {len(all_raw_dfs)} / {len(tickers)} 隻股票數據！')
 
     raw_list = []
-    today_date_str = datetime.date.today().strftime('%Y-%m-%d')
+    hk_tz = datetime.timezone(datetime.timedelta(hours=8))
+    today_date_str = datetime.datetime.now(hk_tz).strftime('%Y-%m-%d')
 
     for ticker, df in all_raw_dfs.items():
         try:
@@ -804,13 +819,6 @@ def main():
 
     payload = {
         'updated_at': today_date_str,
-                'high_52w': round(high_52w, 2),
-                'low_52w': round(low_52w, 2),
-                'dist_52w_high': dist_52w_high,
-                'dist_52w_low': dist_52w_low,
-                'is_pocket_pivot': is_pocket_pivot,
-                'is_vdu': is_vdu,
-                'is_smooth': is_smooth,
         'market': market,
         'stocks': raw_list,
     }
