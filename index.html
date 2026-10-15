@@ -449,8 +449,11 @@
           <p>• <b class="text-rose-400">關</b>：SPY 跌破 200MA 年線，系統性風險規避，停止建立多頭新倉。</p>
         </div>
         <div class="space-y-1">
-          <b class="text-slate-900 dark:text-white">今日推薦 TOP 5 邏輯：</b>
-          <p>從全市場 500 隻股票中，精選出處於「回踩確認」或「窄幅收斂待破」形態、機構籌碼為 A 級、且盈虧比高達 2.0 以上的精選買點，提供進場、止蝕與目標點位。</p>
+          <b class="text-slate-900 dark:text-white">🔥 今日核心推薦 TOP 5（五重國際量化漏斗）：</b>
+          <p>• <b class="text-purple-400">口袋支點 (Pocket Pivot)</b>：當日收升 ≥ 0.5%、量比 ≥ 1.05x 且成交量超越近 10 日最大陰燭量，主力大單吞噬賣壓。</p>
+          <p>• <b class="text-sky-400">極致量縮 (VDU)</b>：回踩 20MA 附近時量比 ≤ 0.65x，浮動籌碼鎖定、賣壓枯竭。</p>
+          <p>• <b class="text-emerald-400">Minervini 52週強者恆強</b>：距離 52 週高位 30% 以內且高於 52 週低位，排除破底死貓彈。</p>
+          <p>• <b class="text-amber-400">不對稱盈虧比 (R:R ≥ 1.8)</b>：結合歐奈爾 A/B 級機構吸籌，卡片直接標明「建議買入區間 ($支撐～$現價)」。</p>
         </div>
         <div class="space-y-1">
           <b class="text-slate-900 dark:text-white">歐奈爾機構籌碼評級 (IBD Acc/Dist A~E)：</b>
@@ -632,22 +635,28 @@
 
       // 🔬 四維量化圖表診斷生成
       let maDiagnosis = '';
+      const w52Info = stock.dist_52w_high ? `（距52週高 ${stock.dist_52w_high}% · 距52週低 +${stock.dist_52w_low}%）` : '';
       if (stock.d20 >= -2 && stock.d20 <= 3) {
-        maDiagnosis = `股價目前在 20MA 附近 (${stock.d20 > 0 ? '+' : ''}${stock.d20}%) 健康回踩，下方有月線均線密集支撐，屬於標準順勢低吸區。`;
+        maDiagnosis = `股價在 20MA 附近 (${stock.d20 > 0 ? '+' : ''}${stock.d20}%) 健康回踩，下方支撐密集 ${w52Info}。`;
       } else if (stock.d20 > 8) {
-        maDiagnosis = `股價已大幅遠離 20MA (+${stock.d20}%)，短線處於過熱或延伸形態，盈虧比偏低，不宜追高建倉。`;
+        maDiagnosis = `股價已遠離 20MA (+${stock.d20}%) 處於短線延伸過熱，不宜追高 ${w52Info}。`;
       } else {
-        maDiagnosis = `股價處於均線整理階段 (D20: ${stock.d20}%, D50: ${stock.d50}%)，關注下方支撐位 $${stock.support} 的承接力度。`;
+        maDiagnosis = `均線結構 D20: ${stock.d20}%, D50: ${stock.d50}%, D200: ${stock.d200}% ${w52Info}。`;
       }
       document.getElementById('diag-ma-text').textContent = maDiagnosis;
 
       let volDiagnosis = '';
+      const quantTags = [];
+      if (stock.is_pocket_pivot) quantTags.push('🔥口袋支點搶籌');
+      if (stock.is_vdu) quantTags.push('💧VDU極致縮量');
+      if (stock.is_smooth) quantTags.push('✨平滑推升動能');
+      const quantTagStr = quantTags.length > 0 ? `【${quantTags.join(' · ')}】` : '';
       if (stock.acc_dist === 'A' || stock.acc_dist === 'B') {
-        volDiagnosis = `過去 20 日大戶機構主力維持持續吸籌 (評級 ${stock.acc_dist})，今日量比 ${stock.vol_ratio || 1.0}x，量價結構穩健。`;
+        volDiagnosis = `${quantTagStr} 過去 20 日機構主力持續吸籌 (評級 ${stock.acc_dist})，今日量比 ${stock.vol_ratio || 1.0}x，量價結構穩健。`;
       } else if (stock.acc_dist === 'D' || stock.acc_dist === 'E') {
-        volDiagnosis = `籌碼評級為 ${stock.acc_dist}，顯示下跌或高位有主力減持跡象，需留意反彈受阻風險。`;
+        volDiagnosis = `籌碼評級為 ${stock.acc_dist}，顯示下跌或高位有主力派發跡象，需留意反彈受阻風險。`;
       } else {
-        volDiagnosis = `籌碼呈現中性持平 (評級 C)，散戶與大戶博弈中，待放量方向確認。`;
+        volDiagnosis = `${quantTagStr} 籌碼中性持平 (評級 C)，今日量比 ${stock.vol_ratio || 1.0}x，待放量方向確認。`;
       }
       document.getElementById('diag-volume-text').textContent = volDiagnosis;
 
@@ -656,7 +665,7 @@
       const riskPerTrade = 500;
       const suggestedShares = Math.max(1, Math.floor(riskPerTrade / riskDist));
       const totalCapital = (suggestedShares * priceNum).toLocaleString();
-      document.getElementById('diag-shares-text').textContent = `建議買入 ${suggestedShares} 股 (約 $${totalCapital} 美元) · 觸及止蝕最大損失控制在 $${(suggestedShares * riskDist).toFixed(0)} 美元 (0.5%)。`;
+      document.getElementById('diag-shares-text').textContent = `🎯 建議買入區 $${stock.support}～$${stock.price} · 買入 ${suggestedShares} 股 (約 $${totalCapital}) · 止蝕最大風險 $${(suggestedShares * riskDist).toFixed(0)} (0.5%)。`;
 
       // 富途與 TradingView 跳轉
       document.getElementById('modal-futu-link').href = `futunn://stock?symbol=US.${stock.ticker}`;
@@ -739,25 +748,29 @@
             </div>
 
             <!-- 量化短評 -->
-            <p class="text-[10px] text-slate-300 dark:text-slate-300 leading-snug line-clamp-2 pt-0.5">
+            <p class="text-[10px] text-slate-300 dark:text-slate-300 leading-relaxed pt-0.5">
               ${reason}
             </p>
           </div>
 
           <!-- 操盤點位微網格 -->
           <div class="pt-2 border-t border-slate-700/50 space-y-1.5">
+            <div class="px-2 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-[10px] font-mono">
+              <span class="text-slate-400 font-sans">🎯 建議買入區</span>
+              <b class="text-emerald-400">$${s.support} ～ $${s.price}</b>
+            </div>
             <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-center bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80">
               <div>
-                <span class="text-slate-500 block text-[9px] font-sans">止蝕</span>
+                <span class="text-slate-500 block text-[9px] font-sans">止蝕防守</span>
                 <b class="text-rose-400">$${s.stop_loss}</b>
               </div>
               <div>
-                <span class="text-slate-500 block text-[9px] font-sans">目標</span>
+                <span class="text-slate-500 block text-[9px] font-sans">目標阻力</span>
                 <b class="text-teal-400">$${s.resistance}</b>
               </div>
               <div>
-                <span class="text-slate-500 block text-[9px] font-sans">R : R</span>
-                <b class="text-amber-400">${s.rr_ratio}</b>
+                <span class="text-slate-500 block text-[9px] font-sans">盈虧比</span>
+                <b class="text-amber-400">${s.rr_ratio}:1</b>
               </div>
             </div>
 
@@ -819,7 +832,14 @@
           d200: typeof d.d200 === 'number' ? d.d200 : 0,
           rsi: typeof d.rsi === 'number' ? d.rsi : 50,
           iv: typeof d.iv === 'number' ? d.iv : 0,
-          vol_ratio: typeof d.vol_ratio === 'number' ? d.vol_ratio : 1.0
+          vol_ratio: typeof d.vol_ratio === 'number' ? d.vol_ratio : 1.0,
+          high_52w: d.high_52w || 0,
+          low_52w: d.low_52w || 0,
+          dist_52w_high: typeof d.dist_52w_high === 'number' ? d.dist_52w_high : 0,
+          dist_52w_low: typeof d.dist_52w_low === 'number' ? d.dist_52w_low : 0,
+          is_pocket_pivot: !!d.is_pocket_pivot,
+          is_vdu: !!d.is_vdu,
+          is_smooth: !!d.is_smooth
         }));
 
         let upCount = 0, downCount = 0, accCount = 0;
@@ -883,8 +903,8 @@
       const mode = activeFilters.gateMode;
       const map = {
         all: 'show-all-btn',
-        eligible: 'eligible-only-btn',
-        
+        recommended: 'recommended-only-btn',
+        eligible: 'eligible-only-btn'
       };
       Object.entries(map).forEach(([k, id]) => {
         const b = document.getElementById(id);
@@ -1219,8 +1239,8 @@
           const colorClass = hasPP 
             ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold'
             : (hasVDU ? 'bg-sky-500/20 text-sky-300 border-sky-500/40 font-semibold' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30');
-          const recPrefix = d.watch_rank !== null ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 mr-1">#${d.watch_rank}</span>` : '';
-          tagHtml = `${recPrefix}<span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-medium border ${colorClass}">${d.setup_tag}</span>`;
+          const recPrefix = d.watch_rank !== null ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 mr-1 whitespace-nowrap">#${d.watch_rank}</span>` : '';
+          tagHtml = `<div class="inline-flex items-center justify-center whitespace-nowrap">${recPrefix}<span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-medium border whitespace-nowrap ${colorClass}">${d.setup_tag}</span></div>`;
         } else if (d.eligible) {
           tagHtml = `<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans text-slate-400 border border-slate-700/50">過閘</span>`;
         }
@@ -1262,7 +1282,7 @@
             ${d.d200 > 0 ? '+' : ''}${d.d200}%
           </td>
           <td class="py-3 px-3 text-center">
-            <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-sans bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60">
+            <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-sans whitespace-nowrap bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60">
               ${d.sector}
             </span>
           </td>

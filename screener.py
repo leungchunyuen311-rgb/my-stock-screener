@@ -143,31 +143,6 @@ def extract_ticker_df(data: pd.DataFrame, ticker: str, total_tickers: int) -> pd
         return None
     except Exception:
         return None
-    try:
-        if total_tickers == 1:
-            df = data.copy()
-            if isinstance(df.columns, pd.MultiIndex):
-                df.columns = df.columns.get_level_values(0)
-            return df.dropna(subset=['Close']) if 'Close' in df.columns else None
-
-        if isinstance(data.columns, pd.MultiIndex):
-            level0 = data.columns.get_level_values(0)
-            level1 = data.columns.get_level_values(1)
-            if ticker in level0:
-                df = data[ticker].copy()
-            elif ticker in level1:
-                df = data.xs(ticker, axis=1, level=1).copy()
-            else:
-                return None
-        else:
-            df = data.copy()
-
-        if 'Close' in df.columns:
-            df = df.dropna(subset=['Close'])
-            return df if len(df) >= 20 else None
-    except Exception:
-        return None
-    return None
 
 
 def compute_rsi(series: pd.Series, period: int = 14) -> float:
@@ -226,14 +201,14 @@ def compute_acc_dist(df: pd.DataFrame) -> str:
 def classify_position(d20: float, rsi: float) -> str:
     if d20 >= 10.0 or rsi >= 74.0:
         return '過熱'
-    elif 2.0 <= d20 < 10.0 and rsi >= 52.0:
+    elif d20 <= -10.0 or rsi < 30.0:
+        return '超賣'
+    elif 2.0 <= d20 < 10.0 and rsi >= 50.0:
         return '偏強'
-    elif -2.0 <= d20 < 2.0:
-        return '中性'
-    elif -10.0 < d20 < -2.0 or (30.0 <= rsi < 45.0):
+    elif -10.0 < d20 < -2.0 or (30.0 <= rsi < 42.0):
         return '偏弱'
     else:
-        return '超賣'
+        return '中性'
 
 
 def classify_category(ticker: str, d50: float, d200: float, event: str = 'Clear') -> str:
@@ -359,21 +334,21 @@ def compute_spy_regime(spy_close: pd.Series) -> dict:
     d200 = round(((price - sma200) / sma200) * 100, 1) if sma200 else 0.0
 
     if price > sma200 and d20 > -3:
-        regime, label = open, 開
+        regime, label = 'open', '開'
     elif price > sma200:
-        regime, label = half, 半倉
+        regime, label = 'half', '半倉'
     else:
-        regime, label = closed, 關
+        regime, label = 'closed', '關'
 
     return {
-        ticker: SPY,
-        price: round(price, 2),
-        sma200: round(sma200, 2),
-        d20: d20,
-        d200: d200,
-        above_sma200: bool(price > sma200),
-        regime: regime,
-        regime_label: label,
+        'ticker': 'SPY',
+        'price': round(price, 2),
+        'sma200': round(sma200, 2),
+        'd20': d20,
+        'd200': d200,
+        'above_sma200': bool(price > sma200),
+        'regime': regime,
+        'regime_label': label,
     }
 
 
@@ -420,7 +395,7 @@ def compute_setup_tags(item: dict) -> str:
 
     tags = []
     # 1. 口袋支點量能 (Pocket Pivot - O'Neil體系頂級低吸)
-    if is_pocket_pivot and (-2.5 <= d20 <= 4.0) and acc_dist in ('A', 'B'):
+    if is_pocket_pivot and (-2.5 <= d20 <= 4.5) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
         tags.append('口袋支點')
     # 2. 回踩均線支撐
     if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
@@ -445,14 +420,14 @@ def compute_setup_tags(item: dict) -> str:
 
 def watch_sort_key(item: dict) -> tuple:
     tag = item.get('setup_tag') or ''
-    # 口袋支點、回踩、收斂待破最優先
     has_priority = 0 if any(k in tag for k in ('口袋支點', '回踩', '收斂待破', '放量突破')) else 1
-    pocket_bonus = 0 if item.get('is_pocket_pivot') else 1
+    pocket_bonus = 0 if '口袋支點' in tag else 1
     chip = CHIP_ORDER.get(item.get('acc_dist', 'C'), 9)
+    smooth_bonus = 0 if item.get('is_smooth') else 1
     rr = -float(item.get('rr_ratio') or 0)
-    sector = -float(item.get('sector_pct') or 0)
+    score = -float(item.get('score') or 0)
     ticker = item.get('ticker') or ''
-    return (has_priority, pocket_bonus, chip, rr, sector, ticker)
+    return (has_priority, pocket_bonus, chip, smooth_bonus, rr, score, ticker)
 
 
 def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
@@ -529,7 +504,9 @@ def main():
         return
 
     tickers = get_sp500_tickers()
-    print(f'正在分批下載 {len(tickers)} 隻股票數據 (每批 100 隻)...')
+    if 'SPY' not in tickers:
+        tickers = ['SPY'] + tickers
+    print(f'正在分批下載 {len(tickers)} 隻股票數據 (含 SPY 大市指標，每批 100 隻)...')
 
     # 分批下載，避免 500 隻單次呼叫 timeout 或觸發限流
     chunk_size = 100
@@ -575,6 +552,8 @@ def main():
     today_date_str = datetime.datetime.now(hk_tz).strftime('%Y-%m-%d')
 
     for ticker, df in all_raw_dfs.items():
+        if ticker == 'SPY':
+            continue
         try:
             close_series = df['Close']
             current_price = float(close_series.iloc[-1])
@@ -687,7 +666,7 @@ def main():
             dist_52w_high = round(((current_price - high_52w) / high_52w) * 100, 1)
             dist_52w_low = round(((current_price - low_52w) / low_52w) * 100, 1)
 
-            # 5. Pocket Pivot 口袋支點量能 (超越近 10 日最大陰燭量)
+            # 5. Pocket Pivot 口袋支點量能 (當日收升 >= 0.5%、量比 >= 1.05 且超越近 10 日最大陰燭量)
             is_pocket_pivot = False
             try:
                 if 'Volume' in df.columns and len(df) >= 11:
@@ -696,7 +675,7 @@ def main():
                     down_vols = [v_list[i] for i in range(1, len(c_list) - 1) if c_list[i] < c_list[i - 1]]
                     max_down = max(down_vols) if down_vols else 0.0
                     today_v = float(v_list[-1])
-                    if daily_change > 0 and today_v >= max_down * 0.95:
+                    if daily_change >= 0.5 and vol_ratio >= 1.05 and max_down > 0 and today_v > max_down:
                         is_pocket_pivot = True
             except Exception:
                 is_pocket_pivot = False
@@ -797,9 +776,12 @@ def main():
     for idx, item in enumerate(raw_list):
         item['rank'] = idx + 1
 
-    # 第三輪：大市閘與精選觀察層
+    # 第三輪：大市閘與精選觀察層（優先使用批次已成功下載的 SPY 數據）
     try:
-        market = fetch_spy_market()
+        if 'SPY' in all_raw_dfs and len(all_raw_dfs['SPY']) >= 25:
+            market = compute_spy_regime(all_raw_dfs['SPY']['Close'])
+        else:
+            market = fetch_spy_market()
     except Exception as e:
         print(f'警告: SPY 大市閘下載失敗，預設半倉: {e}')
         market = {
