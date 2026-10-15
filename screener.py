@@ -360,8 +360,8 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
     rsi = float(item.get('rsi') or 50)
     rr_ratio = float(item.get('rr_ratio') or 0)
     daily_change = float(item.get('daily_change') or 0)
-    dist_52w_high = float(item.get('dist_52w_high') or -100)
-    dist_52w_low = float(item.get('dist_52w_low') or 0)
+    dist_52w_high = float(item['dist_52w_high'] if item.get('dist_52w_high') is not None else 0.0)
+    dist_52w_low = float(item['dist_52w_low'] if item.get('dist_52w_low') is not None else 50.0)
 
     if daily_change > 8:
         return False, '待確認'
@@ -383,39 +383,65 @@ def evaluate_eligibility(item: dict) -> tuple[bool, str]:
     return True, ''
 
 
+ACTIONABLE_TAGS = ('口袋支點', '回踩', '收斂待破', '極致量縮', '放量突破', '超賣吸籌')
+
+
 def compute_setup_tags(item: dict) -> str:
+    """為全市場每一隻股票計算客觀技術形態標籤（消除空白 '—' 與 '過閘' 真空區）"""
     d20 = float(item.get('d20') or 0)
     d50 = float(item.get('d50') or 0)
     d200 = float(item.get('d200') or 0)
+    rsi = float(item.get('rsi') or 50)
     acc_dist = item.get('acc_dist') or 'C'
     position = item.get('position') or ''
     vol_ratio = float(item.get('vol_ratio') or 1.0)
+    daily_change = float(item.get('daily_change') or 0)
     is_pocket_pivot = bool(item.get('is_pocket_pivot'))
     is_vdu = bool(item.get('is_vdu'))
 
+    if daily_change > 8.0:
+        return '待確認'
+
     tags = []
     # 1. 口袋支點量能 (Pocket Pivot - O'Neil體系頂級低吸)
-    if is_pocket_pivot and (-2.5 <= d20 <= 4.5) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
+    if is_pocket_pivot and (-2.5 <= d20 <= 6.0) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
         tags.append('口袋支點')
-    # 2. 回踩均線支撐
-    if (-2 <= d20 <= 3) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
+    # 2. 回踩均線支撐 (Pullback to 20MA)
+    if (-2.5 <= d20 <= 3.5) and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B'):
         tags.append('回踩')
-    # 3. 窄幅收斂待破 (VCP)
-    if abs(d20) <= 3 and d200 >= 5 and (vol_ratio < 1.1 or is_vdu):
+    # 3. 窄幅收斂待破 (VCP / Tight Consolidation)
+    if abs(d20) <= 3.5 and d200 >= 3 and (vol_ratio < 1.1 or is_vdu):
         tags.append('收斂待破')
     # 4. 賣壓極致枯竭 (Volume Dry-Up)
     if is_vdu and abs(d20) <= 3.5:
         tags.append('極致量縮')
-    # 5. 放量突破
-    if d20 >= 3.0 and vol_ratio >= 1.2 and acc_dist in ('A', 'B'):
+    # 5. 放量突破 (Volume Breakout)
+    if (2.5 <= d20 < 10.0) and vol_ratio >= 1.15 and daily_change > 0 and acc_dist in ('A', 'B'):
         tags.append('放量突破')
-    # 6. 超賣吸籌
+    # 6. 超賣吸籌 (Oversold Accumulation)
     if position == '超賣' and acc_dist in ('A', 'B') and d200 >= -4:
         tags.append('超賣吸籌')
 
-    if not tags:
-        return '僅過閘'
-    return '·'.join(tags)
+    if tags:
+        return '·'.join(tags)
+
+    # 若未觸發上述買點，給予客觀趨勢結構標籤（確保表格每一行都有清晰形態說明）
+    if d20 >= 10.0 or rsi >= 74.0:
+        return '強勢延伸'
+    elif d20 >= 3.0 and d50 >= 0 and d200 >= 0 and acc_dist in ('A', 'B', 'C'):
+        return '順勢多頭'
+    elif d20 >= 2.0 and d200 < 0:
+        return '均線反彈'
+    elif -2.5 <= d20 <= 3.5 and d200 >= 0:
+        return '均線整固'
+    elif d20 < -2.5 and d200 >= 0:
+        return '回調尋底'
+    else:
+        return '弱勢整理'
+
+
+def has_actionable_setup(tag: str) -> bool:
+    return any(k in (tag or '') for k in ACTIONABLE_TAGS)
 
 
 def watch_sort_key(item: dict) -> tuple:
@@ -431,23 +457,18 @@ def watch_sort_key(item: dict) -> tuple:
 
 
 def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
-    """完全因應每日市場數據動態評定推薦名單：
-    純客觀量化條件：
-    1. 通過個股硬閘 (eligible == True)
-    2. 具備明確買點形態 (setup_tag != '僅過閘')
-    3. 機構籌碼為主力吸籌 (acc_dist in ('A', 'B'))
-    4. 綜合動能評分 > 0 (score > 0)
-    符合條件者全數入選，按籌碼優先度與盈虧比排序，絕不人工寫死固定隻數！
-    """
+    """為全部股票賦予形態標籤，並從過閘且具明確買點形態的股票中選出 TOP 5 推薦"""
     recommended_items = []
     for item in raw_list:
         ok, fail_tag = evaluate_eligibility(item)
-        item['eligible'] = ok
-        if ok:
-            item['setup_tag'] = compute_setup_tags(item)
+        tag = fail_tag if fail_tag else compute_setup_tags(item)
+        item['setup_tag'] = tag
+        # 只有同時通過硬閘且具備核心進場形態（口袋支點/回踩/收斂/量縮/突破）才計入「形態買點」
+        is_actionable = ok and has_actionable_setup(tag)
+        item['eligible'] = is_actionable
+        if is_actionable:
             is_rec = (
-                item['setup_tag'] != '僅過閘'
-                and item.get('acc_dist') in ('A', 'B')
+                item.get('acc_dist') in ('A', 'B')
                 and float(item.get('score', 0)) > 0
             )
             item['is_recommended'] = is_rec
@@ -456,7 +477,6 @@ def apply_watchlist_layer(raw_list: list[dict], market: dict) -> None:
             else:
                 item['watch_rank'] = None
         else:
-            item['setup_tag'] = fail_tag
             item['is_recommended'] = False
             item['watch_rank'] = None
 

@@ -1111,6 +1111,18 @@
       applyFiltersAndRender();
     }
 
+    function getSetupBadgeClass(tag) {
+      if (!tag) return 'text-slate-400 border-slate-700/50';
+      if (tag.includes('口袋支點')) return 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold';
+      if (tag.includes('極致量縮')) return 'bg-sky-500/20 text-sky-300 border-sky-500/40 font-semibold';
+      if (tag.includes('回踩') || tag.includes('收斂') || tag.includes('放量突破')) return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 font-semibold';
+      if (tag.includes('超賣吸籌')) return 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30 font-semibold';
+      if (tag === '順勢多頭') return 'bg-teal-500/10 text-teal-400 border-teal-500/25';
+      if (tag === '強勢延伸' || tag === '待確認') return 'bg-orange-500/10 text-orange-400 border-orange-500/25';
+      if (tag === '均線反彈' || tag === '均線整固') return 'bg-slate-800/80 text-slate-300 border-slate-700/60';
+      return 'bg-slate-800/50 text-slate-500 border-slate-800';
+    }
+
     function render(data) {
       document.getElementById('count-display').textContent = data.length;
       document.getElementById('count-total').textContent = `/ ${rawData.length}`;
@@ -1140,12 +1152,8 @@
             setupBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-amber-500/15 text-amber-400 border border-amber-500/30">#${d.watch_rank} 推薦</span>`;
           }
           if (d.setup_tag && d.setup_tag !== '僅過閘') {
-            const hasPP = d.setup_tag.includes('口袋支點');
-            const hasVDU = d.setup_tag.includes('極致量縮');
-            const colorClass = hasPP 
-              ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold'
-              : (hasVDU ? 'bg-sky-500/20 text-sky-300 border-sky-500/40 font-semibold' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30');
-            setupBadge += ` <span class="px-2 py-0.5 rounded-md text-[10px] font-medium border ${colorClass}">${d.setup_tag}</span>`;
+            const colorClass = getSetupBadgeClass(d.setup_tag);
+            setupBadge += ` <span class="px-2 py-0.5 rounded-md text-[10px] font-medium border whitespace-nowrap ${colorClass}">${d.setup_tag}</span>`;
           }
 
           return `
@@ -1234,15 +1242,9 @@
 
         let tagHtml = '—';
         if (d.setup_tag && d.setup_tag !== '僅過閘') {
-          const hasPP = d.setup_tag.includes('口袋支點');
-          const hasVDU = d.setup_tag.includes('極致量縮');
-          const colorClass = hasPP 
-            ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold'
-            : (hasVDU ? 'bg-sky-500/20 text-sky-300 border-sky-500/40 font-semibold' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30');
+          const colorClass = getSetupBadgeClass(d.setup_tag);
           const recPrefix = d.watch_rank !== null ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 mr-1 whitespace-nowrap">#${d.watch_rank}</span>` : '';
           tagHtml = `<div class="inline-flex items-center justify-center whitespace-nowrap">${recPrefix}<span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-medium border whitespace-nowrap ${colorClass}">${d.setup_tag}</span></div>`;
-        } else if (d.eligible) {
-          tagHtml = `<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans text-slate-400 border border-slate-700/50">過閘</span>`;
         }
 
         return `
