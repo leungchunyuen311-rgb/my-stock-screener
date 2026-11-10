@@ -2,11 +2,11 @@ name: Daily Stock Screener Update
 
 on:
   schedule:
-    # 第一班：香港時間早上 06:15 HKT (UTC 22:15)，確保美股冬令收市(05:00)後數據完全結算
+    # 針對美股冬令時間 (EST)：香港時間 06:15 (UTC 22:15) 執行，收市後 1 小時確保歷史日線完全結算
     - cron: '15 22 * * 1-5'
-    # 第二班（防漏跑雙重保險）：香港時間早上 07:15 HKT (UTC 23:15)
+    # 備用保險觸發：香港時間 07:15 (UTC 23:15)，防止 GitHub 隊列延遲或 Yahoo 數據補漏
     - cron: '15 23 * * 1-5'
-  workflow_dispatch:
+  workflow_dispatch: # 支援在 GitHub 網頁隨時點擊「Run workflow」手動一鍵立即更新
 
 # 關鍵權限：允許 Actions 寫入並推送代碼回倉庫 (解決 403 報錯)
 permissions:
@@ -41,10 +41,10 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add screener_data.json
           
-          # 檢查是否有數據變動，有的話才提交
+          # 檢查是否有數據變動，有的話才提交 (移除 [skip ci] 避免阻斷 GitHub Pages 部署)
           if git diff --staged --quiet; then
             echo "沒有數據變動，無需提交。"
           else
-            git commit -m "Auto-update stock data: $(date +'%Y-%m-%d %H:%M:%S') [skip ci]"
+            git commit -m "Auto-update stock data: $(date +'%Y-%m-%d %H:%M:%S')"
             git push
           fi
